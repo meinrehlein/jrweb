@@ -3,7 +3,7 @@ name: Amara Patel
 stage_name: Amarié
 genre: Experimental R&B
 image:
-  src: /images/artists/amerie.webp
+  src: /images/uploads/ente3.03_48_21_07.still012.jpg
   alt: Amarié with a bold and mysterious presence under dramatic lighting
 ---
 Amara Patel, known by her stage name Amarié, is an experimental R&B artist whose hypnotic voice and genre-defying sound have redefined the boundaries of contemporary music. Born in London to a multicultural family, Amarié’s music draws from her diverse heritage, blending elements of traditional soul with electronic textures and avant-garde beats.
