@@ -10,8 +10,8 @@ const { grid } = Astro.props;
 ---
 
 <div class="tooltip" data-grid={grid}>
-  <div class="tooltip__row" data-field="stagename">
-    <!-- Stage Name -->
+  <div class="tooltip__row" data-field="name">
+    <!-- Name -->
     <div class="tooltip__content">
       <TextSlider />
     </div>
@@ -26,8 +26,7 @@ const { grid } = Astro.props;
     </TextSlider>
   </div>
 
-  <div class="tooltip__row" data-field="name">
-    <!-- Name -->
+  <div class="tooltip__row" data-field="year">
     <div class="tooltip__content">
       <TextSlider />
     </div>
@@ -36,8 +35,16 @@ const { grid } = Astro.props;
     </div>
   </div>
 
-  <div class="tooltip__row tooltip__row--ra" data-field="genre">
-    <!-- Genre -->
+  <div class="tooltip__row tooltip__row--ra" data-field="location">
+    <div class="tooltip__content">
+      <TextSlider />
+    </div>
+    <div class="tooltip__content">
+      <TextSlider />
+    </div>
+  </div>
+
+  <div class="tooltip__row" data-field="type">
     <div class="tooltip__content">
       <TextSlider />
     </div>
