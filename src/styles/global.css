@@ -20,6 +20,9 @@
   --font-size-s: 0.85rem;
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
   --font-size-xl: clamp(1.5rem, 5vw, 2.75rem);
+  @media screen and (min-width: 50em) {
+  padding: 0rem 6rem 0rem;
+  }
 }
 
 body {
@@ -231,7 +234,7 @@ dd {
   font-weight: 700;
   gap: 1rem;
   align-items: end;
-  padding: 2rem 0 1.5rem;
+  padding: 2rem 0rem 1.5rem;
   width: 100%;
 }
 
@@ -241,5 +244,6 @@ dd {
   @media screen and (min-width: 50em) {
     grid-template-columns: 20vw 1fr auto;
     gap: 1rem;
+    
   }
 }
