@@ -76,8 +76,8 @@ const shuffleGrid = () => {
 /* Sort grid items alphabetically by 'data-name' */
 const sortGrid = () => {
   const sortedItems = gridItems.sort((a, b) => {
-    const nameA = a.getAttribute('data-name').toLowerCase();
-    const nameB = b.getAttribute('data-name').toLowerCase();
+    const nameA = a.getAttribute('year').toLowerCase();
+    const nameB = b.getAttribute('year').toLowerCase();
     return nameA.localeCompare(nameB);
   });
   if (gridContainer) {
