@@ -1,6 +1,6 @@
 ---
-name: Rajiv Bhatia
-year: 2025
+name: "Rajiv Bhatia"
+year: 2024
 location: Unknown
 type: Unknown
 images:

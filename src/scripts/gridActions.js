@@ -76,9 +76,9 @@ const shuffleGrid = () => {
 /* Sort grid items alphabetically by 'data-name' */
 const sortGrid = () => {
   const sortedItems = gridItems.sort((a, b) => {
-    const nameA = a.getAttribute('data-name').toLowerCase();
-    const nameB = b.getAttribute('data-name').toLowerCase();
-    return nameA.localeCompare(nameB);
+    const yearA = parseInt(a.getAttribute('data-year'), 10) || 0;
+    const yearB = parseInt(b.getAttribute('data-year'), 10) || 0;
+    return yearB - yearA; // Descending order: newest first
   });
   if (gridContainer) {
     gridContainer.innerHTML = '';
