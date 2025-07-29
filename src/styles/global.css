@@ -13,13 +13,15 @@
   --color-text-alt: #6a6a6a;
   --color-faded: #c9c9c9;
   --color-bg: #fff;
-  --border-color: #ccc;
+  --border-color: #000000;
   --color-link: #000;
   --color-link-hover: #ee2a2a;
   --color-placeholder: #f8f8f8;
   --font-size-s: 0.85rem;
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
   --font-size-xl: clamp(1.5rem, 5vw, 2.75rem);
+  
+padding: 0rem 0.5rem 0rem;
   @media screen and (min-width: 50em) {
   padding: 0rem 6rem 0rem;
   }
@@ -249,18 +251,3 @@ dd {
   }
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
