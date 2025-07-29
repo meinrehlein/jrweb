@@ -248,3 +248,39 @@ dd {
     
   }
 }
+
+
+.gallery-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.gallery-modal[style*="display: flex"] {
+  display: flex;
+}
+.gallery-modal-img {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.gallery-modal-caption {
+  color: #fff;
+  margin-top: 1rem;
+  text-align: center;
+}
+.gallery-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+}
