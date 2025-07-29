@@ -87,7 +87,7 @@ img {
 
 .fade-in {
   opacity: 0;
-  transition: opacity 0.2s ease-out;
+  transition: opacity s ease-out;
 }
 
 .fade-in.loaded {
@@ -156,8 +156,8 @@ img {
 
 .content-wrap {
   display: grid;
-  gap: 2rem;
-  padding: 3rem 0 10vh;
+  gap: 4rem;
+  padding: 7% 0 10vh;
   grid-template-columns: 100%;
   grid-auto-columns: auto;
   grid-template-areas: 'img' 'content';
