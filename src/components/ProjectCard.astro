@@ -8,19 +8,33 @@ type Props = {
 const { project } = Astro.props;
 ---
 
-<a
-  href={`/${project.id}`}
-  class="project"
-  style={`--image: url('${project.data.images[0].src}');`}
-  data-name={project.data.name}
-  data-year={project.data.year}
-  data-location={project.data.location}
-  data-type={project.data.type}
-  data-astro-prefetch
-  aria-label={project.data.name}></a>
+
+  <span class="project-label">{project.data.name}</span>
+  <a
+    href={`/${project.id}`}
+    class="project"
+    style={`--image: url('${project.data.images[0].src}');`}
+    data-name={project.data.name}
+    data-year={project.data.year}
+    data-location={project.data.location}
+    data-type={project.data.type}
+    data-astro-prefetch
+    aria-label={project.data.name}
+  ></a>
+
 
 <style>
-  a {
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .project-label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  a.project {
     background-image: var(--image);
     background-size: cover;
     background-position: 50% 0%;
@@ -28,5 +42,7 @@ const { project } = Astro.props;
     border: 2rem;
     padding: 2rem;
     border-color: black;
+    display: block;
+    width: 100%;
   }
 </style>

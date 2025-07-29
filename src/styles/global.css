@@ -15,7 +15,7 @@
   --color-bg: #fff;
   --border-color: #ccc;
   --color-link: #000;
-  --color-link-hover: #999;
+  --color-link-hover: #ee2a2a;
   --color-placeholder: #f8f8f8;
   --font-size-s: 0.85rem;
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
@@ -63,7 +63,7 @@ a {
 
   &:hover {
     color: var(--color-link-hover);
-    outline: none;
+    outline: black;
   }
 
   &:focus {
