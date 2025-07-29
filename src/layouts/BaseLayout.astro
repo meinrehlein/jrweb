@@ -17,7 +17,7 @@ type Props = {
   description?: string;
 };
 
-const { title, description = "Players Club Concept" } = Astro.props;
+const { title, description = "Simone Ballüer" } = Astro.props;
 
 // Current page value (/home, /about, /404 ...)
 const currentPage =
@@ -35,7 +35,7 @@ const currentPage =
         basic: {
           title: title,
           type: "image/jpeg",
-          image: "/playersclub-og.jpg",
+          image: "/simoneballuer-og.jpg",
         },
       }}
       twitter={{
@@ -73,7 +73,7 @@ const currentPage =
         ],
         // extending the default meta tags
         meta: [
-          { name: "twitter:image", content: "/playersclub-og.jpg" },
+          { name: "twitter:image", content: "/simoneballuer-og.jpg" },
           { name: "twitter:title", content: title },
           { name: "twitter:description", content: description },
           { name: "viewport", content: "width=device-width" },
