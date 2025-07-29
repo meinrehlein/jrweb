@@ -1,11 +1,11 @@
 ---
-name: "Rajiv Bhatia"
-year: 2024
+name: Rajiv Bhatia
+year: 2025
 location: Unknown
 type: Unknown
-images: 
-  - src: "/images/artists/dj_bolly.webp"
-    alt: "DJ Bolly mixing tracks at a high-energy rooftop party"
+images:
+  - src: /images/artists/dj_bolly.webp
+    alt: DJ Bolly mixing tracks at a high-energy rooftop party
 ---
 
 Rajiv Bhatia, globally recognized as DJ Bolly, is a trailblazer in the Bollywood fusion music scene. Born in Mumbai, DJ Bolly combines traditional Indian music with global electronic beats, creating a sound that is both nostalgic and refreshingly modern.
