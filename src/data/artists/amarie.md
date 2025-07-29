@@ -1,7 +1,7 @@
 ---
 name: Amara Patel test
-stage_name: Amarié
-genre: Experimental R&B
+stage_name: Amarié333
+genre: Experimental R&3333
 image:
   src: /images/uploads/ente3.03_48_21_07.still012.jpg
   alt: Amarié with a bold and mysterious presence under dramatic lighting
