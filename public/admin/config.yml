@@ -16,9 +16,9 @@ collections:
       - { label: Name, name: name, widget: string }
       - { label: Stage Name, name: stage_name, widget: string }
       - { label: Genre, name: genre, widget: string }
-      - label: Image
+      - label: Images
         name: image
-        widget: object
+        widget: list
         fields:
           - { label: Image, name: src, widget: image }
           - { label: Alt Text, name: alt, widget: string }
