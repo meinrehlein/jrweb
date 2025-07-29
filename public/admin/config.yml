@@ -2,6 +2,7 @@ backend:
 name: github
 repo: meinrehlein/simone
 branch: main
+site_domain: https://simones.netlify.app
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 collections:
