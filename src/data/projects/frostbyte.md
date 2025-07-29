@@ -1,11 +1,11 @@
 ---
-name: "Julian Frost"
-year: 2024
+name: Julian Frost
+year: 2025
 location: Unknown
 type: Unknown
-images: 
-  - src: "/images/artists/frostbyte.webp"
-    alt: "Frostbyte performing on a rooftop, surrounded by neon visuals"
+images:
+  - src: /images/artists/frostbyte.webp
+    alt: Frostbyte performing on a rooftop, surrounded by neon visuals
 ---
 
 Julian Frost, widely recognized by his electrifying stage name Frostbyte, is a trailblazer in the electro-funk genre. A native of London, his music is a kaleidoscope of funky grooves and glitchy electronic beats, reflecting the vibrant diversity of his hometown.
