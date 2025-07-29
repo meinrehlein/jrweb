@@ -11,10 +11,12 @@ collections:
     folder: "src/data/projects"
     create: true
     extension: md
-    slug: "{{slug}}"
+    slug: "{{name}}"
+    sortable_fields: [commit_date, year] 
     fields:
       - { label: Name, name: name, widget: string }
       - { label: Year, name: year, widget: number }
+      - { label: Month, name: month, widget: number }
       - { label: Location, name: location, widget: string }
       - { label: Type, name: type, widget: string }
       - label: Images
