@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArtistGrid from "../components/ArtistGrid.astro";
-import ArtistGridHeader from "../components/ArtistGridHeader.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import ProjectGridHeader from "../components/ProjectGridHeader.astro";
 import Preloader from "../components/Preloader.astro";
 
-const allArtists = await getCollection("artists");
-const artistsTotal = allArtists.length;
-const title = "Players Club - All Artists";
+const allProjects = await getCollection("projects");
+const projectsTotal = allProjects.length;
+const title = "Players Club - All Projects";
 ---
 
 <BaseLayout title={title}>
@@ -16,7 +16,7 @@ const title = "Players Club - All Artists";
     If you don’t want to use the preloader (e.g., for faster page load times or if you don’t require preloading images), you can safely remove the <Preloader /> component from this layout.
   -->
   <Preloader />
-  <ArtistGridHeader artistsTotal={artistsTotal} />
-  <ArtistGrid artists={allArtists} />
+  <ProjectGridHeader projectsTotal={projectsTotal} />
+  <ProjectGrid projects={allProjects} />
 </BaseLayout>
 <script src="../scripts/index.js"></script>
