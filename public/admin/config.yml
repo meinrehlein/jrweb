@@ -1,0 +1,47 @@
+backend:
+  name: git-gateway
+  branch: main
+local_backend: true
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+collections:
+  - name: artists
+    label: Artists
+    label_singular: Artist
+    folder: "src/data/artists"
+    create: true
+    extension: md
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Stage Name, name: stage_name, widget: string }
+      - { label: Genre, name: genre, widget: string }
+      - label: Image
+        name: image
+        widget: object
+        fields:
+          - { label: Image, name: src, widget: image }
+          - { label: Alt Text, name: alt, widget: string }
+      - { label: Body, name: body, widget: markdown }
+  - name: albums
+    label: Albums
+    label_singular: Album
+    folder: "src/data/albums"
+    create: true
+    extension: md
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - label: Image
+        name: image
+        widget: object
+        fields:
+          - { label: Image, name: src, widget: image }
+          - { label: Alt Text, name: alt, widget: string }
+      - { label: Publish Date, name: publishDate, widget: datetime, format: "YYYY-MM-DD" }
+      - label: Tracks
+        name: tracks
+        widget: list
+        field: { label: Track, name: track, widget: string }
+      - { label: Artist, name: artist, widget: relation, collection: artists, search_fields: [stage_name, name], value_field: "{{slug}}", display_fields: [stage_name] }
+      - { label: Body, name: body, widget: markdown }
