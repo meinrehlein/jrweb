@@ -206,9 +206,10 @@ img {
 
 dl {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-  margin-top: 2.5rem;
+  grid-template-columns:auto 1fr;
+  gap: 1rem 0rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
 }
 
 dt {

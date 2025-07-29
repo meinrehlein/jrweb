@@ -1,5 +1,6 @@
 ---
 import TextSlider from "../components/TextSlider.astro";
+import TextSlider2 from "../components/TextSlider2.astro";
 import Separator from "../components/Separator.astro";
 
 // Get the current pathname
@@ -7,7 +8,7 @@ const currentPath = Astro.url.pathname;
 // Define a map of routes
 const routes = {
   "/": "Home",
-  "/contact/": "Contact",
+  "/contact/": "Kontakt",
 };
 // Determine the active route
 const activeRoute = routes[currentPath] || null;
@@ -16,15 +17,15 @@ const activeRoute = routes[currentPath] || null;
 <header>
   <h1>
     <a href="/" class={activeRoute === "Home" ? "current" : ""}
-      ><TextSlider content="Simone Ballüer" /></a>
+      ><TextSlider2 content="Simone Ballüer" /></a>
   </h1>
-  <span><TextSlider content="Stagedesign/Costume" /></span>
+  <span><TextSlider2 content="Bühnenbild / Kostümbild" /></span>
   <ul>
     <li>
       <a
         href="/contact/"
         class={activeRoute === "Contact" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Contact" /></a>
+        data-astro-prefetch><TextSlider content="Kontakt" /></a>
     </li>
   </ul>
 </header>

@@ -8,9 +8,7 @@ type Props = {
 const { project } = Astro.props;
 ---
 
-
-  <span class="project-label">{project.data.name}</span>
-  <a
+<a
     href={`/${project.id}`}
     class="project"
     style={`--image: url('${project.data.images[0].src}');`}
@@ -20,7 +18,9 @@ const { project } = Astro.props;
     data-type={project.data.type}
     data-astro-prefetch
     aria-label={project.data.name}
+  
   ></a>
+</div>
 
 
 <style>
