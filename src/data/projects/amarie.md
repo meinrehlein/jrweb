@@ -1,11 +1,15 @@
 ---
-name: Amara Patel test
+name: hahahaha
 year: 2024
-location: Unknown
+location: Kampnagel
 type: Unknown
 images:
   - src: /images/uploads/ente3.03_48_21_07.still012.jpg
     alt: Amarié with a bold and mysterious presence under dramatic lighting
+  - src: /images/uploads/ente3.01_20_37_14.still008.jpg
+    alt: me
+  - src: /images/uploads/pool_gespraeche.04_20_20_12.still024.jpg
+    alt: you
 ---
 Amara Patel, known by her stage name Amarié, is an experimental R&B artist whose hypnotic voice and genre-defying sound have redefined the boundaries of contemporary music. Born in London to a multicultural family, Amarié’s music draws from her diverse heritage, blending elements of traditional soul with electronic textures and avant-garde beats.
 
