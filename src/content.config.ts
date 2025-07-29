@@ -1,12 +1,13 @@
 import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const artists = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: "./src/data/artists" }),
+const projects = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: "./src/data/projects" }),
   schema: z.object({
     name: z.string(),
     stage_name: z.string(),
     genre: z.string(),
+    year: z.number(),
     image: z.object({
       src: z.string(),
       alt: z.string(),
@@ -24,9 +25,9 @@ const albums = defineCollection({
     }),
     publishDate: z.date(), // e.g. 2024-09-17
     tracks: z.array(z.string()),
-    artist: reference('artists'),
+    artist: reference('projects'),
   }),
 });
 
 // Export all collections
-export const collections = {artists, albums};
+export const collections = {projects, albums};

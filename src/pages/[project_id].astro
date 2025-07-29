@@ -1,0 +1,112 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Separator from "../components/Separator.astro";
+import AlbumGrid from "../components/AlbumGrid.astro";
+
+export const getStaticPaths = async () => {
+  // Fetch all projects from the 'projects' collection
+  const projects = await getCollection("projects");
+
+  // Map over the projects to generate paths for each project's page
+  const paths = projects.map((project) => {
+    return {
+      params: { project_id: project.id }, // URL parameter for the project's ID
+      props: { projects, project }, // Pass the full project and all projects as props
+    };
+  });
+
+  // Return the generated paths to Astro for static page generation
+  return paths;
+};
+
+type Props = {
+  projects: CollectionEntry<"projects">[]; // Array of all projects in the collection
+  project: CollectionEntry<"projects">; // Current project being rendered
+};
+
+const { projects, project } = Astro.props; // Extract the projects list and current project from the props
+
+// Extract the ID of the current project
+const project_id = project.id;
+
+// Find the index of the current project in the projects array
+const currentProjectIndex = projects.findIndex((a) => a.id === project_id);
+
+// Calculate the index of the "next" project in the array (wrap around if at the last project)
+const nextProjectIndex = (currentProjectIndex + 1) % projects.length;
+
+// Get the "next" project based on the calculated index
+const nextProject = projects[nextProjectIndex];
+
+// Fetch all albums that belong to the current project
+const albums = await getCollection(
+  "albums",
+  ({ data }) => data.artist.id === project_id,
+);
+
+// Render the content of the current project (e.g., markdown or MDX)
+const { Content } = await render(project);
+---
+
+<BaseLayout title={project.data.name}>
+  <section>
+    <header class="title-header">
+      <h2>
+        {project.data.stage_name}
+        <span class="faded">({project.data.name})</span>
+      </h2>
+      <div>
+        <a class="back" href="/">View all</a>
+        <span class="faded">/</span>
+        <a href={`/${nextProject.id}`}>Next project</a>
+      </div>
+    </header>
+    <Separator />
+    <div class="content-wrap">
+      <img
+        class="image fade-in"
+        src={project.data.image.src}
+        alt={project.data.image.alt}
+      />
+      <div class="content">
+        <h3>Biography</h3>
+        <Content />
+        <dl>
+          <dt>Genre</dt><dd>{project.data.genre}</dd>
+          <dt>Year</dt><dd>{project.data.year}</dd>
+        </dl>
+      </div>
+      {
+        albums.length > 0 && (
+          <div class="albums">
+            <h3>Releases</h3>
+            <AlbumGrid albums={albums} />
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .content-wrap {
+    grid-template-areas: "img" "content" "albums";
+    grid-template-columns: 100%;
+    @media screen and (min-width: 44em) {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "img img" "content albums";
+    }
+    @media screen and (min-width: 50em) {
+      grid-template-columns: 30vw 1fr 170px;
+      grid-template-areas: "img content albums";
+    }
+  }
+  .albums {
+    grid-area: albums;
+  }
+  .content p:last-child {
+    margin-top: 2.5rem;
+    display: flex;
+  }
+</style>
