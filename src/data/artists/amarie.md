@@ -1,5 +1,5 @@
 ---
-name: Amara Patel
+name: Amara Patel test
 stage_name: Amarié
 genre: Experimental R&B
 image:
