@@ -49,9 +49,9 @@ const { Content } = await render(project);
         {project.data.name}
       </h2>
       <div>
-        <a class="back" href="/">View all</a>
+        <a class="back" href="/"><span class="lang-de">Alle</span><span class="lang-en">All</span></a>
         <span class="faded">/</span>
-        <a href={`/${nextProject.id}`}>Next project</a>
+        <a href={`/${nextProject.id}`}> <span class="lang-de">Nächstes Projekt</span><span class="lang-en">Next project</span></a>
       </div>
     </header>
     <Separator />
@@ -63,11 +63,15 @@ const { Content } = await render(project);
       </div>
       <div class="content">
         <dl>
-          <dd>{project.data.type}</dd>
+          <dd class="lang-de">{project.data.type}</dd>
+          <dd class="lang-en">{project.data.type_en ?? project.data.type}</dd>
           <dd>{project.data.year}</dd>
           <dd>{project.data.location}</dd>
        </dl>
-        <Content />
+        <div class="lang-de"><Content /></div>
+        {project.data.body_en && (
+          <div class="lang-en">{project.data.body_en}</div>
+        )}
         
       </div>
     </div>
