@@ -9,10 +9,17 @@ type Props = {
 
 const { projects } = Astro.props;
 const grid = "projects";
+
+// Sort by year DESC, then month DESC
+const sortedProjects = [...projects].sort((a, b) => {
+  const yearDiff = (b.data.year ?? 0) - (a.data.year ?? 0);
+  if (yearDiff !== 0) return yearDiff;
+  return (b.data.month ?? 0) - (a.data.month ?? 0);
+});
 ---
 
 <section class="project-grid" id="grid" data-grid={grid}>
-  {projects.map((project) => <ProjectCard project={project} />)}
+  {sortedProjects.map((project) => <ProjectCard project={project} />)}
 </section>
 
 <Tooltip grid={grid} />
@@ -30,12 +37,8 @@ section {
     margin: 1rem 0 10rem;
     min-height: 400px;
   }
-  @media screen and (min-width: 30em) {
-    section {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 2.5rem;
-    }
-  }
+ 
+  
   @media screen and (min-width: 50em) {
     section {
       grid-template-columns: repeat(2, 1fr);

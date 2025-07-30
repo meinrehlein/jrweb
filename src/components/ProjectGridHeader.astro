@@ -1,5 +1,7 @@
 ---
 import TextSlider2 from "../components/TextSlider2.astro";
+import TextSlider from "../components/TextSlider.astro";
+
 import Separator from "../components/Separator.astro";
 import Search from "../components/Search.astro";
 import Cross from "../assets/images/cross.svg";
@@ -14,10 +16,10 @@ const { projectsTotal } = Astro.props;
 <header class="title-header title-header--initial">
   <h2><TextSlider2 content="Projekte" /></h2>
   <div>
-  <!--  <button data-sort><TextSlider content="Sort" /></button>
-    <button data-shuffle><TextSlider content="Shuffle" /></button>
+<!--    <button data-sort><TextSlider2 content="Sort" /></button>
+    <button data-shuffle><TextSlider2 content="Shuffle" /></button>
     <div>
-      <button data-search class="search"><TextSlider content="Search" /></button
+     <button data-search class="search"><TextSlider2 content="Search" /></button
       >
       <button data-clear class="clear hidden" aria-label="Clear search">
         <Cross width={14} height={14} />

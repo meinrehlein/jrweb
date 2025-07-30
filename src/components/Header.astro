@@ -19,15 +19,19 @@ const activeRoute = routes[currentPath] || null;
     <a href="/" class={activeRoute === "Home" ? "current" : ""}
       ><TextSlider2 content="Simone Ballüer" /></a>
   </h1>
-  <span><TextSlider2 content="Bühnenbild / Kostümbild" /></span>
+<span class="mobile-align-right">
+  <TextSlider2 content="Bühnenbild / Kostümbild" />
+</span>
   <ul>
     <li>
       <a
         href="/contact/"
-        class={activeRoute === "Contact" ? "current" : ""}
+        class={activeRoute === "Kontakt" ? "current" : ""}
         data-astro-prefetch><TextSlider content="Kontakt" /></a>
     </li>
+    
   </ul>
+  
 </header>
 <Separator />
 
@@ -35,10 +39,11 @@ const activeRoute = routes[currentPath] || null;
   header {
     position: relative;
     display: grid;
-    grid-template-columns: 20vw auto;
+    grid-template-columns: min-content auto;
     font-weight: 700;
     padding: 1rem 0;
     gap: 1rem;
+    justify-content: space-between;
   }
   header a.current {
     pointer-events: none;
@@ -52,13 +57,36 @@ const activeRoute = routes[currentPath] || null;
     display: flex;
     list-style: none;
     gap: 1rem;
-    margin: 0;
+    margin-top: 2rem;
     padding: 0;
     grid-column: auto / span 2;
-  }
+    font-style: ; 
+    font-weight: normal;   
+    justify-content: flex-start;
+    }
   @media screen and (min-width: 50em) {
     header {
-      grid-template-columns: 30vw 4fr auto auto;
+      grid-template-columns: 20vw 1fr auto auto;
+      margin-top: 0rem;
+
+      }  
+    }
+  @media screen and (min-width: 50em) {
+  ul {
+      margin-top: 0rem;
     }
   }
+.mobile-align-right {
+display: flex;
+justify-content: flex-end;
+font-weight: normal;
+}
+
+/* On screens ≥ 50em (≈ 800px), reset the alignment if needed */
+@media screen and (min-width: 50em) {
+.mobile-align-right {
+    justify-content: flex-start; /* or center, or remove display:flex entirely */
+  }
+}
+
 </style>

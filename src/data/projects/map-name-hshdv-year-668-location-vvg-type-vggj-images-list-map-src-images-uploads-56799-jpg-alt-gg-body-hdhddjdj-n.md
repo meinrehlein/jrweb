@@ -1,6 +1,8 @@
 ---
-name: Hinter den Kulissen
+name: 3 Hinter den Kulissen
 year: 2023
+month: 3
+
 location: Kampnagel
 type: Bühnenbild
 images:

@@ -8,14 +8,27 @@ type Props = {
 const { project } = Astro.props;
 ---
 
-  <span class="project--mobile">{project.data.name}</span>
-
+  <a
+    href={`/${project.id}`}
+    class="project--mobile"
+    style={`--image: url('${project.data.images[0].src}');`}
+    data-name={project.data.name}
+    data-year={project.data.year}
+    data-month={project.data.month}
+    data-location={project.data.location}
+    data-type={project.data.type}
+    data-astro-prefetch
+    aria-label={project.data.name}
+  >
+    {project.data.name}
+  </a>
 <a
   href={`/${project.id}`}
   class="project"
   style={`--image: url('${project.data.images[0].src}');`}
   data-name={project.data.name}
   data-year={project.data.year}
+  data-month={project.data.month}
   data-location={project.data.location}
   data-type={project.data.type}
   data-astro-prefetch
@@ -50,7 +63,7 @@ const { project } = Astro.props;
   .project--desktop {
     display: none;
   }
-  @media screen and (min-width: 44em) {
+  @media screen and (min-width: 50em) {
     .project--mobile {
       display: none;
     }

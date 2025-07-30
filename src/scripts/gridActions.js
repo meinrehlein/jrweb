@@ -78,13 +78,24 @@ const sortGrid = () => {
   const sortedItems = gridItems.sort((a, b) => {
     const yearA = parseInt(a.getAttribute('data-year'), 10) || 0;
     const yearB = parseInt(b.getAttribute('data-year'), 10) || 0;
-    return yearB - yearA; // Descending order: newest first
+
+    const monthA = parseInt(a.getAttribute('data-month'), 10) || 0;
+    const monthB = parseInt(b.getAttribute('data-month'), 10) || 0;
+
+    // First compare years (descending), then months (descending)
+    if (yearB !== yearA) {
+      return yearB - yearA;
+    } else {
+      return monthB - monthA;
+    }
   });
+
   if (gridContainer) {
     gridContainer.innerHTML = '';
     sortedItems.forEach((item) => gridContainer.appendChild(item));
   }
 };
+
 
 /* Filter grid items based on the search input */
 const filterGrid = (searchValue) => {
