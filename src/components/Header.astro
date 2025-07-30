@@ -28,19 +28,14 @@ const activeRoute = routes[currentPath] || null;
       <a
         href="/contact/"
         class={activeRoute === "Kontakt" ? "current" : ""}
-        data-astro-prefetch
-      >
-        <TextSlider>
-          <span class="lang-de">Kontakt</span>
-          <span class="lang-en">Contact</span>
-        </TextSlider>
-      </a>
+        data-astro-prefetch><TextSlider><span class="lang-de">Kontakt</span><span class="lang-en">Contact</span></TextSlider></a>
     </li>
+
+    <li><button id="theme-toggle" aria-label="Theme"></button></li>
+    <li><button id="lang-toggle" aria-label="Language"></button></li>
+
   </ul>
-  <div class="header-toggles">
-    <button id="theme-toggle" aria-label="Theme"></button>
-    <button id="lang-toggle" aria-label="Language"></button>
-  </div>
+  
 </header>
 <Separator />
 
@@ -103,20 +98,4 @@ const activeRoute = routes[currentPath] || null;
   }
 }
 
-.header-toggles {
-  display: flex;
-  gap: 0.5rem;
-  position: absolute;
-  right: 1rem;
-  top: 1.5rem;
-}
-
-@media screen and (min-width: 50em) {
-  .header-toggles {
-    position: static;
-    margin-left: 1rem;
-    top: auto;
-    right: auto;
-  }
-}
 </style>
