@@ -8,7 +8,24 @@ type Props = {
 const { project } = Astro.props;
 ---
 
-<div
+  <a
+    href={`/${project.id}`}
+    class="project--mobile"
+    style={`--image: url('${project.data.images[0].src}');`}
+    data-name={project.data.name}
+    data-year={project.data.year}
+    data-month={project.data.month}
+    data-location={project.data.location}
+    data-type={project.data.type}
+    data-astro-prefetch
+    aria-label={project.data.name}
+  >
+  {project.data.name}
+    
+  
+  </a>
+<a
+  href={`/${project.id}`}
   class="project"
   style={`--image: url('${project.data.images[0].src}');`}
   data-name={project.data.name}
@@ -16,10 +33,9 @@ const { project } = Astro.props;
   data-month={project.data.month}
   data-location={project.data.location}
   data-type={project.data.type}
+  data-astro-prefetch
   aria-label={project.data.name}
->
-  {project.data.name}
-</div>
+></a>
 
 <style>
   .project-card {
@@ -32,16 +48,29 @@ const { project } = Astro.props;
     font-weight: bold;
     text-align: center;
   }
-  .project {
+  a.project {
     background-image: var(--image);
     background-size: cover;
-    background-position: center;
-    aspect-ratio: var(--aspect, 1.4 / 1);
+    background-position: 50% 0%;
+    aspect-ratio: 1.3333;
     border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
     box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
+  }
+  /* Show only the first <a> on mobile, hide on desktop */
+  .project--mobile {
+    display: block;
+  }
+  .project--desktop {
+    display: none;
+  }
+  @media screen and (min-width: 50em) {
+    .project--mobile {
+      display: none;
+    }
+    .project--desktop {
+      display: block;
+    }
   }
 </style>

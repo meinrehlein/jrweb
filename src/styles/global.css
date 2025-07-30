@@ -72,7 +72,7 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
   line-height: 1;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Instrument Sans Variable', serif;
   font-variant-ligatures: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -290,36 +290,4 @@ dd {
     
   }
 }
-
-/* Rectangle layout */
-.rectangle-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.content-rectangle {
-  background-color: var(--content-bg-color, #fff);
-  aspect-ratio: var(--aspect, 1.4 / 1);
-  overflow-y: hidden;
-  padding: 1.5rem 3rem;
-  display: flex;
-  flex-direction: column;
-  border: 0 solid black;
-}
-
-.rectangle-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: justify;
-  word-break: normal;
-  flex-direction: column;
-}
-
-.rectangle-content p { margin: 0; }
 

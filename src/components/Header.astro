@@ -1,43 +1,134 @@
 ---
-import TextSlider from "./TextSlider.astro";
-import TextSlider2 from "./TextSlider2.astro";
-import Separator from "./Separator.astro";
+import TextSlider from "../components/TextSlider.astro";
+import TextSlider2 from "../components/TextSlider2.astro";
+import Separator from "../components/Separator.astro";
+
+// Get the current pathname
+const currentPath = Astro.url.pathname;
+// Define a map of routes
+const routes = {
+  "/": "Home",
+  "/contact/": "Kontakt",
+};
+// Determine the active route
+const activeRoute = routes[currentPath] || null;
 ---
+
 <header>
-  <div class="top-row">
-    <h1><a href="/"><TextSlider2 content="Jannis Reinelt" /></a></h1>
-    <div class="toggles">
-      <button id="lang-toggle" aria-label="Language"></button>
-      <button id="theme-toggle" aria-label="Theme"></button>
-    </div>
-  </div>
-  <Separator />
-  <nav>
-    <ul>
-      <li><a href="/about/"><TextSlider content="about" /></a></li>
-      <li><a href="/"><TextSlider content="art/projects" /></a></li>
-      <li><a href="/video-light-camera/"><TextSlider content="video/light/camera" /></a></li>
-    </ul>
-  </nav>
+  <h1>
+    <a href="/" class={activeRoute === "Home" ? "current" : ""}
+      ><TextSlider2 content="Simone Ballüer" /></a>
+  </h1>
+<span class="mobile-align-right">
+  <span class="lang-de"><TextSlider2 content="Bühnenbild / Kostümbild" /></span>
+  <span class="lang-en"><TextSlider2 content="stage design / costume design" /></span>
+</span>
+  <ul>
+  <li class="flex-80">
+      <a
+        href="/contact/"
+        class={activeRoute === "Kontakt" ? "current" : ""}
+        data-astro-prefetch><TextSlider><span class="lang-de">Kontakt</span><span class="lang-en">contact</span></TextSlider></a>
+    </li>
+  <li class="flex-10"><button id="lang-toggle" aria-label="Language"></button></li></div>
+  <li class="flex-10"><button id="theme-toggle" aria-label="Theme"></button></li></div>
+
+  </ul>
+  
 </header>
+<Separator />
 
 <style>
-  header { display: flex; flex-direction: column; gap: 0.5rem; }
-  .top-row {
-    display: flex;
+  header {
+    position: relative;
+    display: grid;
+    grid-template-columns: min-content auto;
+    font-weight: 700;
+    padding: 1rem 0;
+    gap: 1rem;
     justify-content: space-between;
-    align-items: center;
   }
-  h1 { margin: 0; font-size: 1rem; font-weight: 700; }
-  .toggles {
-    display: flex;
-    gap: 0.5rem;
+  header a.current {
+    pointer-events: none;
   }
-  nav ul {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    padding: 0;
+  h1 {
+    font-size: 1rem;
+    font-weight: inherit;
     margin: 0;
   }
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 0;
+    grid-column: auto / span 2;
+    font-style: ;
+    font-weight: normal;
+    justify-content: flex-start;
+  }
+  @media screen and (min-width: 50em) {
+    header {
+      grid-template-columns: 50vw 1fr auto auto;
+      margin-top: 0rem;
+
+      }  
+    }
+  @media screen and (min-width: 50em) {
+  ul {
+      margin-top: 0rem;
+    }
+  }
+/* Style toggle buttons */
+#theme-toggle,
+#lang-toggle {
+  font-size: 1rem;
+}
+.mobile-align-right {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: normal;
+}
+
+/* On screens ≥ 50em (≈ 800px), reset the alignment if needed */
+@media screen and (min-width: 50em) {
+.mobile-align-right {
+    justify-content: flex-start; /* or center, or remove display:flex entirely */
+  }
+}
+.grid-item {
+  display: flex;
+  width: 100%;
+}
+
+.flex-80 {
+  flex: 0 0 78vw;
+  vertical-align: top;
+}
+
+.flex-10 {
+  flex: 0 0 4vw;
+    vertical-align: top;
+
+}
+
+@media screen and (min-width: 50em) {
+  .grid-item {
+  display: flex;
+  width: 100%;
+}
+
+.flex-80 {
+  flex: 0;
+    vertical-align: top;
+
+}
+
+.flex-10 {
+  flex: 0;
+    vertical-align: top;
+
+}
+}
+
 </style>
