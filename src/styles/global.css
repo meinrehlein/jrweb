@@ -21,9 +21,9 @@
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
   --font-size-xl: clamp(1.5rem, 5vw, 2.75rem);
 
-  padding: 0rem 0.5rem 0rem;
+  padding: 0rem 2vw 0rem;
   @media screen and (min-width: 50em) {
-    padding: 0rem 2vw 0rem;
+    padding: 0rem 6vw 0rem;
   }
 }
 
@@ -68,7 +68,7 @@ html[lang='de'] .lang-en { display: none; }
 
 body {
   margin: 0;
-  padding: 0 1rem;
+  padding: 0 0rem;
   color: var(--color-text);
   background-color: var(--color-bg);
   line-height: 1;
