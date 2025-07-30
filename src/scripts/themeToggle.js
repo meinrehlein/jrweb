@@ -1,7 +1,7 @@
 const applyTheme = (theme) => {
   document.documentElement.setAttribute('data-theme', theme);
   const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = theme === 'dark' ? '●' : '𖤓';
+  if (btn) btn.textContent = theme === 'dark' ? '●' : '🔅';
 };
 
 const init = () => {
