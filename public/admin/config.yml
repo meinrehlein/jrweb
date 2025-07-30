@@ -26,5 +26,7 @@ collections:
         fields:
           - { label: Image, name: src, widget: image }
           - { label: Alt Text, name: alt, widget: string }
+      - { label: Category, name: category, widget: select, options: [A,B,C], default: B }
+      - { label: Orientation, name: orientation, widget: select, options: ['1:1.4','1.4:1'], default: '1:1.4' }
       - { label: Body (DE), name: body, widget: markdown, required: false  }
       - { label: Body (EN), name: body_en, widget: markdown, required: false }

@@ -16,6 +16,8 @@ const projects = defineCollection({
         alt: z.string(),
       })
     ),
+    category: z.enum(['A','B','C']).default('B'),
+    orientation: z.enum(['1:1.4','1.4:1']).default('1:1.4'),
     body_en: z.string().optional(),
   }),
 });
