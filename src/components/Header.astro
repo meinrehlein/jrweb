@@ -20,16 +20,20 @@ const activeRoute = routes[currentPath] || null;
       ><TextSlider2 content="Simone Ballüer" /></a>
   </h1>
 <span class="mobile-align-right">
-  <TextSlider2 content="Bühnenbild / Kostümbild" />
+  <span class="lang-de"><TextSlider2 content="Bühnenbild / Kostümbild" /></span>
+  <span class="lang-en"><TextSlider2 content="Stage design / Costume design" /></span>
 </span>
   <ul>
     <li>
       <a
         href="/contact/"
         class={activeRoute === "Kontakt" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Kontakt" /></a>
+        data-astro-prefetch><TextSlider><span class="lang-de">Kontakt</span><span class="lang-en">Contact</span></TextSlider></a>
     </li>
-    
+
+    <li><button id="theme-toggle" aria-label="Theme"></button></li>
+    <li><button id="lang-toggle" aria-label="Language"></button></li>
+
   </ul>
   
 </header>
@@ -60,10 +64,10 @@ const activeRoute = routes[currentPath] || null;
     margin-top: 2rem;
     padding: 0;
     grid-column: auto / span 2;
-    font-style: ; 
-    font-weight: normal;   
+    font-style: ;
+    font-weight: normal;
     justify-content: flex-start;
-    }
+  }
   @media screen and (min-width: 50em) {
     header {
       grid-template-columns: 20vw 1fr auto auto;
@@ -76,10 +80,15 @@ const activeRoute = routes[currentPath] || null;
       margin-top: 0rem;
     }
   }
+/* Style toggle buttons */
+#theme-toggle,
+#lang-toggle {
+  font-size: 1rem;
+}
 .mobile-align-right {
-display: flex;
-justify-content: flex-end;
-font-weight: normal;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: normal;
 }
 
 /* On screens ≥ 50em (≈ 800px), reset the alignment if needed */

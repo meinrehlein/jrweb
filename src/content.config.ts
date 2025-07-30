@@ -9,12 +9,14 @@ const projects = defineCollection({
     month: z.number(),
     location: z.string(),
     type: z.string(),
+    type_en: z.string().optional(),
     images: z.array(
       z.object({
         src: z.string(),
         alt: z.string(),
       })
     ),
+    body_en: z.string().optional(),
   }),
 });
 

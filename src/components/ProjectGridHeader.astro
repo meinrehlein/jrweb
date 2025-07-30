@@ -14,7 +14,10 @@ const { projectsTotal } = Astro.props;
 ---
 
 <header class="title-header title-header--initial">
-  <h2><TextSlider2 content="Projekte" /></h2>
+  <h2>
+    <span class="lang-de"><TextSlider2 content="Projekte" /></span>
+    <span class="lang-en"><TextSlider2 content="Projects" /></span>
+  </h2>
   <div>
 <!--    <button data-sort><TextSlider2 content="Sort" /></button>
     <button data-shuffle><TextSlider2 content="Shuffle" /></button>

@@ -20,12 +20,51 @@
   --font-size-s: 0.85rem;
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
   --font-size-xl: clamp(1.5rem, 5vw, 2.75rem);
-  
-padding: 0rem 0.5rem 0rem;
+
+  padding: 0rem 0.5rem 0rem;
   @media screen and (min-width: 50em) {
-  padding: 0rem 2vw 0rem;
+    padding: 0rem 2vw 0rem;
   }
 }
+
+:root[data-theme='dark'] {
+  --color-text: #fff;
+  --color-text-alt: #999;
+  --color-bg: #000;
+  --border-color: #fff;
+  --color-link: #fff;
+  --color-link-hover: #ee2a2a;
+  --color-placeholder: #333;
+}
+
+html[lang='en'] .lang-de { display: none; }
+html[lang='de'] .lang-en { display: none; }
+
+#img-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+#img-overlay.open { display: flex; }
+#img-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+}
+#img-overlay button {
+  position: absolute;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+#img-overlay .close { top: 1rem; right: 1rem; }
+#img-overlay .prev { left: 1rem; }
+#img-overlay .next { right: 1rem; }
 
 body {
   margin: 0;
