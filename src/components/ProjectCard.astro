@@ -21,6 +21,7 @@ const { project } = Astro.props;
     aria-label={project.data.name}
   >
     {project.data.name}
+    {project.data.type}
   </a>
 <a
   href={`/${project.id}`}
