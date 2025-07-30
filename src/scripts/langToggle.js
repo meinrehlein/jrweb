@@ -1,8 +1,7 @@
 const applyLang = (lang) => {
   document.documentElement.setAttribute('lang', lang);
   const btn = document.getElementById('lang-toggle');
-  if (btn) btn.textContent = lang.toUpperCase();
-};
+if (btn) btn.textContent = lang.toLowerCase();};
 
 const init = () => {
   let lang = localStorage.getItem('lang') || 'de';

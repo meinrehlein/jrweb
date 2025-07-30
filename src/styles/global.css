@@ -148,6 +148,7 @@ button {
   font-weight: inherit;
   color: inherit;
   fill: currentColor;
+  line-height: 16px;
 
   &:hover {
     color: var(--color-link-hover);

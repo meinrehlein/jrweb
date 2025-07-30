@@ -24,15 +24,14 @@ const activeRoute = routes[currentPath] || null;
   <span class="lang-en"><TextSlider2 content="Stage design / Costume design" /></span>
 </span>
   <ul>
-    <li>
+  <li class="flex-80">
       <a
         href="/contact/"
         class={activeRoute === "Kontakt" ? "current" : ""}
         data-astro-prefetch><TextSlider><span class="lang-de">Kontakt</span><span class="lang-en">Contact</span></TextSlider></a>
     </li>
-
-    <li><button id="theme-toggle" aria-label="Theme"></button></li>
-    <li><button id="lang-toggle" aria-label="Language"></button></li>
+  <li class="flex-10"><button id="lang-toggle" aria-label="Language"></button></li></div>
+  <li class="flex-10"><button id="theme-toggle" aria-label="Theme"></button></li></div>
 
   </ul>
   
@@ -70,7 +69,7 @@ const activeRoute = routes[currentPath] || null;
   }
   @media screen and (min-width: 50em) {
     header {
-      grid-template-columns: 20vw 1fr auto auto;
+      grid-template-columns: 50vw 1fr auto auto;
       margin-top: 0rem;
 
       }  
@@ -96,6 +95,40 @@ const activeRoute = routes[currentPath] || null;
 .mobile-align-right {
     justify-content: flex-start; /* or center, or remove display:flex entirely */
   }
+}
+.grid-item {
+  display: flex;
+  width: 100%;
+}
+
+.flex-80 {
+  flex: 0 0 80%;
+  vertical-align: top;
+}
+
+.flex-10 {
+  flex: 0 0 10%;
+    vertical-align: top;
+
+}
+
+@media screen and (min-width: 50em) {
+  .grid-item {
+  display: flex;
+  width: 100%;
+}
+
+.flex-80 {
+  flex: 0;
+    vertical-align: top;
+
+}
+
+.flex-10 {
+  flex: 0;
+    vertical-align: top;
+
+}
 }
 
 </style>
