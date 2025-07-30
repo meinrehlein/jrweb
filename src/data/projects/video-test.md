@@ -3,6 +3,8 @@ name: Video Test
 year: 2025
 month: 2
 location: Hamburg
+type: test
+type_en: test
 images:
   - src: https://image.mux.com/01Wb00p7k3qIOzzrKJmILe687BWwxYuqgtxVDc9JUwgXk/thumbnail.png?width=214&height=121&time=214
     alt: video
