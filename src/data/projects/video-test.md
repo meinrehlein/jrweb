@@ -10,8 +10,6 @@ images:
     alt: video
 body_en: ""
 ---
-reherhreherdfdf
-
 <iframe
 
   src="https://player.mux.com/01Wb00p7k3qIOzzrKJmILe687BWwxYuqgtxVDc9JUwgXk?metadata-video-title=Help_Version1&video-title=Help_Version1&accent-color=%23000000&primary-color=%23f1fff4"
@@ -23,5 +21,3 @@ reherhreherdfdf
   allowfullscreen
 
 \></iframe>
-
-dsvsdvs
