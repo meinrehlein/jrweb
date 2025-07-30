@@ -14,4 +14,9 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
+  markdown: {
+    // optional: ensure raw HTML is enabled
+    // (it's true by default in Astro)
+    rehypePlugins: [],
+  },
 });
