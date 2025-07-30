@@ -16,15 +16,15 @@ collections:
     fields:
       - { label: Name, name: name, widget: string }
       - { label: Year, name: year, widget: number }
-      - { label: Month, name: month, widget: number, min: 1, max: 12 }
+      - { label: Month in numbers from "1" to "12", name: month, widget: number, min: 1, max: 12 }
       - { label: Location, name: location, widget: string }
-      - { label: Type (DE), name: type, widget: string }
-      - { label: Type (EN), name: type_en, widget: string, required: false }
+      - { label: Type (DE) z.B. "Bühnenbild", name: type, widget: string, required: false }
+      - { label: Type (EN) z.B. "Stagedesign", name: type_en, widget: string, required: false }
       - label: Images
         name: images
         widget: list
         fields:
           - { label: Image, name: src, widget: image }
           - { label: Alt Text, name: alt, widget: string }
-      - { label: Body (DE), name: body, widget: markdown }
+      - { label: Body (DE), name: body, widget: markdown, required: false  }
       - { label: Body (EN), name: body_en, widget: markdown, required: false }
