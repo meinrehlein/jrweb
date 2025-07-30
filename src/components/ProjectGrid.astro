@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import ProjectCard from "./ProjectCard.astro";
-import Tooltip from "./Tooltip.astro";
 
 type Props = {
   projects: CollectionEntry<"projects">[];
@@ -22,7 +21,6 @@ const sortedProjects = [...projects].sort((a, b) => {
   {sortedProjects.map((project) => <ProjectCard project={project} />)}
 </section>
 
-<Tooltip grid={grid} />
 
 <style>
 section {
