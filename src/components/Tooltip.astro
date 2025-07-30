@@ -74,6 +74,11 @@ const { grid } = Astro.props;
     grid-row-gap: 0.25rem;
     will-change: transform;
   }
+  @media (max-width: 50em) {
+  .tooltip {
+    display: none !important;
+  }
+}
   .tooltip__row {
     display: grid;
     grid-template-columns: 100%;
