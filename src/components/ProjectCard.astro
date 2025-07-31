@@ -19,10 +19,11 @@ const { project } = Astro.props;
   aria-label={project.data.name}
 >
   {project.data.kind === 'text' && (
-    <div class="rectangle-content">
-      <div class="titlebox">
-        <h3>{project.data.title ?? project.data.name}</h3>
+    <div class="titlebox">
+        <p>{project.data.title}</p>
       </div>
+    <div class="rectangle-content">
+      
       <p>
         <span class="lang-de">{project.body}</span>
         <span class="lang-en">{project.data.body_en ?? project.body}</span>
@@ -61,20 +62,21 @@ const { project } = Astro.props;
     width: var(--rect-width, 26.1rem);
     aspect-ratio: var(--rect-aspect, 1 / 1.417);
     height: auto;
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
     overflow: hidden;
+    flex-direction: column;
   }
-
-  .titlebox {
+.titlebox {
     height: 2rem;
+    min-height: 4rem;
+    max-height: 3rem;
     overflow-y: hidden;
     text-align: left;
-    font-weight: bold;
-  }
+    font-weight:bold;  }
 
   .rectangle-content {
     align-items: flex-start;
@@ -82,6 +84,8 @@ const { project } = Astro.props;
     padding: 2rem;
     padding-top: calc(2rem + 10%);
     box-sizing: border-box;
+        flex-direction: column;
+
   }
   .video-wrapper {
     position: relative;

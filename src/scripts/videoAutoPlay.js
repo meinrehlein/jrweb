@@ -13,7 +13,6 @@ const init = () => {
         video.play();
       } else {
         video.pause();
-        video.currentTime = 0;
       }
     });
   }, { threshold: 1 });

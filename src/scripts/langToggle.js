@@ -4,7 +4,7 @@ const applyLang = (lang) => {
 if (btn) btn.textContent = lang.toLowerCase();};
 
 const init = () => {
-  let lang = localStorage.getItem('lang') || 'de';
+let lang = localStorage.getItem('lang') || 'en';
   applyLang(lang);
   const btn = document.getElementById('lang-toggle');
   btn?.addEventListener('click', () => {

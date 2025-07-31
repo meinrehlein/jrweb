@@ -8,7 +8,6 @@ const init = () => {
     wrapper.addEventListener('mouseenter', () => video.play());
     wrapper.addEventListener('mouseleave', () => {
       video.pause();
-      video.currentTime = 0;
     });
 
     button.addEventListener('click', () => {
