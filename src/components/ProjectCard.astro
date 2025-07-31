@@ -29,11 +29,11 @@ const { project } = Astro.props;
       </p>
     </div>
   )}
-  {project.data.kind === 'image' && project.data.images && (
-    <div class="images">
-      <img src={project.data.images[0].src} alt={project.data.images[0].alt} />
-    </div>
-  )}
+  <!--  {project.data.kind === 'image' && project.data.images && (
+    //    <div class="images">
+     // <img src={project.data.images[0].src} alt={project.data.images[0].alt} />
+    //</div>)
+    } -->
   {project.data.kind === 'video' && project.data.video && (
     <div class="video-wrapper">
       <video src={project.data.video} muted loop playsinline></video>

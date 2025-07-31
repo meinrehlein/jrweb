@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: meinrehlein/jannis2
-  branch: version6
+  branch: version9
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
@@ -15,6 +15,7 @@ collections:
     slug: "{{name}}"
     sortable_fields: [commit_date, year]
     fields:
+      - { label: Name, name: name, widget: string}
       - { label: Title, name: title, widget: string, required: false }
       - label: Images
         name: images
