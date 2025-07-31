@@ -24,7 +24,6 @@ const projects = defineCollection({
     order_projects: z.number().optional(),
     order_video: z.number().optional(),
     category: z.enum(['A', 'B', 'C']).default('B'),
-    orientation: z.enum(['1:1.4', '1.4:1']).default('1:1.4'),
     body_en: z.string().optional(),
   }),
 });

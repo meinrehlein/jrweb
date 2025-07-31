@@ -303,7 +303,8 @@ dd {
 
 .content-rectangle {
   background-color: var(--content-bg-color, #fff);
-  aspect-ratio: var(--aspect, 1 / 1.4);
+  width: var(--rect-width, 26.1rem);
+  aspect-ratio: var(--rect-aspect, 1 / 1.417);
   overflow-y: hidden;
   padding: 1.5rem 3rem;
   display: flex;
@@ -315,10 +316,16 @@ dd {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   text-align: justify;
   word-break: normal;
   flex-direction: column;
+}
+.titlebox {
+  height: 2rem;
+  overflow-y: hidden;
+  text-align: left;
+  font-weight: bold;
 }
 
 .rectangle-content p { margin: 0; }
