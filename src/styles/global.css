@@ -321,4 +321,24 @@ dd {
   text-align: justify;
   word-break: normal;
   flex-direction: column;
+}
 
+ header { display: flex; flex-direction: column; gap: 0.5rem; }
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+  }
+  h1 { margin: 0; font-size: 1rem; font-weight: 700; }
+  .toggles {
+    display: flex;
+    gap: 0.5rem;
+  }
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
