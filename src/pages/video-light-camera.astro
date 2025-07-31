@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
+import Preloader from "../components/Preloader.astro";
+
 
 const title = "Jannis Reinelt - Video/Light/Camera";
 
@@ -12,5 +14,6 @@ const projects = allProjects
 ---
 
 <BaseLayout title={title}>
+  <Preloader />
   <ProjectGrid projects={projects} />
 </BaseLayout>
