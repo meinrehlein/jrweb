@@ -3,8 +3,9 @@ name: cdcs
 year: 2012
 month: 2
 location: hh
-type: stage
+type: projects
 type_en: video
+content_type: image
 images:
   - src: /images/uploads/dsc_0103.jpg
     alt: dcsdcdsdcscsdcsdcdscdscsdcsdc
