@@ -5,7 +5,7 @@ order_video: 1
 name: ppp2
 type_en: f
 orientation: 1.4:1
-kind: video
+kind: text
 location: FR
 title: mux
 type: f
@@ -15,3 +15,11 @@ year: 2025
 category: C
 ---
 sbbwewebsdvdsvsdv
+rhrh
+
+dfh
+dfndfnrnder
+ndndn
+
+nrndnd
+dndnnddn
