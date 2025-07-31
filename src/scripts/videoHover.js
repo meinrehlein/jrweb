@@ -12,7 +12,7 @@ const init = () => {
 
     button.addEventListener('click', () => {
       video.muted = !video.muted;
-      button.textContent = video.muted ? 'Mute' : 'Unmute';
+      button.textContent = video.muted ? 'unmute' : 'mute';
     });
   });
 };
