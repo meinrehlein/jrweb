@@ -26,3 +26,6 @@ pnpm-debug.log*
 # Visual Studio Code settings
 .vscode/
 src/data/projects/amarie.md
+
+# Local Netlify folder
+.netlify
