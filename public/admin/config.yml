@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: meinrehlein/simone
+  repo: meinrehlein/jannis2
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
