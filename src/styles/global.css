@@ -303,7 +303,7 @@ dd {
 
 .content-rectangle {
   background-color: var(--content-bg-color, #fff);
-  aspect-ratio: var(--aspect, 1.4 / 1);
+  aspect-ratio: var(--aspect, 1 / 1.4);
   overflow-y: hidden;
   padding: 1.5rem 3rem;
   display: flex;

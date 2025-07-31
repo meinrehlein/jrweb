@@ -10,7 +10,7 @@ const { project } = Astro.props;
 
 <div
   class="project"
-  style={`--image: url('${project.data.images[0].src}');`}
+  style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --aspect: ${project.data.orientation === '1.4:1' ? '1.4/1' : '1/1.4'}`}
   data-name={project.data.name}
   data-year={project.data.year}
   data-month={project.data.month}
@@ -18,7 +18,20 @@ const { project } = Astro.props;
   data-type={project.data.type}
   aria-label={project.data.name}
 >
-  {project.data.name}
+  {project.data.kind === 'text' && (
+    <div class="rectangle-content">
+      <h3>{project.data.name}</h3>
+      <p>{project.body}</p>
+    </div>
+  )}
+  {project.data.kind === 'image' && project.data.images && (
+    <div class="images">
+      <img src={project.data.images[0].src} alt={project.data.images[0].alt} />
+    </div>
+  )}
+  {project.data.kind === 'video' && project.data.video && (
+    <video src={project.data.video} muted loop playsinline></video>
+  )}
 </div>
 
 <style>
@@ -33,15 +46,26 @@ const { project } = Astro.props;
     text-align: center;
   }
   .project {
+    position: relative;
     background-image: var(--image);
     background-size: cover;
     background-position: center;
-    aspect-ratio: var(--aspect, 1.4 / 1);
+    aspect-ratio: var(--aspect, 1 / 1.4);
     border: 1px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
+    overflow: hidden;
+  }
+  .images img,
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  video {
+    display: block;
   }
 </style>

@@ -9,12 +9,7 @@ type Props = {
 const { projects } = Astro.props;
 const grid = "projects";
 
-// Sort by year DESC, then month DESC
-const sortedProjects = [...projects].sort((a, b) => {
-  const yearDiff = (b.data.year ?? 0) - (a.data.year ?? 0);
-  if (yearDiff !== 0) return yearDiff;
-  return (b.data.month ?? 0) - (a.data.month ?? 0);
-});
+const sortedProjects = projects;
 ---
 
 <section class="project-grid" id="grid" data-grid={grid}>

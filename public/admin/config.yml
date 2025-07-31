@@ -28,5 +28,10 @@ collections:
           - { label: Alt Text, name: alt, widget: string }
       - { label: Category, name: category, widget: select, options: [A,B,C], default: B }
       - { label: Orientation, name: orientation, widget: select, options: ['1:1.4','1.4:1'], default: '1:1.4' }
+      - { label: Kind, name: kind, widget: select, options: [image,text,video], default: image }
+      - { label: Video URL, name: video, widget: string, required: false }
+      - { label: Order About, name: order_about, widget: number, required: false }
+      - { label: Order Projects, name: order_projects, widget: number, required: false }
+      - { label: Order Video, name: order_video, widget: number, required: false }
       - { label: Body (DE), name: body, widget: markdown, required: false  }
       - { label: Body (EN), name: body_en, widget: markdown, required: false }

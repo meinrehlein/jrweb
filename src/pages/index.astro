@@ -6,7 +6,10 @@ import ProjectGridHeader from "../components/ProjectGridHeader.astro";
 import Preloader from "../components/Preloader.astro";
 
 const allProjects = await getCollection("projects");
-const projectsTotal = allProjects.length;
+const projects = allProjects
+  .filter((p) => p.data.category === 'B')
+  .sort((a, b) => (a.data.order_projects ?? 0) - (b.data.order_projects ?? 0));
+const projectsTotal = projects.length;
 const title = "Jannis Reinelt";
 ---
 
@@ -17,6 +20,6 @@ const title = "Jannis Reinelt";
   --->
   <Preloader />
  <!--  <ProjectGridHeader projectsTotal={projectsTotal} />   --->
-  <ProjectGrid projects={allProjects} />
+  <ProjectGrid projects={projects} />
 </BaseLayout>
 <script src="../scripts/index.js"></script>

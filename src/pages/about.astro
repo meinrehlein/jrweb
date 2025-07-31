@@ -1,12 +1,15 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
 
 const title = "Jannis Reinelt - About";
+const allProjects = await getCollection("projects");
+const projects = allProjects
+  .filter((p) => p.data.category === 'A')
+  .sort((a, b) => (a.data.order_about ?? 0) - (b.data.order_about ?? 0));
 ---
 
 <BaseLayout title={title}>
-  <div class="content content--page">
-    <p>simone.ballueer@posteo.de</p>
-    <p></p>
-  </div>
+  <ProjectGrid projects={projects} />
 </BaseLayout>

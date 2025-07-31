@@ -9,7 +9,7 @@ export default defineConfig({
     enabled: false
   },
   prefetch: true,
-  site: 'https://simoneballuer.netlify.app/',
+  site: 'https://jannisreinelt.netlify.app/',
   integrations: [sitemap()],
   experimental: {
     svg: true,
