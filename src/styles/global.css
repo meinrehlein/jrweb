@@ -314,11 +314,22 @@ dd {
 .rectangle-content {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   text-align: justify;
   word-break: normal;
-  flex-direction: column;
+}
+
+.titlebox {
+  height: 2rem;
+  min-height: 4rem;
+  max-height: 3rem;
+  padding: 0;
+  overflow-y: hidden;
+  text-align: left;
+  font-weight: bold;
+  width: 100%;
 }
 
 .rectangle-content p { margin: 0; }

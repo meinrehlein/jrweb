@@ -18,26 +18,16 @@ const sortedProjects = projects;
 
 
 <style>
-section {
+  section {
     position: relative;
     overflow: visible;
     display: grid;
     width: 100%;
     max-width: 100vw; /* Prevents overflow */
     box-sizing: border-box;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem; /* Smaller gap for mobile */
+    grid-template-columns: repeat(auto-fit, minmax(26.1rem, 1fr));
+    gap: 1rem;
     margin: 1rem 0 10rem;
     min-height: 400px;
-  }
- 
-  
-  @media screen and (min-width: 50em) {
-    section {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 5rem; /* Reduce gap for large screens */
-      margin: 2rem 0 10rem;
-    
-    }
   }
 </style>
