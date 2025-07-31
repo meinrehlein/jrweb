@@ -12,10 +12,6 @@ const { project } = Astro.props;
   class="project"
   style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --rect-aspect: 1/1.417`}
   data-name={project.data.name}
-  data-year={project.data.year}
-  data-month={project.data.month}
-  data-location={project.data.location}
-  data-type={project.data.type}
   aria-label={project.data.name}
 >
   {project.data.kind === 'text' && (
