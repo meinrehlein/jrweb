@@ -1,21 +1,19 @@
 const init = () => {
   const videos = document.querySelectorAll('.project video');
   videos.forEach((video) => {
+    const container = video.closest('.project');
+    const toggle = container?.querySelector('.mute-toggle');
+
+    if (toggle) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        video.muted = !video.muted;
+        toggle.textContent = video.muted ? 'Unmute' : 'Mute';
+      });
+    }
+
     video.addEventListener('mouseenter', () => video.play());
     video.addEventListener('mouseleave', () => video.pause());
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            video.play();
-          } else {
-            video.pause();
-          }
-        });
-      }, { threshold: 1.0 });
-      observer.observe(video);
-    }
   });
 };
 

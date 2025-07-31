@@ -6,21 +6,22 @@ type Props = {
 };
 
 const { project } = Astro.props;
+const title = project.data.title ?? project.data.name;
 ---
 
 <div
-  class="project"
+  class={`project ${project.data.kind}`}
   style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --rect-aspect: 1/1.417`}
-  data-name={project.data.name}
+  data-name={title}
   data-year={project.data.year}
   data-month={project.data.month}
   data-location={project.data.location}
   data-type={project.data.type}
-  aria-label={project.data.name}
+  aria-label={title}
 >
   {project.data.kind === 'text' && (
     <div class="rectangle-content">
-      <div class="titlebox"><h3>{project.data.name}</h3></div>
+      <div class="titlebox"><h3>{title}</h3></div>
       <p>{project.body}</p>
     </div>
   )}
@@ -30,7 +31,10 @@ const { project } = Astro.props;
     </div>
   )}
   {project.data.kind === 'video' && project.data.video && (
-    <video src={project.data.video} muted loop playsinline></video>
+    <div class="video-container">
+      <video src={project.data.video} muted loop playsinline></video>
+      <button class="mute-toggle">Unmute</button>
+    </div>
   )}
 </div>
 
@@ -60,6 +64,9 @@ const { project } = Astro.props;
     box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
     overflow: hidden;
   }
+  .project.text {
+    align-items: flex-start;
+  }
 
   .titlebox {
     height: 2rem;
@@ -71,6 +78,8 @@ const { project } = Astro.props;
   .rectangle-content {
     align-items: flex-start;
     flex-direction: column;
+    padding: 2rem;
+    padding-top: 10%;
   }
   .images img,
   video {
@@ -80,5 +89,21 @@ const { project } = Astro.props;
   }
   video {
     display: block;
+  }
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .mute-toggle {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
   }
 </style>
