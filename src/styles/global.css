@@ -298,7 +298,7 @@ dd {
   gap: 1rem;
   margin: 0;
   flex-direction: row;
-  justify-content: center;
+  justify-content: stretch;
 }
 
 .content-rectangle {
