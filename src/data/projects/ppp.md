@@ -3,6 +3,8 @@ name: ppp2
 year: 2025
 month: 3
 location: FR
+type: f
+type_en: f
 category: B
 orientation: 1:1.4
 kind: text
