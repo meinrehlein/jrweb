@@ -5,7 +5,9 @@ month: 2
 location: hh
 type: stage
 type_en: video
-images: []
+images:
+  - src: /images/uploads/dsc_0103.jpg
+    alt: dcsdcdsdcscsdcsdcdscdscsdcsdc
 category: A
 orientation: 1.4:1
 body_en: sdvsdv
