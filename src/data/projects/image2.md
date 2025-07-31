@@ -14,6 +14,6 @@ order_projects: 1
 order_video: 1
 orientation: 1.4:1
 location: FR
-kind: text
+kind: image
 ---
 sbbwewebsdvdsvsdv
