@@ -20,8 +20,13 @@ const { project } = Astro.props;
 >
   {project.data.kind === 'text' && (
     <div class="rectangle-content">
-      <div class="titlebox"><h3>{project.data.title ?? project.data.name}</h3></div>
-      <p>{project.body}</p>
+      <div class="titlebox">
+        <h3>{project.data.title ?? project.data.name}</h3>
+      </div>
+      <p>
+        <span class="lang-de">{project.body}</span>
+        <span class="lang-en">{project.data.body_en ?? project.body}</span>
+      </p>
     </div>
   )}
   {project.data.kind === 'image' && project.data.images && (

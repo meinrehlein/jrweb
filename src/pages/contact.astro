@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const title = "Jannis Reinelt - Contact";
+---
+<BaseLayout title={title}>
+  <main class="contact-page">
+    <p>jannis.reinelt@posteo.de</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    font-size: var(--font-size-xl);
+  }
+</style>

@@ -16,7 +16,7 @@ const init = () => {
         video.currentTime = 0;
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 1 });
 
   wrappers.forEach((wrapper) => observer.observe(wrapper));
 };
