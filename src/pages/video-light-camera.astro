@@ -1,11 +1,15 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import Preloader from "../components/Preloader.astro";
 
 const title = "Jannis Reinelt - Video/Light/Camera";
+const allProjects = await getCollection("projects");
+const projects = allProjects.filter((p) => p.data.category === 'C');
 ---
 
 <BaseLayout title={title}>
-  <div class="content content--page">
-    <p>Coming soon...</p>
-  </div>
+  <Preloader />
+  <ProjectGrid projects={projects} sortField="order_video" />
 </BaseLayout>

@@ -10,7 +10,9 @@ const { project } = Astro.props;
 
 <div
   class="project"
-  style={`--image: url('${project.data.images[0].src}');`}
+  style={`--image: url('${project.data.images?.[0]?.src || ''}'); --aspect: ${
+    project.data.orientation === '1:1.4' ? '1 / 1.4' : '1.4 / 1'
+  };`}
   data-name={project.data.name}
   data-year={project.data.year}
   data-month={project.data.month}
@@ -18,7 +20,24 @@ const { project } = Astro.props;
   data-type={project.data.type}
   aria-label={project.data.name}
 >
-  {project.data.name}
+  {project.data.content_type === 'text' && (
+    <div class="rectangle-content">
+      {project.data.title && <h3>{project.data.title}</h3>}
+      <div set:html={project.body} />
+    </div>
+  )}
+  {project.data.content_type === 'video' && project.data.video && (
+    <video
+      class="hover-video"
+      src={project.data.video}
+      muted
+      loop
+      playsinline
+    ></video>
+  )}
+  {(!project.data.content_type || project.data.content_type === 'image') && (
+    <div class="image" />
+  )}
 </div>
 
 <style>
@@ -36,7 +55,7 @@ const { project } = Astro.props;
     background-image: var(--image);
     background-size: cover;
     background-position: center;
-    aspect-ratio: var(--aspect, 1.4 / 1);
+    aspect-ratio: var(--aspect, 1 / 1.4);
     border: 1px solid black;
     display: flex;
     align-items: center;
