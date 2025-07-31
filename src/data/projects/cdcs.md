@@ -1,5 +1,5 @@
 ---
-name: cdcs
+name: 1:cdcs
 year: 2012
 month: 2
 location: hh
@@ -10,7 +10,7 @@ images:
     alt: dfvfv
   - src: /images/uploads/dsc_0103.jpg
     alt: dffv
-category: A
+category: C
 orientation: 1:1.4
 body_en: sdvsdv
 ---
