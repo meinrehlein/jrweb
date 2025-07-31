@@ -9,7 +9,7 @@ kind: video
 location: FR
 title: mux
 type: f
-video: https://player.mux.com/01Wb00p7k3qIOzzrKJmILe687BWwxYuqgtxVDc9JUwgXk
+video: ""
 order_about: 1
 year: 2025
 category: C
