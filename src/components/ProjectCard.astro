@@ -20,7 +20,7 @@ const { project } = Astro.props;
 >
   {project.data.kind === 'text' && (
     <div class="rectangle-content">
-      <div class="titlebox"><h3>{project.data.name}</h3></div>
+      <div class="titlebox"><h3>{project.data.title ?? project.data.name}</h3></div>
       <p>{project.body}</p>
     </div>
   )}
@@ -30,7 +30,10 @@ const { project } = Astro.props;
     </div>
   )}
   {project.data.kind === 'video' && project.data.video && (
-    <video src={project.data.video} muted loop playsinline></video>
+    <div class="video-wrapper">
+      <video src={project.data.video} muted loop playsinline></video>
+      <button class="mute-toggle" aria-label="Toggle sound">Mute</button>
+    </div>
   )}
 </div>
 
@@ -71,6 +74,25 @@ const { project } = Astro.props;
   .rectangle-content {
     align-items: flex-start;
     flex-direction: column;
+    padding: 2rem;
+    padding-top: calc(2rem + 10%);
+    box-sizing: border-box;
+  }
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .mute-toggle {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 1;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
   }
   .images img,
   video {

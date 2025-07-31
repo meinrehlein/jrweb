@@ -15,12 +15,7 @@ collections:
     slug: "{{name}}"
     sortable_fields: [commit_date, year]
     fields:
-      - { label: Name, name: name, widget: string }
-      - { label: Year, name: year, widget: number }
-      - { label: Month in numbers from "1" to "12", name: month, widget: number, min: 1, max: 12 }
-      - { label: Location, name: location, widget: string }
-      - { label: Type (DE) z.B. "Bühnenbild", name: type, widget: string, required: false }
-      - { label: Type (EN) z.B. "Stagedesign", name: type_en, widget: string, required: false }
+      - { label: Title, name: title, widget: string, required: false }
       - label: Images
         name: images
         widget: list

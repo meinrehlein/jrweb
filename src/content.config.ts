@@ -10,6 +10,7 @@ const projects = defineCollection({
     location: z.string(),
     type: z.string(),
     type_en: z.string().optional(),
+    title: z.string().optional(),
     images: z
       .array(
         z.object({
