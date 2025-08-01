@@ -28,7 +28,19 @@ section {
     grid-template-columns: repeat(auto-fill, var(--rect-width, 26.1rem));
     gap: 2rem;
     justify-content: center;
-    margin: 5rem 0 10rem;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
     min-height: 70vh;
+}
+    
+  @media screen and (max-width: 50em) {
+  section {
+    --rect-width: 100%;
+        margin-top: 2rem;
+
+    grid-template-columns: 1fr; /* Optional override for clarity */
+    width: 96vw; /* Adjust width for smaller screens */
   }
+}
+
 </style>
