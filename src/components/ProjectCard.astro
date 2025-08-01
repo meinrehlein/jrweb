@@ -34,7 +34,7 @@ const { project } = Astro.props;
   {project.data.kind === 'video' && project.data.video && (
     <div class="video-wrapper">
       <video src={project.data.video} muted loop playsinline></video>
-      <button class="mute-toggle" aria-label="Toggle sound">Mute</button>
+      <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
     </div>
   )}
 </div>
