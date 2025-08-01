@@ -65,6 +65,10 @@ const { project } = Astro.props;
     box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
     overflow: hidden;
     flex-direction: column;
+    @media screen and (min-width: 50em) {
+   margin: 0rem 1rem 0rem ;
+    
+  }
   }
 .titlebox {
     height: 2rem;
@@ -80,7 +84,7 @@ const { project } = Astro.props;
     padding: 2rem;
     padding-top: calc(2rem + 10%);
     box-sizing: border-box;
-        flex-direction: column;
+    flex-direction: column;
 
   }
   .video-wrapper {
