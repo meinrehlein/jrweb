@@ -1,9 +1,13 @@
 ---
 import Separator from "./Separator.astro";
+
+const currentPath = Astro.url.pathname;
 ---
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
 <header>
   <div class="top-row">
-    <h1><a href="/">Jannis Reinelt</a></h1>
+    <a href="/">Jannis Reinelt</a>
     <div class="toggles">
       <button id="lang-toggle" aria-label="Language"></button>
       <button id="theme-toggle" aria-label="Theme"></button>
@@ -13,25 +17,25 @@ import Separator from "./Separator.astro";
   <nav>
     <ul>
       <li>
-        <a href="/about/">
+        <a href="/about/" class={currentPath === "/about/" ? "active" : ""}>
           <span class="lang-de">über</span>
           <span class="lang-en">about</span>
         </a>
       </li>
       <li>
-        <a href="/">
+        <a href="/" class={currentPath === "/" ? "active" : ""}>
           <span class="lang-de">projekte</span>
           <span class="lang-en">art/projects</span>
         </a>
       </li>
       <li>
-        <a href="/video-light-camera/">
+        <a href="/video-light-camera/" class={currentPath === "/video-light-camera/" ? "active" : ""}>
           <span class="lang-de">video/licht/kamera</span>
           <span class="lang-en">video/light/camera</span>
         </a>
       </li>
       <li>
-        <a href="/contact/">
+        <a href="/contact/" class={currentPath === "/contact/" ? "active" : ""}>
           <span class="lang-de">kontakt</span>
           <span class="lang-en">contact</span>
         </a>
@@ -41,6 +45,9 @@ import Separator from "./Separator.astro";
 </header>
 
 <style>
- 
-
+a.active {
+  /* text-decoration: underline;
+  text-underline-offset: 4px; */
+  color: var(--color-link-hover);
+}
 </style>

@@ -8,7 +8,7 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
-  prefetch: true,
+  prefetch: false,
   site: 'https://jannisreinelt.netlify.app/',
   integrations: [sitemap()],
   experimental: {

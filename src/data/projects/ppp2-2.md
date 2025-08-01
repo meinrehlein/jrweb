@@ -8,7 +8,7 @@ type_en: f
 category: C
 orientation: 1:1.4
 kind: video
-video: https://help-video.s3.us-west-004.backblazeb2.com/Help_Version1.mp4
+video: https://stream.mux.com/zJjUHG5eHLbGDfiG1rIafFj9ycNtyi202SF1s00g4WNLQ.m3u8
 order_about: 1
 order_projects: 1
 order_video: 1

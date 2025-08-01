@@ -88,6 +88,12 @@ body {
   }
 }
 
+h1 {
+  font-size: var(--font-size-l);
+  margin: 0;
+  line-height: 0.85;
+}
+
 h2 {
   font-size: var(--font-size-xl);
   margin: 0;
