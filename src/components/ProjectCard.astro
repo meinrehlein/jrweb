@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import initVideo from "../scripts/initVideo.js";
 
 type Props = {
   project: CollectionEntry<"projects">;
@@ -39,29 +40,14 @@ const { project } = Astro.props;
         muted
         loop
         playsinline
-        data-start-time={project.data.startTime} // <-- add this line
-      ></video>
+        data-start-time={project.data.startTime}
+              ></video>
       <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
     </div>
   )}
 
 </div>
- <script>
-  if (Hls.isSupported()) {
-    var video = document.getElementById('video');
-    var hls = new Hls();
-    hls.loadSource(video.src);
-    hls.attachMedia(video);
 
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      const startTime = parseFloat(video.dataset.startTime) || 0;
-      video.currentTime = startTime;
-      video.pause();
-    });
-  } else {
-    alert("Cannot stream HLS, use another video source");
-  }
-</script>
 <style>
   .project-card {
     display: flex;

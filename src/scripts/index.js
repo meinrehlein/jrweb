@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import initVideo from './initVideo';
 
 let lines;
 let textSliders;
@@ -6,6 +7,8 @@ let gridContainer;
 let gridItems;
 let hasPreloaderComponent;
 let animationTimeline;
+
+
 
 const initializeVariables = () => {
   lines = document.querySelectorAll('hr');
@@ -54,6 +57,8 @@ const cleanup = () => {
 };
 
 const init = () => {
+
+  initVideo();
   initializeVariables();
 
   if ('scrollRestoration' in history) {
@@ -65,8 +70,13 @@ const init = () => {
     document.addEventListener('assetsLoaded', animateHomepageElements, { once: true });
   } else {
     animateHomepageElements();
-  }
+  };
+  
+  
 };
+
+
+
 
 // 🔁 No longer restricted to the "home" page
 document.addEventListener('astro:page-load', init);
