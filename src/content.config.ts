@@ -15,6 +15,7 @@ const projects = defineCollection({
       )
       .optional(),
     video: z.string().optional(),
+    startTime: z.number().optional(),
     kind: z.enum(['image', 'text', 'video']).default('image'),
     order_about: z.number().optional(),
     order_projects: z.number().optional(),

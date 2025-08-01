@@ -12,5 +12,6 @@ video: https://stream.mux.com/zJjUHG5eHLbGDfiG1rIafFj9ycNtyi202SF1s00g4WNLQ.m3u8
 order_about: 1
 order_projects: 1
 order_video: 1
+startTime: 400 
 ---
 sbbwewebsdvdsvsdv

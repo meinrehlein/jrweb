@@ -7,7 +7,6 @@ type Props = {
 
 const { project } = Astro.props;
 ---
- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <div
   class="project"
   style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --rect-aspect: 1/1.417`}
@@ -33,23 +32,36 @@ const { project } = Astro.props;
     } -->
   {project.data.kind === 'video' && project.data.video && (
     <div class="video-wrapper">
-      <video id="video" src={project.data.video} type="application/x-mpegURL" muted loop playsinline></video>
+      <video
+        id="video"
+        src={project.data.video}
+        type="application/x-mpegURL"
+        muted
+        loop
+        playsinline
+        data-start-time={project.data.startTime} // <-- add this line
+      ></video>
       <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
     </div>
-    
   )}
 
 </div>
  <script>
-        if (Hls.isSupported()) {
-          var video = document.getElementById('video');
-          var hls = new Hls();
-          hls.loadSource(video.src);
-          hls.attachMedia(video);
-        }else{
-            alert("Cannot stream HLS, use another video source");
-        }
-    </script>
+  if (Hls.isSupported()) {
+    var video = document.getElementById('video');
+    var hls = new Hls();
+    hls.loadSource(video.src);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      const startTime = parseFloat(video.dataset.startTime) || 0;
+      video.currentTime = startTime;
+      video.pause();
+    });
+  } else {
+    alert("Cannot stream HLS, use another video source");
+  }
+</script>
 <style>
   .project-card {
     display: flex;
