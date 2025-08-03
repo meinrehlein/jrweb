@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: meinrehlein/jannis2
+  repo: meinrehlein/jrweb
   branch: version9
 
 media_folder: "public/images/uploads"
