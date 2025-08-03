@@ -22,8 +22,8 @@ const projects = defineCollection({
     order_video: z.number().optional(),
     category: z.enum(['A', 'B', 'C']).default('B'),
     body_en: z.string().optional(),
-    created: z.date().optional(),
-    updated: z.date().optional(),
+    created: z.string().optional(),
+    updated: z.string().optional(),
   }),
 });
 
