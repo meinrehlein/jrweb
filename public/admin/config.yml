@@ -5,7 +5,7 @@ backend:
   auth_scope: repo
   base_url: https://your-site.netlify.app
   auth_endpoint: /api/auth
-  client_id: 1c2bba81e1efc1d0f1c61e5c848f1e0a6a04e256
+  client_id: 
 
 
 media_folder: "public/images/uploads"
