@@ -2,9 +2,8 @@ backend:
   name: github
   repo: meinrehlein/jrweb
   branch: version9
-  auth_scope: repo
-  base_url: https://your-site.netlify.app
-  auth_endpoint: /api/auth
+  base_url: https://meinrehlein-auth.netlify.app  # <-- your auth proxy site
+  auth_endpoint: /auth
   client_id:  Ov23lihOsYXvwEifMJnu  
 
 
