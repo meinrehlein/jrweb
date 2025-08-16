@@ -27,7 +27,7 @@ content:
         label: Title
         type: string
         required: false
-        default: {{name}}
+        default: "{{name}}"
 
       # Images: repeatable object { src, alt }
       - name: images
