@@ -1,5 +1,5 @@
 ---
-name: TEST
+name: TEST2
 title: ohoh
 category: B
 kind: video
@@ -8,7 +8,6 @@ startTime: 10
 order_about: 1
 order_projects: 1
 order_video: 1
-year: 2025
 body_en: saasas
 ---
 jpojpoj
