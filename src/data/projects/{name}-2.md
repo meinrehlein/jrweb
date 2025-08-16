@@ -20,7 +20,7 @@ body_en: >-
   Projektionen oder ein Filmfestival im HFBK Kino.
 
 
-  Seine Software der Wahl -Touch designer- beherrscht er schnell und
+  Seine Software der Wahl -Touch designer- beherrscht er schnell und.
 
 
   Jannis Reinelt hat sich hier durch seine verantwortungsbewusste und kompetente
