@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -15,8 +14,11 @@ export default defineConfig({
     svg: true,
   },
   markdown: {
-    // optional: ensure raw HTML is enabled
-    // (it's true by default in Astro)
     rehypePlugins: [],
+  },
+  vite: {
+    ssr: {
+      external: ['react-dom/server', 'react/jsx-runtime'],
+    },
   },
 });
