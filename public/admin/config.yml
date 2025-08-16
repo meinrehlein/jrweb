@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
-  branch: version9 # your default branchs the key
+  name: github
+  repo: meinrehlein/jrweb
+  branch: main
+  auth_scope: repo
 
 
 
