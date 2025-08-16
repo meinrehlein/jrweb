@@ -1,19 +1,17 @@
 # .pages.yml — Pages CMS configuration
 
-# Media (equivalent to Decap's media/public_folder)
 media:
-  input: public/images/uploads     # folder inside your repo
-  output: /images/uploads          # public URL your site uses
+  input: public/images/uploads
+  output: /images/uploads
 
-# Content types
 content:
   - name: projects
     label: Projects
     type: collection
-    path: src/data/projects        # where your .md files live
-    format: yaml-frontmatter       # frontmatter + body content
-    filename: "{name}.md"          # create files from the 'name' field
-    view:                          # list view options in the UI
+    path: src/data/projects
+    format: yaml-frontmatter
+    filename: "{name}.md"
+    view:
       fields: [name, title, category, kind, year]
       sort: [year, name]
       default:
@@ -30,14 +28,11 @@ content:
         type: string
         required: false
 
-      # Images: array of { src, alt }
+      # Images: repeatable object { src, alt }
       - name: images
         label: Images
         type: object
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{fields.alt} — {fields.src}"
+        list: true
         fields:
           - name: src
             label: Image
@@ -49,13 +44,15 @@ content:
       - name: category
         label: Category
         type: select
-        options: [A, B, C]
+        options:
+          values: [A, B, C]
         default: B
 
       - name: kind
         label: Kind
         type: select
-        options: [image, text, video]
+        options:
+          values: [image, text, video]
         default: image
 
       - name: video
@@ -83,13 +80,11 @@ content:
         type: number
         required: false
 
-      # Optional: add 'year' so you can sort by it in the UI
       - name: year
         label: Year
         type: number
         required: false
 
-      # Body fields
       - name: body
         label: Body (DE)
         type: rich-text
@@ -99,8 +94,3 @@ content:
         label: Body (EN)
         type: rich-text
         required: false
-
-# Optional global settings
-settings:
-  content:
-    merge: true   # updates only submitted fields when editing existing files
