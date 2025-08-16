@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
-  branch: version9
+  name: github
+  repo: meinrehlein/jrweb
+  branch: main
+  auth_endpoint: /.netlify/functions/auth
+
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
