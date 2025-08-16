@@ -1,8 +1,9 @@
 backend:
   name: github
-  repo: meinrehlein/jrweb
+  repo: meinrehlein/jrweb   # your GitHub repo
   branch: main
-  auth_endpoint: /.netlify/functions/auth
+  auth_endpoint: /.netlify/functions/auth   # <- this is the key
+
 
 
 media_folder: "public/images/uploads"
