@@ -1,13 +1,19 @@
-<!doctype html>
+---
+import "../admin/config.yml"; // optional if you want to load CMS config
+---
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
-    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
-    <title>Content Manager</title>
+    <meta charset="UTF-8" />
+    <title>Admin</title>
+    <script src="https://unpkg.com/decap-cms@3.8.2/dist/decap-cms.js"></script>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+    <script>
+      DecapCMS.init({
+        config: '/admin/config.yml'
+      });
+    </script>
   </body>
 </html>

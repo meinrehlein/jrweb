@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: meinrehlein/jrweb   # your GitHub repo
-  branch: main
-  auth_endpoint: /.netlify/functions/auth   # <- this is the key
+  name: git-gateway
+  branch: version9 # your default branchs the key
 
 
 
