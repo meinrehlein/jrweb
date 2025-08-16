@@ -1,7 +1,16 @@
 backend:
-  name: git-gateway
-  branch: version9 # or your default branch
+  name: github
+  repo: meinrehlein/jrweb  # your repo
+  branch: main             # the default branch
+  auth_scope: repo         # allows CMS to commit changes
 
+  # GitHub OAuth app credentials
+  app_id:  Ov23lihOsYXvwEifMJnu 
+  api_root: https://api.github.com
+  base_url: https://meinrehlein.netlify.app/admin
+  auth_endpoint: https://github.com/login/oauth/authorize
+  token_endpoint: https://github.com/login/oauth/access_token
+  client_secret: 15fc528da1de9e42c817045833c3ccc03759bd68
 
 
 
