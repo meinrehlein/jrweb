@@ -3,14 +3,22 @@ import fetch from "node-fetch";
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
+const getSiteUrl = (headers) =>
+  process.env.URL ||
+  process.env.DEPLOY_PRIME_URL ||
+  `${headers["x-forwarded-proto"] || "https"}://${headers.host}`;
+
 export async function handler(event) {
   const code = event.queryStringParameters.code;
 
   if (!code) {
+    const redirectUri = `${getSiteUrl(event.headers)}/.netlify/functions/github-oauth`;
     return {
       statusCode: 302,
       headers: {
-        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo`,
+        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${encodeURIComponent(
+          redirectUri,
+        )}`,
       },
     };
   }
@@ -36,11 +44,13 @@ export async function handler(event) {
     return { statusCode: 500, body: JSON.stringify(tokenData) };
   }
 
+  const host = getSiteUrl(event.headers);
+
   // Redirect back to CMS with token
   return {
     statusCode: 302,
     headers: {
-      Location: `/admin/?t=${accessToken}`,
+      Location: `${host}/admin/?t=${accessToken}`,
     },
   };
 }

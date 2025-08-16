@@ -1,0 +1,68 @@
+media:
+  input: public/images/uploads
+  output: /images/uploads
+content:
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/data/projects
+    filename: "{name}.md"
+    view:
+      sort: [commit_date, year]
+    fields:
+      - name: name
+        label: Name
+        type: string
+      - name: title
+        label: Title
+        type: string
+        required: false
+      - name: images
+        label: Images
+        type: object
+        list: true
+        fields:
+          - name: src
+            label: Image
+            type: image
+          - name: alt
+            label: Alt Text
+            type: string
+      - name: category
+        label: Category
+        type: select
+        options: [A, B, C]
+        default: B
+      - name: kind
+        label: Kind
+        type: select
+        options: [image, text, video]
+        default: image
+      - name: video
+        label: Video URL
+        type: string
+        required: false
+      - name: startTime
+        label: Video Starttime
+        type: number
+        required: false
+      - name: order_about
+        label: Order About
+        type: number
+        required: false
+      - name: order_projects
+        label: Order Projects
+        type: number
+        required: false
+      - name: order_video
+        label: Order Video
+        type: number
+        required: false
+      - name: body
+        label: Body (DE)
+        type: rich-text
+        required: false
+      - name: body_en
+        label: Body (EN)
+        type: rich-text
+        required: false
