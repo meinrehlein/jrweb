@@ -10,7 +10,8 @@ content:
     type: collection
     path: src/data/projects
     format: yaml-frontmatter
-    filename: "{{name}}.md"
+    filename: "{slug}.md"     # slug will become filename
+    slug: "{{name}}"          # slug is generated from the "name" field
     view:
       fields: [name, title, category, kind, year]
       sort: [year, name]
