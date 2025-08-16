@@ -12,25 +12,18 @@ const aspectRatio = project.data.aspectRatio ?? "1 / 1.417";
 const bodyDE = project.data.body ?? project.body ?? "";
 const bodyEN = project.data.body_en ?? "";
 ---
+{project.data.kind === "text" && (
+  <div class="text-block">
+    <div class="titlebox">
+      <p>{project.data.title}</p>
+    </div>
+    <div class="rectangle-content">
+      <div class="lang-de">{/* your markdown render here */}</div>
+      <div class="lang-en">{/* your markdown render here */}</div>
+    </div>
+  </div>
+)}
 
-<div
-  class="project"
-  style={`--image:url('${project.data.images?.[0]?.src ?? ""}'); --rect-aspect:${aspectRatio}`}
-  data-name={project.data.name}
-  aria-label={project.data.name}
->
-  {project.data.kind === "text" && (
-    <>
-      <div class="titlebox">
-        <p>{project.data.title}</p>
-      </div>
-
-      <div class="rectangle-content">
-  <div class="lang-de" set:html={marked(bodyDE)}></div>
-  <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
-</div>
-    </>
-  )}
 
   {project.data.kind === "video" && project.data.video && (
     <div class="video-wrapper">
