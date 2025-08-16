@@ -1,8 +1,7 @@
 backend:
-  name: github
-  repo: meinrehlein/jrweb
-  branch: main
-  auth_scope: repo
+  name: git-gateway
+  branch: version9 # or your default branch
+
 
 
 
