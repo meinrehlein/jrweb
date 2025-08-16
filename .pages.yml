@@ -27,6 +27,7 @@ content:
         label: Title
         type: string
         required: false
+        default: {{name}}
 
       # Images: repeatable object { src, alt }
       - name: images
@@ -64,21 +65,25 @@ content:
         label: Video Starttime
         type: number
         required: false
+        default: 0
 
       - name: order_about
         label: Order About
         type: number
         required: false
+        default: 0
 
       - name: order_projects
         label: Order Projects
         type: number
         required: false
+        default: 0
 
       - name: order_video
         label: Order Video
         type: number
         required: false
+        default: 0
 
       - name: body
         label: Body (DE)
