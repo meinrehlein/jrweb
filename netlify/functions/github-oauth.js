@@ -1,46 +1,54 @@
-import fetch from "node-fetch";
+// netlify/functions/github-oauth.js
+import fetch from 'node-fetch';
 
-const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const CLIENT_ID = process.env.GITHUB_CLIENT_ID;       // from your GitHub OAuth app
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-export async function handler(event) {
-  const code = event.queryStringParameters.code;
+export async function handler(event, context) {
+  const { code } = event.queryStringParameters || {};
 
-  if (!code) {
+  // Step 1: Exchange code for access token
+  if (code) {
+    const tokenRes = await fetch(`https://github.com/login/oauth/access_token`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        code
+      })
+    });
+
+    const tokenData = await tokenRes.json();
+
+    if (tokenData.error) {
+      return {
+        statusCode: 400,
+        body: `OAuth error: ${tokenData.error_description || tokenData.error}`
+      };
+    }
+
+    const access_token = tokenData.access_token;
+
+    // Step 2: Redirect back to CMS admin with token
     return {
       statusCode: 302,
       headers: {
-        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo`,
+        Location: `/admin/?t=${access_token}`, // Decap CMS expects ?t=<token>
       },
+      body: ''
     };
   }
 
-  // Exchange code for token
-  const tokenRes = await fetch(`https://github.com/login/oauth/access_token`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      code,
-    }),
-  });
+  // Step 3: Start OAuth flow if no code
+  const redirectUri = `${process.env.URL}/.netlify/functions/github-oauth/callback`;
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${redirectUri}`;
 
-  const tokenData = await tokenRes.json();
-  const accessToken = tokenData.access_token;
-
-  if (!accessToken) {
-    return { statusCode: 500, body: JSON.stringify(tokenData) };
-  }
-
-  // Redirect back to CMS with token
   return {
     statusCode: 302,
     headers: {
-      Location: `/admin/?t=${accessToken}`,
+      Location: authUrl
     },
+    body: ''
   };
 }
