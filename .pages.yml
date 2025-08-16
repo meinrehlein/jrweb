@@ -85,3 +85,4 @@ collections:
         name: "body_en"
         widget: "markdown"
         required: false
+
