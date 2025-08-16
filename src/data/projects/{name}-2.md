@@ -33,7 +33,7 @@ Behehdhd
 
 Jannis Reinelt hat die letzten drei Jahre als studentischer Angestellter an meiner Seite in der Werkstatt für Medientechnik und Elektronik gearbeitet.
 
-Sein Hauptaufgabengebiet bestand hier in der technischen Planung und Durchführung verschiedener Veranstaltungen und Installationen im Haus.
+## Sein Hauptaufgabengebiet bestand hier in der technischen Planung und Durchführung verschiedener Veranstaltungen und Installationen im Haus.
 
 Unter anderem waren dies: Live Performances mit Mehrkanal-Videos, verschiedene Musik/Performance/Film Festival mit verschiedenen Bühnen und multiplen Projektionen oder ein Filmfestival im HFBK Kino.
 
