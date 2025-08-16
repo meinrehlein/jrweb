@@ -20,7 +20,8 @@
     "imagesloaded": "^5.0.0",
     "lenis": "^1.1.17",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "netlify-cms-oauth-provider": "^1.0.1"
   },
   "devDependencies": {
     "@types/imagesloaded": "^4.1.6"
