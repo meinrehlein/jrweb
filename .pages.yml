@@ -24,12 +24,6 @@ content:
         type: string
         required: true
 
-
-      - name: filename
-        label: FileName
-        type: string
-        required: true
-
       - name: title
         label: Title
         type: string
