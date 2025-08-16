@@ -7,10 +7,13 @@ export async function handler(event) {
   const code = event.queryStringParameters.code;
 
   if (!code) {
+    const redirectUri = `${event.headers["x-forwarded-proto"] || "https"}://${event.headers.host}/.netlify/functions/github-oauth`;
     return {
       statusCode: 302,
       headers: {
-        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo`,
+        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${encodeURIComponent(
+          redirectUri,
+        )}`,
       },
     };
   }
@@ -36,11 +39,13 @@ export async function handler(event) {
     return { statusCode: 500, body: JSON.stringify(tokenData) };
   }
 
+  const host = `${event.headers["x-forwarded-proto"] || "https"}://${event.headers.host}`;
+
   // Redirect back to CMS with token
   return {
     statusCode: 302,
     headers: {
-      Location: `/admin/?t=${accessToken}`,
+      Location: `${host}/admin/?t=${accessToken}`,
     },
   };
 }
