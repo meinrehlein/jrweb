@@ -10,7 +10,7 @@ content:
     type: collection
     path: src/data/projects
     format: yaml-frontmatter
-    filename: {name}.md
+    filename: {{name}}.md
     view:
       fields: [name, title, category, kind, year]
       sort: [year, name]
