@@ -2,7 +2,7 @@
 name: TEST
 title: ohoh
 category: B
-kind: image
+kind: video
 video: https://player.mux.com/wQHVVM9UxwWzl2obo02GQlLvRoEXdUktmgDjDh02i1r7c
 startTime: 10
 order_about: 1
