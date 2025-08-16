@@ -1,10 +1,6 @@
 backend:
   name: github
   repo: meinrehlein/jrweb
-  branch: version9
-  base_url: https://meinrehlein-auth.netlify.app  # <-- your auth proxy site
-  auth_endpoint: /auth
-  client_id:  Ov23lihOsYXvwEifMJnu  
 
 
 media_folder: "public/images/uploads"
