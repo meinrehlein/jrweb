@@ -3,7 +3,7 @@ backend:
   repo: meinrehlein/jrweb
   branch: main # or your default branch
   auth_type: implicit
-  base_url: https://meinrehlein.netlify.app/.netlify/functions/github-oauth
+  base_url: https://meinrehlein.netlify.app/netlify/functions/github-oauth
   site_domain: https://meinrehlein.netlify.app
 
 

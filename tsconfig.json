@@ -1,5 +1,5 @@
 {
   "extends": "astro/tsconfigs/base",
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [".astro/types.d.ts", "**/*", "jrweb/.netlify", "jrweb/.netlify/functions/github-oauth.js"],
   "exclude": ["dist"]
 }
