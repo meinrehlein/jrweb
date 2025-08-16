@@ -1,88 +1,106 @@
-media_folder: "public/images/uploads"
-public_folder: "/images/uploads"
+# .pages.yml — Pages CMS configuration
 
-collections:
-  - name: "projects"
-    label: "Projects"
-    label_singular: "Project"
-    folder: "src/data/projects"
-    create: true
-    extension: "md"
-    slug: "{{name}}"
-    sortable_fields:
-      - commit_date
-      - year
+# Media (equivalent to Decap's media/public_folder)
+media:
+  input: public/images/uploads     # folder inside your repo
+  output: /images/uploads          # public URL your site uses
+
+# Content types
+content:
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/data/projects        # where your .md files live
+    format: yaml-frontmatter       # frontmatter + body content
+    filename: "{name}.md"          # create files from the 'name' field
+    view:                          # list view options in the UI
+      fields: [name, title, category, kind, year]
+      sort: [year, name]
+      default:
+        sort: year
+        order: desc
     fields:
-      - label: "Name"
-        name: "name"
-        widget: "string"
+      - name: name
+        label: Name
+        type: string
+        required: true
 
-      - label: "Title"
-        name: "title"
-        widget: "string"
+      - name: title
+        label: Title
+        type: string
         required: false
 
-      - label: "Images"
-        name: "images"
-        widget: "list"
+      # Images: array of { src, alt }
+      - name: images
+        label: Images
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.alt} — {fields.src}"
         fields:
-          - label: "Image"
-            name: "src"
-            widget: "image"
-          - label: "Alt Text"
-            name: "alt"
-            widget: "string"
+          - name: src
+            label: Image
+            type: image
+          - name: alt
+            label: Alt Text
+            type: string
 
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options:
-          - "A"
-          - "B"
-          - "C"
-        default: "B"
+      - name: category
+        label: Category
+        type: select
+        options: [A, B, C]
+        default: B
 
-      - label: "Kind"
-        name: "kind"
-        widget: "select"
-        options:
-          - "image"
-          - "text"
-          - "video"
-        default: "image"
+      - name: kind
+        label: Kind
+        type: select
+        options: [image, text, video]
+        default: image
 
-      - label: "Video URL"
-        name: "video"
-        widget: "string"
+      - name: video
+        label: Video URL
+        type: string
         required: false
 
-      - label: "Video Starttime"
-        name: "startTime"
-        widget: "number"
+      - name: startTime
+        label: Video Starttime
+        type: number
         required: false
 
-      - label: "Order About"
-        name: "order_about"
-        widget: "number"
+      - name: order_about
+        label: Order About
+        type: number
         required: false
 
-      - label: "Order Projects"
-        name: "order_projects"
-        widget: "number"
+      - name: order_projects
+        label: Order Projects
+        type: number
         required: false
 
-      - label: "Order Video"
-        name: "order_video"
-        widget: "number"
+      - name: order_video
+        label: Order Video
+        type: number
         required: false
 
-      - label: "Body (DE)"
-        name: "body"
-        widget: "markdown"
+      # Optional: add 'year' so you can sort by it in the UI
+      - name: year
+        label: Year
+        type: number
         required: false
 
-      - label: "Body (EN)"
-        name: "body_en"
-        widget: "markdown"
+      # Body fields
+      - name: body
+        label: Body (DE)
+        type: rich-text
         required: false
 
+      - name: body_en
+        label: Body (EN)
+        type: rich-text
+        required: false
+
+# Optional global settings
+settings:
+  content:
+    merge: true   # updates only submitted fields when editing existing files
