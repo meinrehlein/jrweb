@@ -10,7 +10,7 @@ content:
     type: collection
     path: src/data/projects
     format: yaml-frontmatter
-    filename: "{name}.md"        # <- use field substitution with single braces
+         # <- use field substitution with single braces
     view:
       primary: name               # <- ensures {primary} would be 'name' if you prefer
       fields: [name, title, category, kind, year]
@@ -21,6 +21,12 @@ content:
     fields:
       - name: name
         label: Name
+        type: string
+        required: true
+
+
+      - name: filename
+        label: FileName
         type: string
         required: true
 
