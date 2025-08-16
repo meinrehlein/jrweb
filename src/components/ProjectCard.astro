@@ -1,6 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { Markdown } from "astro/components";
+import { marked } from 'marked';
+const bodyDE = project.data.body ?? project.body ?? '';
+const bodyEN = project.data.body_en ?? '';
+---
 
 type Props = { project: CollectionEntry<"projects"> };
 const { project } = Astro.props as Props;
@@ -23,9 +26,9 @@ const bodyEN = project.data.body_en ?? "";
       </div>
 
       <div class="rectangle-content">
-        <div class="lang-de"><Markdown content={bodyDE} /></div>
-        <div class="lang-en"><Markdown content={bodyEN || bodyDE} /></div>
-      </div>
+  <div class="lang-de" set:html={marked(bodyDE)}></div>
+  <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
+</div>
     </>
   )}
 
