@@ -76,6 +76,7 @@ const init = () => {
 };
 
 
+initVideo();
 
 
 // 🔁 No longer restricted to the "home" page
