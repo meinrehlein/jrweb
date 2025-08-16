@@ -1,8 +1,6 @@
 ---
 name: "404"
-images:
-  - src: /images/uploads/dsc_0103.jpg
-    alt: Projektion auf Vorhang
 category: B
-kind: image
+kind: video
+video: https://stream.mux.com/FPnAaq0201Bpl786eSXxPUM6D55fx93U9VIPNvid2WEMk.m3u8
 ---
