@@ -37,7 +37,7 @@ Sein Hauptaufgabengebiet bestand hier in der technischen Planung und Durchführu
 
 Unter anderem waren dies: Live Performances mit Mehrkanal-Videos, verschiedene Musik/Performance/Film Festival mit verschiedenen Bühnen und multiplen Projektionen oder ein Filmfestival im HFBK Kino.
 
-Seine Software der Wahl -Touch designer- beherrscht er schnell und
+Seine Software der Wahl -Touch designer- beherrscht er schnell und.
 
 Jannis Reinelt hat sich hier durch seine verantwortungsbewusste und kompetente Herangehensweise ausgezeichnet.
 
