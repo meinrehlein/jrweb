@@ -1,3 +1,5 @@
+
+
 * {
   box-sizing: border-box;
 
@@ -9,6 +11,7 @@
 
 :root {
   font-size: 16px;
+  --rect-aspect: ${aspectRatio};
   --color-text: #000000;
   --color-text-alt: #6a6a6a;
   --color-faded: #c9c9c9;

@@ -7,10 +7,13 @@ type Props = {
 };
 
 const { project } = Astro.props;
+const aspectRatio = project.data.aspectRatio ?? "1 / 1.417";
+
+
 ---
 <div
   class="project"
-  style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --rect-aspect: 1/1.417`}
+  style={`--image: url('${project.data.images?.[0]?.src ?? ''}'); --rect-aspect: ${aspectRatio}`}
   data-name={project.data.name}
   aria-label={project.data.name}
 >
@@ -47,7 +50,9 @@ const { project } = Astro.props;
   )}
 
 </div>
-
+<script>
+  initVideo();
+</script>
 <style>
   .project-card {
     display: flex;
