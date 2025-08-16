@@ -3,11 +3,11 @@ import type { CollectionEntry } from "astro:content";
 import initVideo from "../scripts/initVideo.js";
 import { marked } from "marked"
 
+const { project } = Astro.props;
 type Props = {
   project: CollectionEntry<"projects">;
 };
 
-const { project } = Astro.props;
 const aspectRatio = project.data.aspectRatio ?? "1 / 1.417";
 
 
