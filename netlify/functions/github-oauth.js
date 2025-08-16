@@ -5,12 +5,17 @@ const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 export async function handler(event) {
   const code = event.queryStringParameters.code;
+  const protocol = event.headers["x-forwarded-proto"] || "https";
+  const siteUrl = process.env.URL || `${protocol}://${event.headers.host}`;
+  const redirectUri = `${siteUrl}/.netlify/functions/github-oauth`;
 
   if (!code) {
     return {
       statusCode: 302,
       headers: {
-        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo`,
+        Location: `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${encodeURIComponent(
+          redirectUri,
+        )}`,
       },
     };
   }
@@ -40,7 +45,7 @@ export async function handler(event) {
   return {
     statusCode: 302,
     headers: {
-      Location: `/admin/?t=${accessToken}`,
+      Location: `${siteUrl}/admin/?t=${accessToken}`,
     },
   };
 }
