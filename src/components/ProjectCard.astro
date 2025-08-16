@@ -1,6 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import initVideo from "../scripts/initVideo.js";
+import { marked } from "marked";
+
+const { project } = Astro.props;
+
 
 type Props = {
   project: CollectionEntry<"projects">;
@@ -21,13 +25,11 @@ const aspectRatio = project.data.aspectRatio ?? "1 / 1.417";
     <div class="titlebox">
         <p>{project.data.title}</p>
       </div>
+
     <div class="rectangle-content">
-      
-      <p>
-        <span class="lang-de">{project.body}</span>
-        <span class="lang-en">{project.data.body_en ?? project.body}</span>
-      </p>
-    </div>
+  <div class="lang-de" set:html={marked(project.body)}></div>
+  <div class="lang-en" set:html={marked(project.data.body_en ?? project.body)}></div>
+</div>
   )}
   <!--  {project.data.kind === 'image' && project.data.images && (
     //    <div class="images">
