@@ -1,57 +1,54 @@
 // netlify/functions/github-oauth.js
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
+
+const CLIENT_ID = process.env.GITHUB_CLIENT_ID;       // from your GitHub OAuth app
+const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 export async function handler(event, context) {
-  const query = new URLSearchParams(event.queryStringParameters);
-  const code = query.get("code"); // from GitHub OAuth
-  const state = query.get("state"); // optional, for CSRF protection
+  const { code } = event.queryStringParameters || {};
 
-  if (!code) {
-    return {
-      statusCode: 400,
-      body: "Missing code parameter from GitHub OAuth",
-    };
-  }
-
-  // GitHub OAuth App credentials
-  const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-  const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-
-  try {
-    // Exchange code for access token
-    const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
-      method: "POST",
-      headers: { Accept: "application/json" },
+  // Step 1: Exchange code for access token
+  if (code) {
+    const tokenRes = await fetch(`https://github.com/login/oauth/access_token`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
       body: new URLSearchParams({
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
-        code,
-      }),
+        code
+      })
     });
 
     const tokenData = await tokenRes.json();
 
-    if (!tokenData.access_token) {
+    if (tokenData.error) {
       return {
         statusCode: 400,
-        body: "GitHub token exchange failed: " + JSON.stringify(tokenData),
+        body: `OAuth error: ${tokenData.error_description || tokenData.error}`
       };
     }
 
-    const token = tokenData.access_token;
+    const access_token = tokenData.access_token;
 
-    // Redirect to Decap CMS admin with token in query
+    // Step 2: Redirect back to CMS admin with token
     return {
       statusCode: 302,
       headers: {
-        Location: `/admin/?t=${token}`,
+        Location: `/admin/?t=${access_token}`, // Decap CMS expects ?t=<token>
       },
-      body: "",
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: "Error during GitHub OAuth: " + err.message,
+      body: ''
     };
   }
+
+  // Step 3: Start OAuth flow if no code
+  const redirectUri = `${process.env.URL}/.netlify/functions/github-oauth/callback`;
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&redirect_uri=${redirectUri}`;
+
+  return {
+    statusCode: 302,
+    headers: {
+      Location: authUrl
+    },
+    body: ''
+  };
 }
