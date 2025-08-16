@@ -1,7 +1,6 @@
 backend:
-  name: github
-  repo: meinrehlein/jrweb
-
+  name: git-gateway
+  branch: version9
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
