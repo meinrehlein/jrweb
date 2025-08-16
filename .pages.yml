@@ -80,11 +80,6 @@ content:
         type: number
         required: false
 
-      - name: year
-        label: Year
-        type: number
-        required: false
-
       - name: body
         label: Body (DE)
         type: rich-text
