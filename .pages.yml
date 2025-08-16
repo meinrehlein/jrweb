@@ -10,9 +10,9 @@ content:
     type: collection
     path: src/data/projects
     format: yaml-frontmatter
-    filename: "{slug}.md"     # slug will become filename
-    slug: "{{name}}"          # slug is generated from the "name" field
+    filename: "{name}.md"        # <- use field substitution with single braces
     view:
+      primary: name               # <- ensures {primary} would be 'name' if you prefer
       fields: [name, title, category, kind, year]
       sort: [year, name]
       default:
@@ -28,7 +28,12 @@ content:
         label: Title
         type: string
         required: false
-        default: "{{name}}"
+        # (Defaults are static strings; leave empty or fill manually.)
+
+      - name: year
+        label: Year
+        type: number
+        required: false
 
       # Images: repeatable object { src, alt }
       - name: images
