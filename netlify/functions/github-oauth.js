@@ -1,21 +1,26 @@
 // netlify/functions/github-oauth.js
 import fetch from "node-fetch";
 
-export async function handler(event, context) {
-  const query = new URLSearchParams(event.queryStringParameters);
-  const code = query.get("code"); // from GitHub OAuth
-  const state = query.get("state"); // optional, for CSRF protection
+export async function handler(event) {
+  // Safely get query parameters
+  const { code, state } = event.queryStringParameters || {};
 
   if (!code) {
     return {
       statusCode: 400,
-      body: "Missing code parameter from GitHub OAuth",
+      body: "Missing 'code' parameter from GitHub OAuth",
     };
   }
 
-  // GitHub OAuth App credentials
   const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
   const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+
+  if (!CLIENT_ID || !CLIENT_SECRET) {
+    return {
+      statusCode: 500,
+      body: "GitHub client ID or secret is not set in environment variables",
+    };
+  }
 
   try {
     // Exchange code for access token
@@ -40,11 +45,11 @@ export async function handler(event, context) {
 
     const token = tokenData.access_token;
 
-    // Redirect to Decap CMS admin with token in query
+    // Redirect to Decap CMS admin with token
     return {
       statusCode: 302,
       headers: {
-        Location: `/admin/?t=${token}`,
+        Location: `https://meinrehlein.netlify.app/admin/?t=${token}`,
       },
       body: "",
     };
