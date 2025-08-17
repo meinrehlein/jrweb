@@ -1,29 +1,32 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { marked } from 'marked';
-const bodyDE = project.data.body ?? project.body ?? '';
-const bodyEN = project.data.body_en ?? '';
----
+import { marked } from "marked";
 
 type Props = { project: CollectionEntry<"projects"> };
 const { project } = Astro.props as Props;
 
 const aspectRatio = project.data.aspectRatio ?? "1 / 1.417";
-const bodyDE = project.data.body ?? project.body ?? "";
-const bodyEN = project.data.body_en ?? "";
+const bodyDE = (project.data.body ?? project.body ?? "").toString();
+const bodyEN = (project.data.body_en ?? "").toString();
 ---
-{project.data.kind === "text" && (
-  <div class="text-block">
-    <div class="titlebox">
-      <p>{project.data.title}</p>
-    </div>
-    <div class="rectangle-content">
-      <div class="lang-de">{/* your markdown render here */}</div>
-      <div class="lang-en">{/* your markdown render here */}</div>
-    </div>
-  </div>
-)}
 
+<div
+  class="project"
+  style={`--image:url('${project.data.images?.[0]?.src ?? ""}'); --rect-aspect:${aspectRatio}`}
+  data-name={project.data.name}
+  aria-label={project.data.name}
+>
+  {project.data.kind === "text" && (
+    <div class="text-block">
+      <div class="titlebox">
+        <p>{project.data.title}</p>
+      </div>
+      <div class="rectangle-content">
+        <div class="lang-de" set:html={marked(bodyDE)}></div>
+        <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
+      </div>
+    </div>
+  )}
 
   {project.data.kind === "video" && project.data.video && (
     <div class="video-wrapper">
@@ -34,7 +37,6 @@ const bodyEN = project.data.body_en ?? "";
         playsinline
         data-start-time={project.data.startTime}
       >
-        <!-- If this is a Mux HLS URL, it should be .../PLAYBACK_ID.m3u8 -->
         <source src={project.data.video} type="application/x-mpegURL" />
       </video>
       <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
@@ -44,7 +46,7 @@ const bodyEN = project.data.body_en ?? "";
 
 <script type="module">
   import initVideo from "../scripts/initVideo.js";
-  initVideo(); // make sure it targets .project-video, not #video
+  initVideo(); // ensure it targets ".project-video"
 </script>
 
 <style>
@@ -59,23 +61,19 @@ const bodyEN = project.data.body_en ?? "";
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(61, 61, 61, 0.2);
+    box-shadow: 0 4px 16px rgba(61,61,61,.2);
     overflow: hidden;
     flex-direction: column;
     width: var(--rect-width, 26.1rem);
   }
 
-  .titlebox {
-    min-height: 3rem; /* pick a consistent rule */
-    overflow: hidden;
-    text-align: left;
-    font-weight: bold;
-  }
+  .text-block {}
+  .titlebox { min-height: 3rem; overflow: hidden; text-align: left; font-weight: bold; }
 
   .rectangle-content {
-    align-items: flex-start;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     padding: 2rem;
     padding-top: calc(2rem + 10%);
     box-sizing: border-box;
@@ -84,8 +82,9 @@ const bodyEN = project.data.body_en ?? "";
   .video-wrapper { position: relative; width: 100%; height: 100%; }
   .mute-toggle {
     position: absolute; left: .5rem; bottom: .5rem; z-index: 1;
-    background: rgba(0,0,0,.5); color: #fff; border: none; padding: .25rem .5rem; cursor: pointer;
+    background: rgba(0,0,0,.5); color: #fff; border: 0; padding: .25rem .5rem; cursor: pointer;
   }
+
   .images img, video { width: 100%; height: 100%; object-fit: cover; }
   video { display: block; }
 </style>
