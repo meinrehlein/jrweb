@@ -18,13 +18,13 @@ const bodyEN = (project.data.body_en ?? "").toString();
 >
   {project.data.kind === "text" && (
     <div class="text-block">
-      <div class="titlebox">
+      <p class="titlebox">
         <p>{project.data.title}</p>
-      </div>
-      <div class="rectangle-content">
+      </p>
+      <p class="rectangle-content">
         <div class="lang-de" set:html={marked(bodyDE)}></div>
         <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
-      </div>
+      </p>
     </div>
   )}
 
