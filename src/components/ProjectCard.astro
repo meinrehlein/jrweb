@@ -17,14 +17,14 @@ const bodyEN = (project.data.body_en ?? "").toString();
   aria-label={project.data.name}
 >
   {project.data.kind === "text" && (
-    <div class="text-block">
-      <p class="titlebox">
+    <div class="rectangle-content">
+      <div class="titlebox">
         <p>{project.data.title}</p>
-      </p>
-      <p class="rectangle-content">
+      </div>
+      <p class="text-block">
         <div class="lang-de" set:html={marked(bodyDE)}></div>
         <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
-      </p>
+      </div>
     </div>
   )}
 
