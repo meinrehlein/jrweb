@@ -1,13 +1,8 @@
 ---
 name: AllesSuper_video_handwäschecloseup
 title: AllesSuper_video_handwäschecloseup
-category: B
+online: true
+category: video
 kind: video
-video: https://stream.mux.com/FPoWYKZxh1fmS941hXZrVfBuM4fuEH9exqMo2efl4YQ.m3u8
-startTime: 0
-order_about: 0
-order_projects: 0
-order_video: 0
-body: ""
-body_en: ""
+video: https://stream.mux.com/FDskw02bsghsdqfb02Jn702KJyQfeCw4cLw24v02HYD3gF8.m3u8
 ---
