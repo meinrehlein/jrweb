@@ -1,13 +1,8 @@
 ---
 name: AllesSuper_video_drehendeschwämmeclosep
 title: AllesSuper_video_drehendeschwämmeclosep
-category: B
+online: true
+category: video
 kind: video
-video: https://stream.mux.com/iaP4Z02dU5NQn39dcNfvZLkxKtKZWdeyYTiqQp1GE0000U.m3u8
-startTime: 0
-order_about: 0
-order_projects: 0
-order_video: 0
-body: ""
-body_en: ""
+video: https://stream.mux.com/ohbM3Qw9jXYLi4kb9YIsPeriSq02JwLfzhEEm1l02EwFA.m3u8
 ---
