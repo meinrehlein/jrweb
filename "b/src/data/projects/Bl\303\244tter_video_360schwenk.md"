@@ -1,8 +1,15 @@
 ---
 name: Blätter_video_360schwenk
+online: true
 title: Blätter_video_360schwenk
 online: true
-category: video
+category: B
 kind: video
 video: https://stream.mux.com/Ev8hSljdtQo8QJ01Tvq0102Nedpwuo5QbbW4ADvpj5SrRA.m3u8
+startTime: 0
+order_about: 0
+order_projects: 0
+order_video: 0
+body: ""
+body_en: ""
 ---

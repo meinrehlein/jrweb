@@ -1,8 +1,15 @@
 ---
 name: Blätter_video_auschnitt2
+online: true
 title: Blätter_video_auschnitt2
 online: true
-category: video
+category: B
 kind: video
 video: https://stream.mux.com/YwykNrtvMZnmuaSHAReqCVAzRzKLNtKBGFeDDCUkZwU.m3u8
+startTime: 0
+order_about: 0
+order_projects: 0
+order_video: 0
+body: ""
+body_en: ""
 ---
