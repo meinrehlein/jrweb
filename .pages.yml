@@ -13,7 +13,7 @@ content:
          # <- use field substitution with single braces
     view:
       primary: name               # <- ensures {primary} would be 'name' if you prefer
-      fields: [name, online, title, category, kind]
+      fields: [name, online, title, category, kind, order_projects]
       sort: [category, order_projects]
       default:
         sort: year
