@@ -8,7 +8,7 @@ import Preloader from "../components/Preloader.astro";
 const title = "Jannis Reinelt - About";
 const allProjects = await getCollection("projects");
 const projects = allProjects
-  .filter((p) => p.data.category === 'A')
+  .filter((p) => p.data.category === 'A' && p.data.online)
   .sort((a, b) => (a.data.order_about ?? 0) - (b.data.order_about ?? 0));
 ---
 

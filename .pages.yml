@@ -62,6 +62,12 @@ content:
           values: [image, text, video]
         default: image
 
+      - name: online
+        label: Online
+        type: boolean
+        required: false
+        default: true
+
       - name: video
         label: Video URL
         type: string

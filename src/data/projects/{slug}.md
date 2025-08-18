@@ -1,5 +1,6 @@
 ---
 name: text 4
+online: true
 title: "{{name}}"
 category: B
 kind: text

@@ -1,5 +1,6 @@
 ---
 name: UTB_video_ofen3danimation
+online: true
 title: UTB_video_ofen3danimation
 category: B
 kind: video

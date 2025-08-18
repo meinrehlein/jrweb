@@ -1,5 +1,6 @@
 ---
 name: toberecovereddead_video_wasser
+online: true
 title: toberecovereddead_video_wasser
 category: B
 kind: video

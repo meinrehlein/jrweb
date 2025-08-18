@@ -1,5 +1,6 @@
 ---
 name: toberecovereddead_video_textflow
+online: true
 title: toberecovereddead_video_textflow
 category: B
 kind: video

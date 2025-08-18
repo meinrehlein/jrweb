@@ -1,5 +1,6 @@
 ---
 name: 404NotFound_video_videodokumentationausschnitt
+online: true
 title: 404NotFound_video_videodokumentationausschnitt
 category: B
 kind: video

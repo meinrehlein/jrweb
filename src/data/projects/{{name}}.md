@@ -1,5 +1,6 @@
 ---
 name: tex3
+online: true
 title: "{{name}}"
 category: B
 kind: text

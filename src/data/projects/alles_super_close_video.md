@@ -1,5 +1,6 @@
 ---
 name: alles_super_close_video
+online: true
 category: B
 kind: video
 video: https://stream.mux.com/wQHVVM9UxwWzl2obo02GQlLvRoEXdUktmgDjDh02i1r7c.m3u8

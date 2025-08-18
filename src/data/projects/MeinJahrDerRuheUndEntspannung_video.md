@@ -1,5 +1,6 @@
 ---
 name: MeinJahrDerRuheUndEntspannung_video
+online: true
 title: MeinJahrDerRuheUndEntspannung_video
 category: B
 kind: video
