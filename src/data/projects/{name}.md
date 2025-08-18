@@ -1,5 +1,6 @@
 ---
 name: TEST2
+online: true
 title: ohoh
 category: B
 kind: text

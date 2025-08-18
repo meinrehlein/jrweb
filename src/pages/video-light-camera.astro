@@ -9,7 +9,7 @@ const title = "Jannis Reinelt - Video/Light/Camera";
 
 const allProjects = await getCollection("projects");
 const projects = allProjects
-  .filter((p) => p.data.category === 'C')
+  .filter((p) => p.data.category === 'C' && p.data.online)
   .sort((a, b) => (a.data.order_video ?? 0) - (b.data.order_video ?? 0));
 ---
 

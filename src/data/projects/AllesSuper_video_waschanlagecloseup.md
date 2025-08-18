@@ -1,5 +1,6 @@
 ---
 name: AllesSuper_video_waschanlagecloseup
+online: true
 title: AllesSuper_video_waschanlagecloseup
 category: B
 kind: video

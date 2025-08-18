@@ -1,5 +1,6 @@
 ---
 name: Spiegelung_video
+online: true
 title: Spiegelung_video
 category: B
 kind: video

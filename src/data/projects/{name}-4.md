@@ -1,5 +1,6 @@
 ---
 name: yolo
+online: true
 category: B
 kind: image
 startTime: 0

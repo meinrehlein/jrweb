@@ -1,5 +1,6 @@
 ---
 name: UTB_video_videodokumentation_ausschnitt
+online: true
 title: UTB_video_videodokumentation_ausschnitt
 category: B
 kind: video
