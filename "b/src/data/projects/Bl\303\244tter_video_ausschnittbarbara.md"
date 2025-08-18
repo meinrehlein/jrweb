@@ -1,9 +1,10 @@
 ---
 name: Blätter_video_ausschnittbarbara
+online: true
 title: Blätter_video_ausschnittbarbara
 category: B
 kind: video
-video: https://stream.mux.com/Z01gdu7rewu2CnU6Ssqpr002zAoFvepb7kECnvPd3nxp4.m3u8
+video: https://stream.mux.com/FPnAaq0201Bpl786eSXxPUM6D55fx93U9VIPNvid2WEMk.m3u8
 startTime: 0
 order_about: 0
 order_projects: 0
