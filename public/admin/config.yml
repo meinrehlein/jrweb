@@ -1,11 +1,7 @@
 backend:
   name: github
   repo: meinrehlein/jrweb
-  branch: main
-  auth_type: implicit
-  base_url: https://meinrehlein.netlify.app/.netlify/functions
-  auth_endpoint: github-oauth
-  site_domain: https://meinrehlein.netlify.app
+ 
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
