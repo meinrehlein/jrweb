@@ -1,35 +1,32 @@
 backend:
   name: github
-  repo: meinrehlein/jrweb
- 
+  repo: meinrehlein/simone
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
+
 collections:
-  - name: projects
-    label: Projects
-    label_singular: Project
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
     folder: "src/data/projects"
     create: true
-    extension: md
+    extension: "md"
+    format: "frontmatter"
     slug: "{{name}}"
-    sortable_fields: [commit_date, year]
+    sortable_fields: [commit_date, year, month]
     fields:
-      - { label: Name, name: name, widget: string}
-      - { label: Title, name: title, widget: string, required: false }
-      - label: Images
-        name: images
-        widget: list
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Year", name: "year", widget: "number" }
+      - { label: "Month in numbers from '1' to '12'", name: "month", widget: "number", min: 1, max: 12 }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Type (DE) z.B. 'Bühnenbild'", name: "type", widget: "string" }
+      - { label: "Type (EN) e.g. 'Stagedesign'", name: "type_en", widget: "string" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
         fields:
-          - { label: Image, name: src, widget: image }
-          - { label: Alt Text, name: alt, widget: string }
-      - { label: Category, name: category, widget: select, options: [A,B,C], default: B }
-      - { label: Kind, name: kind, widget: select, options: [image,text,video], default: image }
-      - { label: Online, name: online, widget: boolean, default: true }
-      - { label: Video URL, name: video, widget: string, required: false }
-      - { label: Video Starttime, name: startTime, widget: number, required: false }
-      - { label: Order About, name: order_about, widget: number, required: false }
-      - { label: Order Projects, name: order_projects, widget: number, required: false }
-      - { label: Order Video, name: order_video, widget: number, required: false }
-      - { label: Body (DE), name: body, widget: markdown, required: false  }
-      - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Alt Text", name: "alt", widget: "string" }
+      - { label: "Body (DE)", name: "body", widget: "markdown", required: false }
+      - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
