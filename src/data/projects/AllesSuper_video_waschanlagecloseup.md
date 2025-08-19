@@ -4,7 +4,7 @@ title: AllesSuper_video_waschanlagecloseup
 category: C
 kind: video
 online: true
-video: https://stream.mux.com/RNajKHaEOlhI62Vd02wWeftjo600BD002P023tFShglJ00ZQ.m3u8
+video: "https://stream.mux.com/RNajKHaEOlhI62Vd02wWeftjo600BD002P023tFShglJ00ZQ.m3u8"
 startTime: 0
 order_about: 0
 order_projects: 0
