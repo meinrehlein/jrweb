@@ -4,7 +4,7 @@ title: Spiegelung_video
 category: B
 kind: video
 online: true
-video: https://stream.mux.com/cF6Kgd4eAuyrRz17lpOcPrEWLJgCUOZsesEnrqYKO01E.m3u8
+video: https://stream.mux.com/cF6Kgd4eAuyrRz17lpOcPrEWLJgCUOZsesEnrqYKO01E
 startTime: 0
 order_about: 0
 order_projects: 0

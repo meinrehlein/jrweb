@@ -4,7 +4,7 @@ title: AllesSuper_video_todorruslanshort
 category: B
 kind: video
 online: true
-video: https://stream.mux.com/H022UfGqGBwjUk3GopXiSoRaZDiq3iODgVVNxNrdjoOk.m3u8
+video: https://stream.mux.com/H022UfGqGBwjUk3GopXiSoRaZDiq3iODgVVNxNrdjoOk
 startTime: 0
 order_about: 0
 order_projects: 0

@@ -4,7 +4,7 @@ title: Blaetter_video_auschnitt2
 category: B
 kind: video
 online: true
-video: https://stream.mux.com/YwykNrtvMZnmuaSHAReqCVAzRzKLNtKBGFeDDCUkZwU.m3u8
+video: https://stream.mux.com/YwykNrtvMZnmuaSHAReqCVAzRzKLNtKBGFeDDCUkZwU
 startTime: 0
 order_about: 0
 order_projects: 0

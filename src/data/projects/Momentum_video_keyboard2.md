@@ -4,7 +4,7 @@ title: Momentum_video_keyboard2
 category: B
 kind: video
 online: true
-video: https://stream.mux.com/mnGi02MoGOa4mslt5tSKFLKyCrmuzWb01fEga9NMbWV2s.m3u8
+video: https://stream.mux.com/mnGi02MoGOa4mslt5tSKFLKyCrmuzWb01fEga9NMbWV2s
 startTime: 0
 order_about: 0
 order_projects: 0
