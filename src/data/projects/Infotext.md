@@ -1,7 +1,7 @@
 ---
 name: jr-54
 online: true
-title: jr-54
+title: ""
 images:
   - src: ""
     alt: ""
