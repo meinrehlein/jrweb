@@ -1,19 +1,18 @@
 ---
 name: jr-54
-online: false
+online: true
 title: jr-54
 images:
   - src: /images/uploads/jr-54.jpg
     alt: ""
 category: B
-kind: image
+kind: text
 video: ""
 startTime: 0
 order_about: 0
-order_projects: 0
+order_projects: 99
 order_video: 0
 body: ""
-body_en: ""
-created: Tuesday, 19/08/25, 00:22
-updated: Thursday, 21/08/25, 01:15
+body_en: This Place is currently still under construction
 ---
+This Place is currently still under construction
