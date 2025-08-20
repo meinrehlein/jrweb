@@ -19,5 +19,6 @@ const init = () => {
 
   wrappers.forEach((wrapper) => observer.observe(wrapper));
 };
-
+if (document.readyState !== 'loading') init();
+document.addEventListener('DOMContentLoaded', init);
 document.addEventListener('astro:page-load', init);

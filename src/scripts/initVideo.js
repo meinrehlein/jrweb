@@ -15,3 +15,6 @@ export default function initVideo() {
     alert("Cannot stream HLS, use another video source");
   }
 }
+if (document.readyState !== 'loading') init();
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('astro:page-load', init);
