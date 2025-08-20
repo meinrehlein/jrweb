@@ -9,7 +9,7 @@ type Props = {
 const { projects } = Astro.props;
 const grid = "projects";
 
-const sortedProjects = projects;
+const sortedProjects = projects.filter((project) => project.data.online);
 ---
 
 <section class="project-grid" id="grid" data-grid={grid}>
