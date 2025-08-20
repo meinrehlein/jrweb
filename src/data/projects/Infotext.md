@@ -13,8 +13,8 @@ order_about: 0
 order_projects: 99
 order_video: 0
 body: ""
-body_en: "# This Place is currently still under construction    sorry"
+body_en: ""
 ---
 # This Place is currently still under construction
 
-sorr
+some information/content is still missing
