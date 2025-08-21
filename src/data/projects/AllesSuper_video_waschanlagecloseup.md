@@ -1,7 +1,7 @@
 ---
 name: AllesSuper_video_waschanlagecloseup
 title: AllesSuper_video_waschanlagecloseup
-category: C
+category: B
 kind: video
 online: true
 video: https://stream.mux.com/RNajKHaEOlhI62Vd02wWeftjo600BD002P023tFShglJ00ZQ
