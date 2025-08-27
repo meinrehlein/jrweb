@@ -20,7 +20,7 @@ const projects = defineCollection({
     kind: z.enum(['image', 'text', 'video']).default('image'),
     aspectRatio: z.string().optional(),
     order_about: z.number().optional(),
-    order_projects: z.string().optional(),
+    order_projects: z.number().optional(),
     order_video: z.number().optional(),
     order_secondary: z.number().optional(),
     category: z.enum(['A', 'B', 'C']).default('B'),
