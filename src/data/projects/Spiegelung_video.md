@@ -7,7 +7,7 @@ online: true
 video: https://player.mux.com/02Li3BZhpeZ3Nip8hlzGaGQARz4jvMKwEQPWKOWBv1rc
 startTime: 0
 order_about: 0
-order_projects: "130"
+order_projects: 130
 order_video: 0
 body: ""
 body_en: ""
