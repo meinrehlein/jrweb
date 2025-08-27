@@ -10,7 +10,7 @@ kind: text
 video: ""
 startTime: 0
 order_about: 0
-order_projects: "100"
+order_projects: 100
 order_video: 0
 body: ""
 body_en: ""
