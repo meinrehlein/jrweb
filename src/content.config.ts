@@ -22,10 +22,12 @@ const projects = defineCollection({
     order_about: z.number().optional(),
     order_projects: z.number().optional(),
     order_video: z.number().optional(),
+    order_secondary: z.number().optional(),
     category: z.enum(['A', 'B', 'C']).default('B'),
     body_en: z.string().optional(),
     created: z.string().optional(),
     updated: z.string().optional(),
+  
   }),
 });
 

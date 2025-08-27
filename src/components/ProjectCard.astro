@@ -17,10 +17,10 @@ const bodyEN = (project.data.body_en ?? "").toString();
   aria-label={project.data.name}
 >
   {project.data.kind === "text" && (
-    <div class="rectangle-content">
-      <div class="titlebox">
+     <div class="titlebox">
         <p>{project.data.title}</p>
       </div>
+    <div class="rectangle-content">
       <p class="text-block">
         <div class="lang-de" set:html={marked(bodyDE)}></div>
         <div class="lang-en" set:html={marked(bodyEN || bodyDE)}></div>
@@ -59,25 +59,23 @@ const bodyEN = (project.data.body_en ?? "").toString();
     height: auto;
     border: 1px solid var(--border-color);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: center; */
     box-shadow: 0 4px 16px rgba(61,61,61,.2);
     overflow: hidden;
     flex-direction: column;
     width: var(--rect-width, 26.1rem);
+    font-size: var(--font-size-s);
+
   }
 
-  .text-block {}
-  .titlebox {; min-height: 3rem; overflow: hidden; text-align: left; font-weight: bold; }
-
-  .rectangle-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
-    padding-top: calc(2rem + 10%);
-    box-sizing: border-box;
+  .text-block {
+  font-size: var(--font-size-s);
   }
+  .titlebox {; min-height: 3rem; overflow: hidden; text-align: left; font-weight: bold;     padding: 1rem 2rem 0rem;
+ }
+
+ 
 
   .video-wrapper { position: relative; width: 100%; height: 100%; }
   .mute-toggle {

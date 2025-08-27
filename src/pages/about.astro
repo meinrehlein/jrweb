@@ -9,7 +9,15 @@ const title = "Jannis Reinelt - About";
 const allProjects = await getCollection("projects");
 const projects = allProjects
   .filter((p) => p.data.category === 'A' && p.data.online)
-  .sort((a, b) => (a.data.order_about ?? 0) - (b.data.order_about ?? 0));
+  .sort((a, b) => {
+    const ao = a.data.order_about ?? 0;
+    const bo = b.data.order_about ?? 0;
+    if (ao !== bo) return ao - bo;
+
+    const aso = a.data.order_secondary ?? 0;
+    const bso = b.data.order_secondary ?? 0;
+    return aso - bso;
+  });
 ---
 
 <BaseLayout title={title}>
