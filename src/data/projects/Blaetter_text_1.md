@@ -1,6 +1,6 @@
 ---
 name: Blaetter_text_1
-order_projects: "100"
+order_projects: 100
 order_secondary: 2
 aspectRatio: ""
 category: B
