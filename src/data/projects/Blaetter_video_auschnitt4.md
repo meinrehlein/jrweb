@@ -7,9 +7,9 @@ online: false
 video: https://stream.mux.com/zJrha3UggiwE006vg5TY00sqpXjn1nwFXVwJG73B1qoCE
 startTime: 0
 order_about: 0
-order_projects: 100
 order_video: 0
 body: ""
 body_en: ""
-order_secondary: 8
+order_secondary: 24
+order_projects: 100
 ---
