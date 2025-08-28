@@ -9,6 +9,7 @@ kind: text
 order_about: "10"
 order_secondary: 4
 order_video: 0
+aspectRatio: 1 / 1.417
 ---
 
 | „KON“ f.e.t.t. | 

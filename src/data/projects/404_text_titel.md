@@ -6,6 +6,7 @@ created: Thursday, 28/08/25, 12:58
 updated: Thursday, 28/08/25, 17:18
 order_secondary: 0
 kind: text
+aspectRatio: 1 / 1.417
 ---
 
 2021

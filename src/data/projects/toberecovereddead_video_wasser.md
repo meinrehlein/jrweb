@@ -6,7 +6,7 @@ kind: video
 online: false
 video: https://stream.mux.com/UKFeIHfC3FLVtmY01xL44hnX65inre2TIusGV94mVI8E.m3u8
 startTime: 0
-order_about: 0
+order_about: "0"
 order_video: 0
 body: ""
 body_en: ""
@@ -14,4 +14,5 @@ created: Thursday, 21/08/25, 02:46
 updated: Friday, 29/08/25, 00:23
 order_projects: "105"
 order_secondary: 5
+aspectRatio: 1 / 1.417
 ---

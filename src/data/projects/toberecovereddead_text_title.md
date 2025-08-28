@@ -1,7 +1,7 @@
 ---
 name: Blätter_Text_description
 online: true
-aspectRatio: ""
+aspectRatio: 1 / 1.417
 title: " to be recovered dead "
 category: B
 kind: text

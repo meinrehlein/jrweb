@@ -6,9 +6,10 @@ created: Thursday, 28/08/25, 19:45
 updated: Thursday, 28/08/25, 21:48
 category: A
 kind: text
-order_about: 10
+order_about: "10"
 order_secondary: 1
 order_video: 0
+aspectRatio: 1 / 1.417
 ---
 
 2019  Vereins-Mitgründung des Performance-Kollektivs „*f.e.t.t.*“  

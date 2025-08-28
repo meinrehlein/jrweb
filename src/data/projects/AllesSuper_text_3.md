@@ -1,11 +1,12 @@
 ---
 title: ""
-order_projects: 130
+order_projects: "130"
 online: true
 created: Thursday, 28/08/25, 12:58
 updated: Thursday, 28/08/25, 18:28
 order_secondary: 5
 kind: text
+aspectRatio: 1 / 1.417
 ---
 
 Eine Autowäsche dauert je nach Programm 5 - 10 Minuten.
