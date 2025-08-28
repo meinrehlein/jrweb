@@ -349,7 +349,7 @@ dd {
     background-size: cover;
     background-position: center;
     aspect-ratio: var(--rect-aspect, 1 / 1.417);
-    height: 36.9837rem;
+    /* height: 36.9837rem; */
     border: 1px solid var(--border-color);
     display: flex;
     box-shadow: 0 4px 16px rgba(61,61,61,.2);
