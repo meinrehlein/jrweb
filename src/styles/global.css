@@ -366,7 +366,7 @@ dd {
   
 
   @media screen and (max-width: 50em) {
-    .project { min-height: 1vh; }
+    /* .project { min-height: 1vh; } */
   }
 
   .titlebox {
