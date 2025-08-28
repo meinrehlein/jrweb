@@ -1,11 +1,12 @@
 ---
 name: Blätter_Text_description
 online: true
-aspectRatio: ""
+aspectRatio: "1 / 1.417"
 title: ""
 category: B
 kind: text
-body_en: "At the center of the video installation is a sound recording situation: Three people speak so-called Wenker sentences into a funnel.
+body_en: 
+"At the center of the video installation is a sound recording situation: Three people speak so-called Wenker sentences into a funnel.
 
 In shifts of the (power) relations of the players to each other, a dynamic develops in an otherwise endlessly repeating scenario.
 
