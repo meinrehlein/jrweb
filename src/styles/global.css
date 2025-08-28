@@ -341,6 +341,7 @@ dd {
   box-sizing: border-box;
   font-size: var(--font-size-s);
   line-height: 1.2;
+  height: 100%;
   }
 
  .project {
