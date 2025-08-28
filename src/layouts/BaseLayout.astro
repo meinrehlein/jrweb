@@ -87,16 +87,16 @@ const currentPage =
     <SmoothScroll />
     <Header />
     <slot />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="../scripts/initVideo.js"></script>
-
-    <script src="../scripts/preloader.js"></script>
-    <script src="../scripts/imageFade.js"></script>
-    <script src="../scripts/gallery.js"></script>
-    <script src="../scripts/themeToggle.js"></script>
-    <script src="../scripts/langToggle.js"></script>
-    <script src="../scripts/videoHover.js"></script>
-    <script src="../scripts/videoAutoPlay.js"></script> 
+<!-- BaseLayout.astro — just before </body> -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+<script src={`/scripts/initVideo.js?v=${Date.now()}`} type="module" is:inline></script><script src="/scripts/preloader.js" type="module" is:inline></script>
+<script src="/scripts/imageFade.js" type="module" is:inline></script>
+<script src="/scripts/gallery.js" type="module" is:inline></script>
+<script src="/scripts/themeToggle.js" type="module" is:inline></script>
+<script src="/scripts/langToggle.js" type="module" is:inline></script>
+<script src="/scripts/videoHover.js" type="module" is:inline></script>
+<script src="/scripts/videoAutoPlay.js" type="module" is:inline></script>
+ <Footer/>
   </body>
-  <Footer/>
+ 
 </html>

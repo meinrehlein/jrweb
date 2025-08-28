@@ -4,7 +4,45 @@ const title = "Jannis Reinelt - Contact";
 ---
 <BaseLayout title={title}>
   <main class="contact-page">
-    <p>jannis.reinelt@posteo.de</p>
+    </a> 
+    <div class="word">
+        <!-- The element we're copying from -->
+    <a id="mail">jannisreinelt@posteo.com</a>
+
+    <!-- Add your JavaScript below -->
+    <script>
+      // Ensuring the script runs after the DOM content is loaded
+      document.addEventListener('DOMContentLoaded', function () {
+        // Get the element by its ID
+        const textToCopy = document.getElementById('mail');
+        
+        // Attach the click event listener to the element
+        textToCopy?.addEventListener('click', function() {
+          copyText(this);
+        });
+      })
+
+      // Modern method using Clipboard API with explicit type in TypeScript
+      function copyText(element: HTMLElement): void {
+        const text = element.textContent || ""; // Ensure text is not null
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text)
+            .then(() => {
+              alert(`Copied to clipboard: "${text}"`);
+            })
+            .catch((err) => {
+              console.error('Failed to copy text:', err);
+            });
+        } else {
+          alert("Clipboard API not supported in your browser.");
+        }
+      }
+    </script>
+     </div>
+       
+      </div>
+
+      </div>
   </main>
 </BaseLayout>
 
@@ -15,5 +53,10 @@ const title = "Jannis Reinelt - Contact";
     justify-content: center;
     height: 87vh;
     font-size: var(--font-size-m);
+    text-decoration-line: underline;
+    text-decoration-skip-ink: auto;   /* nicer over descenders */
+    text-underline-offset: 0.08em;    /* small gap from text */
+    text-decoration-thickness: from-font;
+    
   }
 </style>
