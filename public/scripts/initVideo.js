@@ -78,10 +78,14 @@ function attachLazy(video, { useHlsJs }){
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
       attached = true;
     } else if (useHlsJs){
-      // hls.js with autoStartLoad:false (no segments until we say so)
-      hls = new window.Hls({ autoStartLoad: false });
-      hls.loadSource(url);
-      hls.attachMedia(video);
+      hls = new window.Hls({
+       autoStartLoad: false,
+       capLevelToPlayerSize: true,  // 👈 keep renditions at/below element size
+       maxBufferLength: 10,         // 👈 avoid buffering too much ahead
+       maxMaxBufferLength: 20
+  });
+  hls.loadSource(url);
+  hls.attachMedia(video);
 
       if (maxHeight && Number.isFinite(maxHeight)) {
         hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
