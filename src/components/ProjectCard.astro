@@ -48,7 +48,7 @@ const videoUrl = project.data.video
       poster={`https://image.mux.com/${project.data.video}/thumbnail.png?time=${project.data.startTime ?? 0}`}
       data-start-time={project.data.startTime}
       data-hls={videoUrl}
-      data-max-height="1080"
+      data-max-height="720"
     ></video>
     <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
   </div>
