@@ -13,6 +13,6 @@ body_en: ""
 order_secondary: 3
 aspectRatio: 1 / 1.417
 created: Tuesday, 19/08/25, 01:17
-updated: Friday, 29/08/25, 00:22
+updated: Friday, 29/08/25, 13:45
 order_projects: "110"
 ---

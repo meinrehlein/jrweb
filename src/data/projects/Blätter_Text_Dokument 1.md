@@ -1,5 +1,5 @@
 ---
-name: Blätter_Text_description
+name: Blätter_Text_Dokument 1
 online: true
 aspectRatio: 1 / 1.417
 title: ""
@@ -7,7 +7,7 @@ category: B
 kind: text
 body_en: ""
 created: Wednesday, 27/08/25, 16:27
-updated: Friday, 29/08/25, 01:43
+updated: Friday, 29/08/25, 13:45
 order_secondary: 13
 order_projects: "100"
 ---

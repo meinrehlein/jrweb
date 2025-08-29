@@ -1,5 +1,5 @@
 ---
-name: jr-54
+name: Infotext
 online: true
 title: ""
 images:
@@ -14,7 +14,7 @@ order_video: 0
 body: ""
 body_en: ""
 created: Thursday, 21/08/25, 01:15
-updated: Thursday, 28/08/25, 22:10
+updated: Friday, 29/08/25, 13:45
 order_secondary: 0
 order_projects: "100"
 aspectRatio: 1 / 1.417

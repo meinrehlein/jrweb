@@ -3,13 +3,14 @@ title: ""
 order_projects: "160"
 online: true
 created: Thursday, 28/08/25, 19:45
-updated: Thursday, 28/08/25, 21:40
+updated: Friday, 29/08/25, 13:43
 category: A
 kind: text
 order_about: "10"
 order_secondary: 3
 order_video: 0
 aspectRatio: 1 / 1.417
+name: AlleProjekte 2
 ---
 
 2021 „Mein Jahr der Ruhe und Entspannung“ Regie: Alina Sobotta -Kamera- 
