@@ -27,10 +27,10 @@ collections:
     # Optional: quick filters in the UI
     view_filters:
       - { label: "Category A", field: "category", pattern: "A" }
-      - { label: "Category A", field: "category", pattern: "B" }
+      - { label: "Category B", field: "category", pattern: "B" }
 
-      - { label: "Kind: Video", field: "kind", pattern: "text" }
-      - { label: "Kind: Video", field: "kind", pattern: "image" }
+      - { label: "Kind: Text", field: "kind", pattern: "text" }
+      - { label: "Kind: Image", field: "kind", pattern: "image" }
       - { label: "Kind: Video", field: "kind", pattern: "video" }
 
       - { label: "Offline", field: "online", pattern: false }
