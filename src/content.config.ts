@@ -6,6 +6,7 @@ const projects = defineCollection({
   schema: z.object({
     online: z.boolean().default(true),
     title: z.string().optional(),
+    poster: z.string().optional(),
     images: z
       .array(
         z.object({

@@ -53,6 +53,7 @@ collections:
         fields:
           - { label: "Image", name: "src", widget: "image" }
           - { label: "Alt Text", name: "alt", widget: "string" }
+      - { label: "Poster Image (optional)", name: "poster", widget: "image", required: false }
       - { label: "Video (URL or HLS)", name: "video", widget: "string", required: false }
       - { label: "Start Time (seconds)", name: "startTime", widget: "number", required: false, value_type: "int" }
       - { label: "Kind", name: "kind", widget: "select", options: ["image", "text", "video"], default: "image" }
