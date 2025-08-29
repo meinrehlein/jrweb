@@ -160,7 +160,20 @@ function attachLazy(video, { useHlsJs }){
   // small API for hover logic
   return {
     ensureAttached: attachAndPrepare,
-    startNetwork: () => { if (hls) hls.startLoad(); },
+    startNetwork: () => {
+      if (hls) {
+        hls.startLoad();
+      } else {
+        try {
+          // For native HLS (Safari), avoid calling load() once frame is ready to prevent poster resets
+          if (video.readyState < 2 && video.dataset.safariMetaLoaded !== '1') {
+            video.preload = 'metadata';
+            video.load();
+            video.dataset.safariMetaLoaded = '1';
+          }
+        } catch {}
+      }
+    },
   };
 }
 
@@ -244,6 +257,9 @@ async function initOne(wrapper){
   ensurePaused(video);
   // Stable poster overlay: show until the first frame is ready, then keep video visible
   const posterUrl = video.getAttribute('poster') || '';
+  const isSafari = (() => {
+    try { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); } catch { return false; }
+  })();
   const showBg = () => {
     if (!posterUrl) return;
     if (wrapper.dataset.bg === '1') return;
@@ -259,8 +275,15 @@ async function initOne(wrapper){
     wrapper.dataset.bg = '0';
   };
   try { showBg(); } catch {}
-  // As soon as we can paint a frame, remove the bg so the video frame stays visible
-  video.addEventListener('canplay', () => { try { if (video.readyState >= 2) hideBg(); } catch {} }, { once: true });
+  // As soon as we can paint a frame, remove the bg and drop poster attr (Safari stop reverting to poster)
+  video.addEventListener('canplay', () => {
+    try {
+      if (video.readyState >= 2) {
+        hideBg();
+        if (isSafari && video.hasAttribute('poster')) video.removeAttribute('poster');
+      }
+    } catch {}
+  }, { once: true });
   primePoster(video);
   const hlsEnv = await whenHlsReady();
   const api = attachLazy(video, hlsEnv);
@@ -281,7 +304,16 @@ async function initOne(wrapper){
           try { if (video.readyState >= 2) hideBg(); } catch {}
         });
         // Safari (native HLS) hint
-        try { if (!hlsEnv.useHlsJs) { video.preload = 'metadata'; video.load(); } } catch {}
+        try {
+          if (!hlsEnv.useHlsJs) {
+            // Only nudge Safari once and only before first frame to avoid resets
+            if (video.readyState < 2 && video.dataset.safariMetaLoaded !== '1') {
+              video.preload = 'metadata';
+              video.load();
+              video.dataset.safariMetaLoaded = '1';
+            }
+          }
+        } catch {}
         if (e.intersectionRatio >= 0.6) {
           api?.startNetwork?.();
         }
