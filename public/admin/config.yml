@@ -19,7 +19,7 @@ collections:
     identifier_field: "name"   # or "name" if you prefer
 
     # 👇 Shows extra info right under the identifier in the list
-    summary: "{{name}} Kind:{{kind}} Category:{{category}} online:{{online}}"
+    summary: "{{name}} Kind:{{kind}} Category:{{category}} Order_secondary:{{order_secondary}} online:{{online}}"
     sortable_fields: ["commit_date", "updated", "created", "order_about", "order_projects", "order_video", "order_secondary", "title"]
     # Optional: make search hit more fields
     search_fields: ["title", "name", "category", "kind", "body", "body_en", "location"]
