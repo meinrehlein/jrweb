@@ -27,14 +27,23 @@ function findHlsUrl(video){
 async function whenHlsReady(){
   const probe = document.createElement("video");
   if (probe.canPlayType?.("application/vnd.apple.mpegurl")) return { useHlsJs: false };
+
+  // already present?
   if (window.Hls && window.Hls.isSupported()) return { useHlsJs: true };
-  const tag = document.getElementById("hlsjs");
-  if (tag && !window.Hls){
-    await new Promise((res, rej) => {
-      tag.addEventListener("load", res, { once:true });
-      tag.addEventListener("error", rej, { once:true });
-    });
+
+  // load (or wait for) hls.js
+  let tag = document.getElementById("hlsjs");
+  if (!tag) {
+    tag = document.createElement("script");
+    tag.id = "hlsjs";
+    tag.src = "https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js";
+    tag.defer = true;
+    document.head.appendChild(tag);
   }
+  await new Promise((res, rej) => {
+    tag.addEventListener("load", res, { once:true });
+    tag.addEventListener("error", rej, { once:true });
+  });
   return { useHlsJs: !!(window.Hls && window.Hls.isSupported()) };
 }
 function ensurePaused(video){
@@ -97,13 +106,11 @@ function attachLazy(video, { useHlsJs }){
     }
   });
 
-  // First real play: attach then start loading
+  // First real play: attach then start loading (do NOT pause first)
   const onFirstPlay = async () => {
-    video.pause(); // keep paused while we attach/seek
-    await attachAndPrepare();
-    if (hls) hls.startLoad();
-    // try to resume play (should succeed if triggered by user or muted)
-    video.play().catch(()=>{});
+    await attachAndPrepare();          // keep user gesture alive while attaching
+    if (hls) hls.startLoad();          // begin fetching segments
+    if (video.paused) video.play().catch(()=>{});
     video.removeEventListener('play', onFirstPlay);
   };
   video.addEventListener('play', onFirstPlay);
@@ -124,7 +131,7 @@ function attachLazy(video, { useHlsJs }){
   }, { threshold: 0.15 });
   io.observe(video);
 
-  // return small API for hover logic
+  // small API for hover logic
   return {
     ensureAttached: attachAndPrepare,
     startNetwork: () => { if (hls) hls.startLoad(); },
@@ -134,9 +141,7 @@ function attachLazy(video, { useHlsJs }){
 /***** hover preview + mute toggle *****/
 function setupHover(wrapper, video, api){
   const button = wrapper.querySelector('.mute-toggle');
-
-  // hover needs muted for autoplay policy
-  video.muted = true;
+  video.muted = true; // hover needs muted for autoplay policy
 
   let enterT = null, leaveT = null, wanted = false;
 
@@ -159,8 +164,7 @@ function setupHover(wrapper, video, api){
     clearTimeout(leaveT);
     enterT = setTimeout(async () => {
       wanted = true;
-      video.muted = true; // keep muted for hover
-      // attach now so play() actually starts fetching
+      video.muted = true;
       await api.ensureAttached();
       api.startNetwork?.();
       tryPlay();
@@ -176,7 +180,6 @@ function setupHover(wrapper, video, api){
   wrapper.addEventListener('pointerenter', onEnter);
   wrapper.addEventListener('pointerleave', onLeave);
 
-  // optional mute toggle button
   if (button) {
     button.addEventListener('click', () => {
       video.muted = !video.muted;
@@ -185,7 +188,6 @@ function setupHover(wrapper, video, api){
     });
   }
 
-  // also pause if wrapper is not visible at all
   const io = new IntersectionObserver((entries) => {
     if (entries[0] && !entries[0].isIntersecting) {
       wanted = false;
