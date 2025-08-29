@@ -10,9 +10,6 @@ updated: Friday, 29/08/25, 01:49
 order_secondary: 6
 order_projects: "100"
 ---
-
-  
-
   
 
 Im Zentrum der Videoinstallation steht eine Tonaufnahmesituation: Drei Menschen sprechen sogenannte Wenkersätze in einen Trichter.  
