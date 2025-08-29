@@ -1,3 +1,11 @@
+backend:
+  name: github
+  repo: meinrehlein/jrweb
+  brannch: version9
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
 collections:
   - name: "projects"
     label: "Projects"
