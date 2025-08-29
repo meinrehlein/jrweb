@@ -12,6 +12,11 @@ const bodyEN = (project.data.body_en ?? "").toString();
 // Always use filename (slug) for name
 const nameFromFile = project.slug;
 const title = project.data.title ?? nameFromFile;
+const videoUrl = project.data.video
+  ? project.data.video.includes('://')
+    ? project.data.video
+    : `https://stream.mux.com/${project.data.video}.m3u8`
+  : "";
 ---
 
 <div
@@ -41,7 +46,7 @@ const title = project.data.title ?? nameFromFile;
       loop
       controls
       data-start-time={project.data.startTime}
-      data-hls={`https://stream.mux.com/${project.data.video}.m3u8`}
+      data-hls={videoUrl}
       data-max-height="1080"
     ></video>
     <button class="mute-toggle" aria-label="Toggle sound">unmute</button>
