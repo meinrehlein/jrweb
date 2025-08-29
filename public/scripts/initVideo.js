@@ -45,8 +45,15 @@ function ensurePaused(video){
   try { video.preload = 'none'; } catch {}
 }
 
-
-
+/**
+ * Lazily attach HLS only when the user actually plays.
+ * - If Safari: set src on first play, wait for metadata, seek, then play.
+ * - If hls.js: create with autoStartLoad:false; startLoad() only after play.
+ * Optional: cap ABR by height via data-max-height (e.g., 720 / 1080).
+ */
+function wireLazyPlay(video, useHlsJs){
+  const url = findHlsUrl(video);
+  if (!url) return;
 
   const start = parseStart(video.dataset.startTime);
   const maxHeight = Number.isFinite(+video.dataset.maxHeight) ? +video.dataset.maxHeight : null;
@@ -68,4 +75,80 @@ function ensurePaused(video){
       };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
       attached = true;
-    } else if (useHls
+    } else if (useHlsJs){
+      // hls.js: load with autoStartLoad:false, attach, seek on metadata, then startLoad on play
+      hls = new window.Hls({ autoStartLoad: false });
+      hls.loadSource(url);
+      hls.attachMedia(video);
+
+      if (maxHeight && Number.isFinite(maxHeight)) {
+        // cap ABR by height once levels are known
+        hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+          const levels = hls.levels || [];
+          // pick highest level with height <= maxHeight
+          let capIndex = levels.length ? levels.length - 1 : -1;
+          for (let i = 0; i < levels.length; i++){
+            if (levels[i].height <= maxHeight) capIndex = i;
+          }
+          if (capIndex >= 0) hls.autoLevelCapping = capIndex;
+        });
+      }
+
+      const onMeta = () => {
+        if (Number.isFinite(start)) {
+          try { video.currentTime = start; } catch {}
+        }
+        resolve();
+      };
+      if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
+      attached = true;
+    } else {
+      console.warn("HLS not supported and hls.js unavailable.");
+      resolve();
+    }
+  });
+
+  // First user play intent: attach, seek, then begin segment loading.
+  const onFirstPlay = async (e) => {
+    // prevent immediate fetch storm if we’re not attached yet:
+    video.pause(); // keep it paused while we attach + seek
+    await attachAndPrepare();
+    // now allow network to start only when actually playing
+    if (hls) hls.startLoad();
+    video.play().catch(()=>{ /* gesture could be needed if not triggered by click */ });
+    // remove this handler – we’re initialized
+    video.removeEventListener('play', onFirstPlay);
+  };
+  video.addEventListener('play', onFirstPlay);
+
+  // Loop from offset if requested
+  if (video.loop && Number.isFinite(start)){
+    video.addEventListener("ended", () => {
+      video.currentTime = start;
+      if (!video.paused) video.play().catch(()=>{});
+    });
+  }
+
+  // Pause when off-screen (saves bandwidth)
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting && !video.paused) video.pause();
+    }
+  }, { threshold: 0.15 });
+  io.observe(video);
+}
+
+async function initOne(video){
+  ensurePaused(video);
+  const { useHlsJs } = await whenHlsReady();
+  wireLazyPlay(video, useHlsJs);
+}
+
+async function run(){
+  const nodes = document.querySelectorAll("video.project-video");
+  for (const v of nodes) initOne(v);
+}
+if (document.readyState !== "loading") run();
+else document.addEventListener("DOMContentLoaded", run);
+document.addEventListener("astro:page-load", run);
+document.addEventListener("astro:after-swap", run);
