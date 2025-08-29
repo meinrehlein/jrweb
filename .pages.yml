@@ -23,6 +23,7 @@ content:
         label: Name
         type: string
         required: true
+        default: "{{slug}}.md"
 
       - name: title
         label: Title
