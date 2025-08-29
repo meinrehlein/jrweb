@@ -16,7 +16,7 @@ const title = project.data.title ?? nameFromFile;
 
 <div
   class="project"
-  style={`--image:url('${project.data.images?.[0]?.src ?? ""}'); --rect-aspect:${aspectRatio}`}
+  style={`--image:url('${project.data.images?.[0]?.src ?? ""}'); cursor: wait; --rect-aspect:${aspectRatio}`}
   data-name={nameFromFile}
   aria-label={title}
 >
