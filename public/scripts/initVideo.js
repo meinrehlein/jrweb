@@ -243,7 +243,6 @@ async function initOne(wrapper){
 
   ensurePaused(video);
   // Stable poster overlay: show until the first frame is ready, then keep video visible
-  let offscreenTimer = null;
   const posterUrl = video.getAttribute('poster') || '';
   const showBg = () => {
     if (!posterUrl) return;
@@ -290,15 +289,9 @@ async function initOne(wrapper){
       }
       // Only when completely off-screen, switch the wrapper back to the poster
       if (e.intersectionRatio === 0) {
-        // Debounce to avoid flicker during bounce/elastic scrolling
-        clearTimeout(offscreenTimer);
-        offscreenTimer = setTimeout(() => {
-          try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
-          try { showBg(); } catch {}
-          try { if (!video.paused) video.pause(); } catch {}
-        }, 200);
-      } else {
-        clearTimeout(offscreenTimer);
+        // Save resume time and pause — do NOT show poster again after first hide
+        try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
+        try { if (!video.paused) video.pause(); } catch {}
       }
     }, { threshold: [0, 0.1, 0.25, 0.6, 1], rootMargin: '10% 0px' });
     eagerIO.observe(wrapper);
