@@ -20,7 +20,7 @@ collections:
 
     # 👇 Shows extra info right under the identifier in the list
     summary: "{{name}} Kind:{{kind}} Category:{{category}} online:{{online}}"
-  sortable_fields: [commit_date, updated, created, order_about, order_projects, order_video, order_secondary, title]
+    sortable_fields: [commit_date, updated, created, order_about, order_projects, order_video, order_secondary, title]
     # Optional: make search hit more fields
     search_fields: ["title", "name", "category", "kind", "body", "body_en", "location"]
 
