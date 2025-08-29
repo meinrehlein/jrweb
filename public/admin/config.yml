@@ -34,7 +34,7 @@ collections:
       - { label: "Kind: Video", field: "kind", pattern: "video" }
 
       - { label: "Offline", field: "online", pattern: false }
-      - { label: "Offline", field: "online", pattern: true }
+      - { label: "Online", field: "online", pattern: true }
 
     # Optional: group chips
     view_groups:
