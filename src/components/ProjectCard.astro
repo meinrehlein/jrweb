@@ -46,6 +46,7 @@ const videoUrl = project.data.video
       playsinline
       loop
       controls
+      poster={project.data.poster ?? project.data.images?.[0]?.src ?? ""}
       data-start-time={project.data.startTime}
       data-hls={videoUrl}
       data-max-height="1080"

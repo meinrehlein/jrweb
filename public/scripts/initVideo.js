@@ -205,6 +205,22 @@ async function initOne(wrapper){
   ensurePaused(video);
   const hlsEnv = await whenHlsReady();
   const api = attachLazy(video, hlsEnv);
+
+  // Eager: attach HLS when in view; start network when mostly visible
+  try {
+    const eagerIO = new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (!e) return;
+      if (e.isIntersecting) {
+        api?.ensureAttached?.();
+        if (e.intersectionRatio >= 0.6) {
+          api?.startNetwork?.();
+        }
+      }
+    }, { threshold: [0, 0.25, 0.6, 1], rootMargin: '10% 0px' });
+    eagerIO.observe(wrapper);
+  } catch {}
+
   setupHover(wrapper, video, api || {});
 }
 
