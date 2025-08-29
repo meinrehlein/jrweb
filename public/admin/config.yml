@@ -20,6 +20,36 @@ collections:
       - { label: "Year", name: "year", widget: "number" }
       - { label: "Month in numbers from '1' to '12'", name: "month", widget: "number", min: 1, max: 12 }
       - { label: "Location", name: "location", widget: "string" }
+      - { label: "Category", name: "category", widget: "string" }   # ← added
+      - { label: "Type (DE) z.B. 'Bühnenbild'", name: "type", widget: "string" }
+      - { label: "Type (EN) e.g. 'Stagedesign'", name: "type_en", widget: "string" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Alt Text", name: "alt", widget: "string" }
+      - { label: "Body (DE)", name: "body", widget: "markdown", required: false }
+      - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
+
+  - name: "projects_category_a"
+    label: "Projects (Category A)"
+    label_singular: "Project (A)"
+    folder: "src/data/projects"         # same folder
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{name}}"
+    sortable_fields: [commit_date, year, month]
+    filter:                               # ← only show/edit entries with category: "A"
+      field: "category"
+      value: "A"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Year", name: "year", widget: "number" }
+      - { label: "Month in numbers from '1' to '12'", name: "month", widget: "number", min: 1, max: 12 }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Category", name: "category", widget: "string" }   # must exist to filter
       - { label: "Type (DE) z.B. 'Bühnenbild'", name: "type", widget: "string" }
       - { label: "Type (EN) e.g. 'Stagedesign'", name: "type_en", widget: "string" }
       - label: "Images"
