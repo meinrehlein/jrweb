@@ -1,5 +1,6 @@
-// public/scripts/initVideo.js — lazy HLS attach, start paused, play on user action
+// public/scripts/initVideo.js — lazy HLS attach + hover preview + safe bandwidth
 
+/***** helpers *****/
 function parseStart(val){
   if (val == null) return NaN;
   const s = String(val).trim(); if (!s) return NaN;
@@ -36,56 +37,46 @@ async function whenHlsReady(){
   }
   return { useHlsJs: !!(window.Hls && window.Hls.isSupported()) };
 }
-
 function ensurePaused(video){
   video.autoplay = false;
   video.removeAttribute('autoplay');
-  video.pause();
-  // preload budget: avoid browser fetching anything until we attach
   try { video.preload = 'none'; } catch {}
+  try { video.playsInline = true; video.setAttribute('playsinline',''); } catch {}
+  video.pause();
 }
 
-/**
- * Lazily attach HLS only when the user actually plays.
- * - If Safari: set src on first play, wait for metadata, seek, then play.
- * - If hls.js: create with autoStartLoad:false; startLoad() only after play.
- * Optional: cap ABR by height via data-max-height (e.g., 720 / 1080).
- */
-function wireLazyPlay(video, useHlsJs){
+/***** core: lazy attach + controls *****/
+function attachLazy(video, { useHlsJs }){
   const url = findHlsUrl(video);
   if (!url) return;
 
   const start = parseStart(video.dataset.startTime);
   const maxHeight = Number.isFinite(+video.dataset.maxHeight) ? +video.dataset.maxHeight : null;
 
-  let hls;               // hls.js instance (if used)
-  let attached = false;  // did we attach a source to the element?
+  let hls = null;
+  let attached = false;
 
   const attachAndPrepare = () => new Promise((resolve) => {
     if (attached) return resolve();
 
     if (!useHlsJs && video.canPlayType("application/vnd.apple.mpegurl")){
-      // Safari native HLS: set src now, wait metadata for seeking
+      // Safari native HLS
       video.src = url;
       const onMeta = () => {
-        if (Number.isFinite(start)) {
-          try { video.currentTime = start; } catch {}
-        }
+        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
         resolve();
       };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
       attached = true;
     } else if (useHlsJs){
-      // hls.js: load with autoStartLoad:false, attach, seek on metadata, then startLoad on play
+      // hls.js with autoStartLoad:false (no segments until we say so)
       hls = new window.Hls({ autoStartLoad: false });
       hls.loadSource(url);
       hls.attachMedia(video);
 
       if (maxHeight && Number.isFinite(maxHeight)) {
-        // cap ABR by height once levels are known
         hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
           const levels = hls.levels || [];
-          // pick highest level with height <= maxHeight
           let capIndex = levels.length ? levels.length - 1 : -1;
           for (let i = 0; i < levels.length; i++){
             if (levels[i].height <= maxHeight) capIndex = i;
@@ -95,9 +86,7 @@ function wireLazyPlay(video, useHlsJs){
       }
 
       const onMeta = () => {
-        if (Number.isFinite(start)) {
-          try { video.currentTime = start; } catch {}
-        }
+        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
         resolve();
       };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
@@ -108,20 +97,18 @@ function wireLazyPlay(video, useHlsJs){
     }
   });
 
-  // First user play intent: attach, seek, then begin segment loading.
-  const onFirstPlay = async (e) => {
-    // prevent immediate fetch storm if we’re not attached yet:
-    video.pause(); // keep it paused while we attach + seek
+  // First real play: attach then start loading
+  const onFirstPlay = async () => {
+    video.pause(); // keep paused while we attach/seek
     await attachAndPrepare();
-    // now allow network to start only when actually playing
     if (hls) hls.startLoad();
-    video.play().catch(()=>{ /* gesture could be needed if not triggered by click */ });
-    // remove this handler – we’re initialized
+    // try to resume play (should succeed if triggered by user or muted)
+    video.play().catch(()=>{});
     video.removeEventListener('play', onFirstPlay);
   };
   video.addEventListener('play', onFirstPlay);
 
-  // Loop from offset if requested
+  // Loop from offset if needed
   if (video.loop && Number.isFinite(start)){
     video.addEventListener("ended", () => {
       video.currentTime = start;
@@ -129,26 +116,102 @@ function wireLazyPlay(video, useHlsJs){
     });
   }
 
-  // Pause when off-screen (saves bandwidth)
+  // Pause when off-screen
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (!e.isIntersecting && !video.paused) video.pause();
     }
   }, { threshold: 0.15 });
   io.observe(video);
+
+  // return small API for hover logic
+  return {
+    ensureAttached: attachAndPrepare,
+    startNetwork: () => { if (hls) hls.startLoad(); },
+  };
 }
 
-async function initOne(video){
+/***** hover preview + mute toggle *****/
+function setupHover(wrapper, video, api){
+  const button = wrapper.querySelector('.mute-toggle');
+
+  // hover needs muted for autoplay policy
+  video.muted = true;
+
+  let enterT = null, leaveT = null, wanted = false;
+
+  const tryPlay = () => {
+    const p = video.play();
+    if (p && typeof p.then === 'function') {
+      p.catch(() => {
+        const onReady = () => {
+          video.removeEventListener('loadedmetadata', onReady);
+          video.removeEventListener('canplay', onReady);
+          if (wanted) video.play().catch(()=>{});
+        };
+        video.addEventListener('loadedmetadata', onReady, { once:true });
+        video.addEventListener('canplay', onReady, { once:true });
+      });
+    }
+  };
+
+  const onEnter = async () => {
+    clearTimeout(leaveT);
+    enterT = setTimeout(async () => {
+      wanted = true;
+      video.muted = true; // keep muted for hover
+      // attach now so play() actually starts fetching
+      await api.ensureAttached();
+      api.startNetwork?.();
+      tryPlay();
+    }, 60);
+  };
+
+  const onLeave = () => {
+    clearTimeout(enterT);
+    wanted = false;
+    leaveT = setTimeout(() => { video.pause(); }, 120);
+  };
+
+  wrapper.addEventListener('pointerenter', onEnter);
+  wrapper.addEventListener('pointerleave', onLeave);
+
+  // optional mute toggle button
+  if (button) {
+    button.addEventListener('click', () => {
+      video.muted = !video.muted;
+      button.textContent = video.muted ? 'unmute' : 'mute';
+      if (!video.muted && wanted && video.paused) video.play().catch(()=>{});
+    });
+  }
+
+  // also pause if wrapper is not visible at all
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0] && !entries[0].isIntersecting) {
+      wanted = false;
+      video.pause();
+    }
+  }, { threshold: 0.1 });
+  io.observe(wrapper);
+}
+
+/***** boot *****/
+async function initOne(wrapper){
+  const video = wrapper.querySelector('video.project-video');
+  if (!video) return;
+
   ensurePaused(video);
-  const { useHlsJs } = await whenHlsReady();
-  wireLazyPlay(video, useHlsJs);
+  const hlsEnv = await whenHlsReady();
+  const api = attachLazy(video, hlsEnv);
+  setupHover(wrapper, video, api || {});
 }
 
 async function run(){
-  const nodes = document.querySelectorAll("video.project-video");
-  for (const v of nodes) initOne(v);
+  const wrappers = document.querySelectorAll(".video-wrapper");
+  for (const w of wrappers) initOne(w);
 }
+
 if (document.readyState !== "loading") run();
-else document.addEventListener("DOMContentLoaded", run);
+document.addEventListener("DOMContentLoaded", run);
 document.addEventListener("astro:page-load", run);
 document.addEventListener("astro:after-swap", run);
