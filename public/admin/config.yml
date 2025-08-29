@@ -16,7 +16,7 @@ collections:
     slug: "{{slug}}"
 
     # Use 'name' (or title) as the main line
-    identifier_field: "title"   # or "name" if you prefer
+    identifier_field: "name"   # or "name" if you prefer
 
     # 👇 Shows extra info right under the identifier in the list
     summary: "{{name}} Kind:{{kind}} Category:{{category}} online:{{online}}"
