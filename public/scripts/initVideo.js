@@ -217,6 +217,8 @@ async function initOne(wrapper){
       if (!e) return;
       if (e.isIntersecting) {
         api?.ensureAttached?.();
+        // In Safari (native HLS), nudge the browser to fetch manifest/metadata
+        try { if (!hlsEnv.useHlsJs) { video.preload = 'metadata'; video.load(); } } catch {}
         if (e.intersectionRatio >= 0.6) {
           api?.startNetwork?.();
         }
