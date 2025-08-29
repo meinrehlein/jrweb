@@ -19,7 +19,7 @@ collections:
     identifier_field: "title"   # or "name" if you prefer
 
     # 👇 Shows extra info right under the identifier in the list
-    summary: "{{title | default(name)}} — {{kind}} — {{category}} · {{year}}{{month ? '-' + month : ''}} · {{online ? 'online' : 'offline'}}"
+    summary: "{{name}} Kind:{{kind}} Category:{{category}} online:{{online}}"
 
     # Optional: make search hit more fields
     search_fields: ["title", "name", "category", "kind", "body", "body_en", "location"]
@@ -27,8 +27,14 @@ collections:
     # Optional: quick filters in the UI
     view_filters:
       - { label: "Category A", field: "category", pattern: "A" }
+      - { label: "Category A", field: "category", pattern: "B" }
+
+      - { label: "Kind: Video", field: "kind", pattern: "text" }
+      - { label: "Kind: Video", field: "kind", pattern: "image" }
       - { label: "Kind: Video", field: "kind", pattern: "video" }
+
       - { label: "Offline", field: "online", pattern: false }
+      - { label: "Offline", field: "online", pattern: true }
 
     # Optional: group chips
     view_groups:
