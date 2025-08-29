@@ -45,7 +45,7 @@ const videoUrl = project.data.video
       preload="none"
       playsinline
       loop
-      poster={`https://image.mux.com/${project.data.video}/thumbnail.jpg?time=1`}      
+      poster={`https://image.mux.com/${project.data.video}/thumbnail.jpg?time=${project.data.startTime ?? 0}`}
       data-start-time={project.data.startTime}
       data-hls={videoUrl}
       data-max-height="1080"
