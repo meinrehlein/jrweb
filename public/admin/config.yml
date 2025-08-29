@@ -19,7 +19,7 @@ collections:
     sortable_fields: [commit_date, updated, created, order_projects, order_about, order_video, order_secondary, title]
     fields:
       - { label: "Online", name: "online", widget: "boolean", default: true }
-      - { label: "Title", name: "title", widget: "string", required: false }
+      - { label: "Name", name: "name", widget: "string", required: false }
 
       - label: "Images"
         name: "images"
