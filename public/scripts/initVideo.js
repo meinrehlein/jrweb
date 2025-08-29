@@ -45,15 +45,8 @@ function ensurePaused(video){
   try { video.preload = 'none'; } catch {}
 }
 
-/**
- * Lazily attach HLS only when the user actually plays.
- * - If Safari: set src on first play, wait for metadata, seek, then play.
- * - If hls.js: create with autoStartLoad:false; startLoad() only after play.
- * Optional: cap ABR by height via data-max-height (e.g., 720 / 1080).
- */
-function wireLazyPlay(video, useHlsJs){
-  const url = findHlsUrl(video);
-  if (!url) return;
+
+
 
   const start = parseStart(video.dataset.startTime);
   const maxHeight = Number.isFinite(+video.dataset.maxHeight) ? +video.dataset.maxHeight : null;
