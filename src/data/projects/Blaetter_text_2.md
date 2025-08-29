@@ -21,7 +21,7 @@ Schauspielregie:
 Yeşim Nela Keim Schaub
 
 Kamera:  
-Lukas Grubba, Nils Jakob Timm
+[Lukas Grubba](https://lukasgrubba.de), Nils Jakob Timm
 
 Sound:  
 Rozenn Lièvre, Julia Koch

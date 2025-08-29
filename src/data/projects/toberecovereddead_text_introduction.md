@@ -11,7 +11,7 @@ created: Wednesday, 27/08/25, 16:27
 name: toberecovereddead_text_introduction
 online: true
 aspectRatio: 1 / 1.417
-updated: Friday, 29/08/25, 13:46
+updated: Friday, 29/08/25, 20:05
 ---
 In the research around the sunken ship Gottfried
 

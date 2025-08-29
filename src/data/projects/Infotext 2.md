@@ -14,7 +14,7 @@ order_video: 0
 body: ""
 body_en: ""
 created: Thursday, 21/08/25, 01:15
-updated: Friday, 29/08/25, 13:46
+updated: Friday, 29/08/25, 20:04
 order_secondary: 0
 order_projects: "100"
 aspectRatio: 1 / 1.417
