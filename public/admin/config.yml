@@ -8,15 +8,18 @@ public_folder: "/images/uploads"
 
 collections:
   # Full projects collection (matches astro:content schema)
-  - name: "projects"
-    label: "Projects"
-    label_singular: "Project"
+  - name: "projects_category_b"
+    label: "Projects (Category B)"
+    label_singular: "Project (B)"
     folder: "src/data/projects"
     create: true
     extension: "md"
     format: "frontmatter"
-    slug: "{{slug}}" # keep filename-based slugs (astro uses the path/filename)
+    slug: "{{slug}}"
     sortable_fields: [commit_date, updated, created, order_projects, order_about, order_video, order_secondary, title]
+    filter:
+      field: "category"
+      value: "B"
     fields:
       - { label: "Online", name: "online", widget: "boolean", default: true }
       - { label: "Name", name: "name", widget: "string", required: false }
