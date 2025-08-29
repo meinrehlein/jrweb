@@ -101,8 +101,8 @@ function attachLazy(video, { useHlsJs }){
       hls = new window.Hls({
        autoStartLoad: false,
        capLevelToPlayerSize: true,  // 👈 keep renditions at/below element size
-       maxBufferLength: 10,         // 👈 avoid buffering too much ahead
-       maxMaxBufferLength: 20
+       maxBufferLength: 5,         // 👈 avoid buffering too much ahead
+       maxMaxBufferLength: 10
   });
   hls.loadSource(url);
   hls.attachMedia(video);
