@@ -54,6 +54,20 @@ function ensurePaused(video){
   video.pause();
 }
 
+// Eagerly fetch the poster so it displays without delay
+function primePoster(video){
+  try {
+    const poster = video.getAttribute('poster');
+    if (!poster) return;
+    if (video.dataset.posterPrimed === '1') return;
+    const img = new Image();
+    img.decoding = 'async';
+    img.loading = 'eager';
+    img.src = poster;
+    video.dataset.posterPrimed = '1';
+  } catch {}
+}
+
 /***** core: lazy attach + controls *****/
 function attachLazy(video, { useHlsJs }){
   const url = findHlsUrl(video);
@@ -207,6 +221,23 @@ async function initOne(wrapper){
   if (!video) return;
 
   ensurePaused(video);
+  // Keep poster visually until first frame paints (prevents Safari white flash)
+  try {
+    const p = video.getAttribute('poster');
+    if (p) {
+      wrapper.style.backgroundImage = `url(${p})`;
+      wrapper.style.backgroundSize = 'cover';
+      wrapper.style.backgroundPosition = 'center';
+      wrapper.style.backgroundRepeat = 'no-repeat';
+    }
+    const clearBg = () => {
+      wrapper.style.backgroundImage = 'none';
+      wrapper.style.cursor = 'auto';
+    };
+    video.addEventListener('playing', clearBg, { once: true });
+    video.addEventListener('canplay', () => { if (!video.paused) clearBg(); }, { once: true });
+  } catch {}
+  primePoster(video);
   const hlsEnv = await whenHlsReady();
   const api = attachLazy(video, hlsEnv);
 
