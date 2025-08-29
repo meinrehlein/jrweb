@@ -170,6 +170,15 @@ function setupHover(wrapper, video, api){
   video.muted = true; // hover needs muted for autoplay policy
 
   let enterT = null, leaveT = null, wanted = false;
+  // Only enable hover-to-play on desktop (devices that support hover + fine pointer)
+  const canHover = (() => {
+    try {
+      return (
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
+        (window.matchMedia('(any-hover: hover)').matches && !window.matchMedia('(pointer: coarse)').matches)
+      );
+    } catch { return false; }
+  })();
 
   const tryPlay = () => {
     const p = video.play();
@@ -203,8 +212,10 @@ function setupHover(wrapper, video, api){
     leaveT = setTimeout(() => { video.pause(); }, 120);
   };
 
-  wrapper.addEventListener('pointerenter', onEnter);
-  wrapper.addEventListener('pointerleave', onLeave);
+  if (canHover) {
+    wrapper.addEventListener('pointerenter', onEnter);
+    wrapper.addEventListener('pointerleave', onLeave);
+  }
 
   if (button) {
     button.addEventListener('click', () => {
