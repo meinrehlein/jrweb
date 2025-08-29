@@ -1,6 +1,6 @@
-// public/scripts/initVideo.js — lazy HLS attach + hover preview + safe bandwidth
+// public/scripts/initVideo.js — lazy HLS attach + hover preview + active-stream limit
 
-/***** helpers *****/
+/******** helpers ********/
 function parseStart(val){
   if (val == null) return NaN;
   const s = String(val).trim(); if (!s) return NaN;
@@ -24,26 +24,19 @@ function findHlsUrl(video){
   if (any?.src) return normalizeHlsUrl(any.src);
   return normalizeHlsUrl(video.getAttribute("src") || "");
 }
-async function whenHlsReady(){
+async function loadHlsJs(){
   const probe = document.createElement("video");
-  if (probe.canPlayType?.("application/vnd.apple.mpegurl")) return { useHlsJs: false };
-
-  // already present?
-  if (window.Hls && window.Hls.isSupported()) return { useHlsJs: true };
-
-  // load (or wait for) hls.js
+  if (probe.canPlayType?.("application/vnd.apple.mpegurl")) return { useHlsJs:false };
+  if (window.Hls && window.Hls.isSupported()) return { useHlsJs:true };
   let tag = document.getElementById("hlsjs");
-  if (!tag) {
+  if (!tag){
     tag = document.createElement("script");
     tag.id = "hlsjs";
     tag.src = "https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js";
     tag.defer = true;
     document.head.appendChild(tag);
   }
-  await new Promise((res, rej) => {
-    tag.addEventListener("load", res, { once:true });
-    tag.addEventListener("error", rej, { once:true });
-  });
+  await new Promise((res, rej)=>{ tag.addEventListener("load", res, {once:true}); tag.addEventListener("error", rej, {once:true}); });
   return { useHlsJs: !!(window.Hls && window.Hls.isSupported()) };
 }
 function ensurePaused(video){
@@ -54,7 +47,27 @@ function ensurePaused(video){
   video.pause();
 }
 
-/***** core: lazy attach + controls *****/
+/******** active-stream limiter ********/
+const ActiveStreams = (() => {
+  const list = []; // queue of controllers (oldest first)
+  const LIMIT = 2; // tweak as you like
+  const has = (c)=> list.includes(c);
+  const remove = (c)=> { const i=list.indexOf(c); if (i>=0) list.splice(i,1); };
+  return {
+    claim(ctrl){
+      if (has(ctrl)) return;
+      list.push(ctrl);
+      while (list.length > LIMIT){
+        const oldest = list.shift();
+        oldest?.pauseAndUnload?.();
+      }
+    },
+    release(ctrl){ remove(ctrl); },
+    releaseAll(){ for (const c of [...list]) c?.pauseAndUnload?.(); list.length = 0; }
+  };
+})();
+
+/******** core attach ********/
 function attachLazy(video, { useHlsJs }){
   const url = findHlsUrl(video);
   if (!url) return;
@@ -64,6 +77,7 @@ function attachLazy(video, { useHlsJs }){
 
   let hls = null;
   let attached = false;
+  let usingHlsJs = false;
 
   const attachAndPrepare = () => new Promise((resolve) => {
     if (attached) return resolve();
@@ -71,21 +85,19 @@ function attachLazy(video, { useHlsJs }){
     if (!useHlsJs && video.canPlayType("application/vnd.apple.mpegurl")){
       // Safari native HLS
       video.src = url;
-      const onMeta = () => {
-        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
-        resolve();
-      };
+      const onMeta = () => { if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} } resolve(); };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
-      attached = true;
+      attached = true; usingHlsJs = false;
     } else if (useHlsJs){
+      usingHlsJs = true;
       hls = new window.Hls({
-       autoStartLoad: false,
-       capLevelToPlayerSize: true,  // 👈 keep renditions at/below element size
-       maxBufferLength: 10,         // 👈 avoid buffering too much ahead
-       maxMaxBufferLength: 20
-  });
-  hls.loadSource(url);
-  hls.attachMedia(video);
+        autoStartLoad: false,
+        capLevelToPlayerSize: true,
+        maxBufferLength: 10,
+        maxMaxBufferLength: 20
+      });
+      hls.loadSource(url);
+      hls.attachMedia(video);
 
       if (maxHeight && Number.isFinite(maxHeight)) {
         hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
@@ -98,10 +110,7 @@ function attachLazy(video, { useHlsJs }){
         });
       }
 
-      const onMeta = () => {
-        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
-        resolve();
-      };
+      const onMeta = () => { if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} } resolve(); };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
       attached = true;
     } else {
@@ -110,14 +119,21 @@ function attachLazy(video, { useHlsJs }){
     }
   });
 
-  // First real play: attach then start loading (do NOT pause first)
-  const onFirstPlay = async () => {
-    await attachAndPrepare();          // keep user gesture alive while attaching
-    if (hls) hls.startLoad();          // begin fetching segments
-    if (video.paused) video.play().catch(()=>{});
-    video.removeEventListener('play', onFirstPlay);
+  const startNetwork = () => { if (hls) hls.startLoad(); };
+
+  const pauseAndUnload = () => {
+    try { video.pause(); } catch {}
+    if (usingHlsJs && hls){
+      try { hls.stopLoad(); } catch {}
+      try { hls.detachMedia(); } catch {}
+      try { hls.destroy(); } catch {}
+      hls = null; attached = false;
+    } else {
+      // Safari native: remove src to stop fetching
+      try { video.removeAttribute('src'); video.load(); } catch {}
+      attached = false;
+    }
   };
-  video.addEventListener('play', onFirstPlay);
 
   // Loop from offset if needed
   if (video.loop && Number.isFinite(start)){
@@ -127,112 +143,103 @@ function attachLazy(video, { useHlsJs }){
     });
   }
 
-  // Pause when off-screen
-  const io = new IntersectionObserver((entries) => {
+  // Pause/unload when wrapper goes off-screen (set up in initOne with api in scope)
+  const screenIO = new IntersectionObserver((entries) => {
     for (const e of entries) {
-      if (!e.isIntersecting && !video.paused) video.pause();
+      if (!e.isIntersecting){
+        try { video.pause(); } catch {}
+      }
     }
   }, { threshold: 0.15 });
-  io.observe(video);
+  screenIO.observe(video);
 
-  // small API for hover logic
-  return {
-    ensureAttached: attachAndPrepare,
-    startNetwork: () => { if (hls) hls.startLoad(); },
-  };
+  return { ensureAttached: attachAndPrepare, startNetwork, pauseAndUnload, get attached(){ return attached; } };
 }
 
-/***** hover preview + mute toggle *****/
-function setupHover(wrapper, video, api){
-  const button = wrapper.querySelector('.mute-toggle');
-  video.muted = true; // hover needs muted for autoplay policy
-
-  let enterT = null, leaveT = null, wanted = false;
-
-  const tryPlay = () => {
-    const p = video.play();
-    if (p && typeof p.then === 'function') {
-      p.catch(() => {
-        const onReady = () => {
-          video.removeEventListener('loadedmetadata', onReady);
-          video.removeEventListener('canplay', onReady);
-          if (wanted) video.play().catch(()=>{});
-        };
-        video.addEventListener('loadedmetadata', onReady, { once:true });
-        video.addEventListener('canplay', onReady, { once:true });
-      });
-    }
+/******** interactions ********/
+function setupHoverAndClick(wrapper, video, api){
+  // Click/tap to start
+  const kick = async () => {
+    await api.ensureAttached();
+    api.startNetwork?.();
+    video.muted = true;
+    ActiveStreams.claim(api);
+    video.play().catch(()=>{});
   };
+  wrapper.addEventListener('pointerdown', kick, { once:true });
+  video.addEventListener('click', kick, { once:true });
 
+  // Hover preview (muted) — desktop
+  let enterT=null, leaveT=null, wanted=false;
   const onEnter = async () => {
     clearTimeout(leaveT);
-    enterT = setTimeout(async () => {
+    enterT = setTimeout(async ()=>{
       wanted = true;
       video.muted = true;
       await api.ensureAttached();
       api.startNetwork?.();
-      tryPlay();
+      ActiveStreams.claim(api);
+      video.play().catch(()=>{});
     }, 60);
   };
-
   const onLeave = () => {
     clearTimeout(enterT);
     wanted = false;
-    leaveT = setTimeout(() => { video.pause(); }, 120);
+    leaveT = setTimeout(()=>{
+      video.pause();
+      api.pauseAndUnload?.();
+      ActiveStreams.release(api);
+    }, 120);
   };
-
   wrapper.addEventListener('pointerenter', onEnter);
   wrapper.addEventListener('pointerleave', onLeave);
 
-  if (button) {
-    button.addEventListener('click', () => {
-      video.muted = !video.muted;
-      button.textContent = video.muted ? 'unmute' : 'mute';
-      if (!video.muted && wanted && video.paused) video.play().catch(()=>{});
-    });
-  }
-
-  const io = new IntersectionObserver((entries) => {
-    if (entries[0] && !entries[0].isIntersecting) {
-      wanted = false;
+  // Unload when wrapper fully off-screen
+  const io = new IntersectionObserver((entries)=>{
+    const e = entries[0];
+    if (!e) return;
+    if (!e.isIntersecting){
       video.pause();
+      api.pauseAndUnload?.();
+      ActiveStreams.release(api);
     }
-  }, { threshold: 0.1 });
+  }, { threshold:[0, 0.1] });
   io.observe(wrapper);
 }
 
-/***** boot *****/
+/******** boot ********/
 async function initOne(wrapper){
   const video = wrapper.querySelector('video.project-video');
   if (!video) return;
 
   ensurePaused(video);
-  const hlsEnv = await whenHlsReady();
-  const api = attachLazy(video, hlsEnv);
+  const env = await loadHlsJs();
+  const api = attachLazy(video, env);
+  if (!api) return;
 
-  // Eager: attach HLS when in view; start network when mostly visible
-  try {
-    const eagerIO = new IntersectionObserver((entries) => {
-      const e = entries[0];
-      if (!e) return;
-      if (e.isIntersecting) {
-        api?.ensureAttached?.();
-        if (e.intersectionRatio >= 0.6) {
-          api?.startNetwork?.();
-        }
+  // Eager: attach when visible, start network only when mostly visible (saves data)
+  const eagerIO = new IntersectionObserver((entries)=>{
+    const e = entries[0];
+    if (!e) return;
+    if (e.isIntersecting){
+      api.ensureAttached?.();
+      if (e.intersectionRatio >= 0.85){
+        api.startNetwork?.();
+        ActiveStreams.claim(api);
       }
-    }, { threshold: [0, 0.25, 0.6, 1], rootMargin: '10% 0px' });
-    eagerIO.observe(wrapper);
-  } catch {}
+    } else {
+      api.pauseAndUnload?.();
+      ActiveStreams.release(api);
+    }
+  }, { threshold:[0, 0.5, 0.85, 1], rootMargin:'10% 0px' });
+  eagerIO.observe(wrapper);
 
-  setupHover(wrapper, video, api || {});
+  setupHoverAndClick(wrapper, video, api);
 }
 
-async function run(){
-  const wrappers = document.querySelectorAll(".video-wrapper");
-  for (const w of wrappers) initOne(w);
+function run(){
+  document.querySelectorAll(".video-wrapper").forEach(initOne);
 }
-
 if (document.readyState !== "loading") run();
 document.addEventListener("DOMContentLoaded", run);
 document.addEventListener("astro:page-load", run);
