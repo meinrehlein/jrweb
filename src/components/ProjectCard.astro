@@ -38,7 +38,6 @@ const title = project.data.title ?? nameFromFile;
       muted
       preload="none"
       playsinline
-      /* avoid loop on grids; keep only if you really want looping */
       loop
       data-start-time={project.data.startTime}
       data-hls={`https://stream.mux.com/${project.data.video}.m3u8`}
