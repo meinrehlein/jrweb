@@ -28,6 +28,7 @@ content:
       - name: title
         label: Title
         type: string
+        from_filename: true   # auto-filled from filename
         required: false
         # (Defaults are static strings; leave empty or fill manually.)
 
