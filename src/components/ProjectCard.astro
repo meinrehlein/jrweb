@@ -41,8 +41,8 @@ const title = project.data.title ?? nameFromFile;
       loop
       playsinline
       data-start-time={project.data.startTime}
-      data-hls={project.data.video}
-      poster="https://image.mux.com/PLAYBACK_ID/thumbnail.jpg?time=1"
+      data-hls=https://stream.mux.com/{project.data.video}.m3u8
+      poster="https://image.mux.com/{project.data.video}/thumbnail.jpg?time=1"
       data-max-height="1080"
     ></video>
     <button class="mute-toggle" aria-label="Toggle sound">unmute</button>

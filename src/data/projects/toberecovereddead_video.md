@@ -4,7 +4,7 @@ title: toberecovereddead_video
 category: B
 kind: video
 online: true
-video: https://stream.mux.com/esA00USw202Uo47ULLwzuzCQxrmfnqYJnlinhppMSytaM.m3u8
+video: esA00USw202Uo47ULLwzuzCQxrmfnqYJnlinhppMSytaM
 startTime: 0
 order_about: "0"
 order_video: 0
