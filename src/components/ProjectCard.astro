@@ -39,6 +39,7 @@ const title = project.data.title ?? nameFromFile;
       preload="none"
       playsinline
       loop
+      controls
       data-start-time={project.data.startTime}
       data-hls={`https://stream.mux.com/${project.data.video}.m3u8`}
       poster={`https://image.mux.com/${project.data.video}/thumbnail.jpg?time=1`}
