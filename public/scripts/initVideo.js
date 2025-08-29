@@ -10,6 +10,10 @@ function parseStart(val){
   if (p.length===2) return p[0]*60 + p[1];
   return p[0];
 }
+function parseResume(val){
+  const n = parseFloat(val);
+  return Number.isFinite(n) ? n : NaN;
+}
 function normalizeHlsUrl(u){
   if (!u) return "";
   let url = String(u).trim();
@@ -86,7 +90,9 @@ function attachLazy(video, { useHlsJs }){
       // Safari native HLS
       video.src = url;
       const onMeta = () => {
-        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
+        const resume = parseResume(video.dataset.resumeTime);
+        const target = Number.isFinite(resume) ? resume : start;
+        if (Number.isFinite(target)) { try { video.currentTime = target; } catch {} }
         resolve();
       };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
@@ -113,7 +119,9 @@ function attachLazy(video, { useHlsJs }){
       }
 
       const onMeta = () => {
-        if (Number.isFinite(start)) { try { video.currentTime = start; } catch {} }
+        const resume = parseResume(video.dataset.resumeTime);
+        const target = Number.isFinite(resume) ? resume : start;
+        if (Number.isFinite(target)) { try { video.currentTime = target; } catch {} }
         resolve();
       };
       if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
@@ -207,11 +215,13 @@ function setupHover(wrapper, video, api){
   }
 
   const io = new IntersectionObserver((entries) => {
-    if (entries[0] && !entries[0].isIntersecting) {
+    const e = entries[0];
+    if (!e) return;
+    if (!e.isIntersecting) {
       wanted = false;
       video.pause();
     }
-  }, { threshold: 0.1 });
+  }, { threshold: [0, 0.1] });
   io.observe(wrapper);
 }
 
@@ -243,19 +253,49 @@ async function initOne(wrapper){
 
   // Eager: attach HLS when in view; start network when mostly visible
   try {
+    const posterUrl = video.getAttribute('poster') || '';
     const eagerIO = new IntersectionObserver((entries) => {
       const e = entries[0];
       if (!e) return;
       if (e.isIntersecting) {
-        api?.ensureAttached?.();
-        // In Safari (native HLS), nudge the browser to fetch manifest/metadata
+        // Ensure HLS attached and resume time restored
+        api?.ensureAttached?.().then(() => {
+          const r = parseResume(video.dataset.resumeTime);
+          if (Number.isFinite(r)) {
+            try { video.currentTime = r; } catch {}
+          }
+        });
+        // Safari (native HLS) hint
         try { if (!hlsEnv.useHlsJs) { video.preload = 'metadata'; video.load(); } } catch {}
         if (e.intersectionRatio >= 0.6) {
           api?.startNetwork?.();
         }
+        // When back on screen, keep poster until actual play to avoid flash; video covers bg anyway
       }
-    }, { threshold: [0, 0.25, 0.6, 1], rootMargin: '10% 0px' });
+      // Only when completely off-screen, switch the wrapper back to the poster
+      if (e.intersectionRatio === 0) {
+        // Save resume time and show poster as background
+        try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
+        try {
+          if (posterUrl) {
+            wrapper.style.backgroundImage = `url(${posterUrl})`;
+            wrapper.style.backgroundSize = 'cover';
+            wrapper.style.backgroundPosition = 'center';
+            wrapper.style.backgroundRepeat = 'no-repeat';
+          }
+        } catch {}
+        // Pause to conserve resources
+        try { if (!video.paused) video.pause(); } catch {}
+      }
+    }, { threshold: [0, 0.1, 0.25, 0.6, 1], rootMargin: '10% 0px' });
     eagerIO.observe(wrapper);
+  } catch {}
+
+  // Persist resume time whenever user/system pauses
+  try {
+    video.addEventListener('pause', () => {
+      try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
+    });
   } catch {}
 
   setupHover(wrapper, video, api || {});
