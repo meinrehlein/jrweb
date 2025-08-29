@@ -1,11 +1,12 @@
 backend:
   name: github
-  repo: meinrehlein/simone
+  repo: meinrehlein/jrweb
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  # Full projects collection (matches astro:content schema)
   - name: "projects"
     label: "Projects"
     label_singular: "Project"
@@ -13,50 +14,127 @@ collections:
     create: true
     extension: "md"
     format: "frontmatter"
-    slug: "{{name}}"
-    sortable_fields: [commit_date, year, month]
+    slug: "{{slug}}" # keep filename-based slugs (astro uses the path/filename)
+    sortable_fields: [commit_date, updated, created, order_projects, order_about, order_video, order_secondary, title]
     fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Year", name: "year", widget: "number" }
-      - { label: "Month in numbers from '1' to '12'", name: "month", widget: "number", min: 1, max: 12 }
-      - { label: "Location", name: "location", widget: "string" }
-      - { label: "Category", name: "category", widget: "string" }   # ← added
-      - { label: "Type (DE) z.B. 'Bühnenbild'", name: "type", widget: "string" }
-      - { label: "Type (EN) e.g. 'Stagedesign'", name: "type_en", widget: "string" }
+      - { label: "Online", name: "online", widget: "boolean", default: true }
+      - { label: "Title", name: "title", widget: "string", required: false }
+
       - label: "Images"
         name: "images"
         widget: "list"
+        required: false
         fields:
           - { label: "Image", name: "src", widget: "image" }
           - { label: "Alt Text", name: "alt", widget: "string" }
-      - { label: "Body (DE)", name: "body", widget: "markdown", required: false }
+
+      - { label: "Video (URL or HLS)", name: "video", widget: "string", required: false }
+      - { label: "Start Time (seconds)", name: "startTime", widget: "number", required: false, value_type: "int" }
+
+      - label: "Kind"
+        name: "kind"
+        widget: "select"
+        options: ["image", "text", "video"]
+        default: "image"
+
+      - { label: "Aspect Ratio (e.g. 1 / 1.417)", name: "aspectRatio", widget: "string", required: false }
+
+      - { label: "Order (About)", name: "order_about", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Projects)", name: "order_projects", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Video)", name: "order_video", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Secondary)", name: "order_secondary", widget: "number", value_type: "int", default: 0 }
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "A", value: "A" }
+          - { label: "B", value: "B" }
+          - { label: "C", value: "C" }
+        default: "B"
+
+      # Main markdown content (German/default body). This is the file body, not a frontmatter key.
+      - { label: "Body (default)", name: "body", widget: "markdown", required: false }
+
+      # Optional English body kept as a separate frontmatter field
       - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
 
+      # Strings in your schema; use datetime widgets but store as strings (no time) for convenience
+      - label: "Created"
+        name: "created"
+        widget: "datetime"
+        required: false
+        format: "YYYY-MM-DD"
+        time_format: false
+      - label: "Updated"
+        name: "updated"
+        widget: "datetime"
+        required: false
+        format: "YYYY-MM-DD"
+        time_format: false
+
+  # Same collection filtered to category A
   - name: "projects_category_a"
     label: "Projects (Category A)"
     label_singular: "Project (A)"
-    folder: "src/data/projects"         # same folder
+    folder: "src/data/projects"
     create: true
     extension: "md"
     format: "frontmatter"
-    slug: "{{name}}"
-    sortable_fields: [commit_date, year, month]
-    filter:                               # ← only show/edit entries with category: "A"
+    slug: "{{slug}}"
+    sortable_fields: [commit_date, updated, created, order_projects, order_about, order_video, order_secondary, title]
+    filter:
       field: "category"
       value: "A"
     fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Year", name: "year", widget: "number" }
-      - { label: "Month in numbers from '1' to '12'", name: "month", widget: "number", min: 1, max: 12 }
-      - { label: "Location", name: "location", widget: "string" }
-      - { label: "Category", name: "category", widget: "string" }   # must exist to filter
-      - { label: "Type (DE) z.B. 'Bühnenbild'", name: "type", widget: "string" }
-      - { label: "Type (EN) e.g. 'Stagedesign'", name: "type_en", widget: "string" }
+      - { label: "Online", name: "online", widget: "boolean", default: true }
+      - { label: "Title", name: "title", widget: "string", required: false }
+
       - label: "Images"
         name: "images"
         widget: "list"
+        required: false
         fields:
           - { label: "Image", name: "src", widget: "image" }
           - { label: "Alt Text", name: "alt", widget: "string" }
-      - { label: "Body (DE)", name: "body", widget: "markdown", required: false }
+
+      - { label: "Video (URL or HLS)", name: "video", widget: "string", required: false }
+      - { label: "Start Time (seconds)", name: "startTime", widget: "number", required: false, value_type: "int" }
+
+      - label: "Kind"
+        name: "kind"
+        widget: "select"
+        options: ["image", "text", "video"]
+        default: "image"
+
+      - { label: "Aspect Ratio (e.g. 1 / 1.417)", name: "aspectRatio", widget: "string", required: false }
+
+      - { label: "Order (About)", name: "order_about", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Projects)", name: "order_projects", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Video)", name: "order_video", widget: "number", value_type: "int", default: 0 }
+      - { label: "Order (Secondary)", name: "order_secondary", widget: "number", value_type: "int", default: 0 }
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "A", value: "A" }
+          - { label: "B", value: "B" }
+          - { label: "C", value: "C" }
+        default: "B"
+
+      - { label: "Body (default)", name: "body", widget: "markdown", required: false }
       - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
+
+      - label: "Created"
+        name: "created"
+        widget: "datetime"
+        required: false
+        format: "YYYY-MM-DD"
+        time_format: false
+      - label: "Updated"
+        name: "updated"
+        widget: "datetime"
+        required: false
+        format: "YYYY-MM-DD"
+        time_format: false
