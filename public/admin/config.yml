@@ -16,6 +16,9 @@ collections:
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
+    view:
+      primary: name               # <- ensures {primary} would be 'name' if you prefer
+      fields: [name, online, title, category, kind, order_projects]
     sortable_fields: [commit_date, updated, created, order_projects, order_about, order_video, order_secondary, title]
     filter:
       field: "category"
