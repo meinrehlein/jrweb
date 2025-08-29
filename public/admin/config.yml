@@ -38,6 +38,7 @@ collections:
 
     # Optional: group chips
     view_groups:
+      - { label: "By order_projects", field: "order_projects" }
       - { label: "By Category", field: "category" }
       - { label: "By Kind", field: "kind" }
 
