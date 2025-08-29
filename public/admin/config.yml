@@ -22,7 +22,10 @@ collections:
       value: "B"
     fields:
       - { label: "Online", name: "online", widget: "boolean", default: true }
-      - { label: "Name", name: "name", widget: "string", required: false }
+      - label: "Name"
+        name: "name", 
+        widget: "string" 
+        required: false 
 
       - label: "Images"
         name: "images"
