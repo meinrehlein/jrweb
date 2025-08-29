@@ -54,18 +54,6 @@ function ensurePaused(video){
   video.pause();
 }
 
-// Preload the poster image as early as possible
-function primePoster(video){
-  if (!video || video.dataset.posterPrimed === '1') return;
-  const poster = video.getAttribute('poster');
-  if (!poster) return;
-  const img = new Image();
-  img.decoding = 'async';
-  img.loading = 'eager';
-  img.src = poster;
-  video.dataset.posterPrimed = '1';
-}
-
 /***** core: lazy attach + controls *****/
 function attachLazy(video, { useHlsJs }){
   const url = findHlsUrl(video);
@@ -215,8 +203,6 @@ async function initOne(wrapper){
   if (!video) return;
 
   ensurePaused(video);
-  // Make sure the poster is fetched immediately
-  primePoster(video);
   const hlsEnv = await whenHlsReady();
   const api = attachLazy(video, hlsEnv);
 
@@ -226,8 +212,6 @@ async function initOne(wrapper){
       const e = entries[0];
       if (!e) return;
       if (e.isIntersecting) {
-        // Prime poster again if needed (first intersection)
-        primePoster(video);
         api?.ensureAttached?.();
         if (e.intersectionRatio >= 0.6) {
           api?.startNetwork?.();
@@ -242,17 +226,6 @@ async function initOne(wrapper){
 
 async function run(){
   const wrappers = document.querySelectorAll(".video-wrapper");
-  // Prime posters that are near the viewport before async init
-  try {
-    const vh = window.innerHeight || document.documentElement.clientHeight || 800;
-    wrappers.forEach((w) => {
-      const v = w.querySelector('video.project-video');
-      if (!v) return;
-      const rect = w.getBoundingClientRect?.();
-      if (!rect || rect.top < vh * 1.5) primePoster(v);
-    });
-  } catch {}
-
   for (const w of wrappers) initOne(w);
 }
 
