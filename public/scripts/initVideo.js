@@ -1,4 +1,4 @@
-// public/scripts/initVideo.js  — start paused
+// public/scripts/initVideo.js — lazy HLS attach, start paused, play on user action
 
 function parseStart(val){
   if (val == null) return NaN;
@@ -37,56 +37,42 @@ async function whenHlsReady(){
   return { useHlsJs: !!(window.Hls && window.Hls.isSupported()) };
 }
 
-// Seek to start-time, then PAUSE (no autoplay)
-function onReadyPaused(video, start){
-  const go = () => {
-    if (Number.isFinite(start)) {
-      try { video.currentTime = start; } catch {}
-    }
-    // ensure paused state even if autoplay attribute exists
-    video.autoplay = false;
-    video.removeAttribute('autoplay');
-    video.pause();
-  };
-  if (video.readyState >= 1) go();
-  else video.addEventListener("loadedmetadata", go, { once:true });
-}
-
-function initOne(video, useHlsJs){
-  // disable autoplay up-front just in case
+function ensurePaused(video){
   video.autoplay = false;
   video.removeAttribute('autoplay');
+  video.pause();
+  // preload budget: avoid browser fetching anything until we attach
+  try { video.preload = 'none'; } catch {}
+}
 
+/**
+ * Lazily attach HLS only when the user actually plays.
+ * - If Safari: set src on first play, wait for metadata, seek, then play.
+ * - If hls.js: create with autoStartLoad:false; startLoad() only after play.
+ * Optional: cap ABR by height via data-max-height (e.g., 720 / 1080).
+ */
+function wireLazyPlay(video, useHlsJs){
   const url = findHlsUrl(video);
   if (!url) return;
+
   const start = parseStart(video.dataset.startTime);
+  const maxHeight = Number.isFinite(+video.dataset.maxHeight) ? +video.dataset.maxHeight : null;
 
-  if (!useHlsJs && video.canPlayType("application/vnd.apple.mpegurl")){
-    if (!video.src) video.src = url;
-    onReadyPaused(video, start);
-  } else if (useHlsJs){
-    const hls = new window.Hls({ startPosition: Number.isFinite(start) ? start : -1 });
-    hls.loadSource(url);
-    hls.attachMedia(video);
-    hls.on(window.Hls.Events.MEDIA_ATTACHED, () => onReadyPaused(video, start));
-  } else {
-    console.warn("HLS not supported and hls.js unavailable.");
-  }
+  let hls;               // hls.js instance (if used)
+  let attached = false;  // did we attach a source to the element?
 
-  // If user plays and it loops, restart from offset; stay paused otherwise
-  if (video.loop && Number.isFinite(start)){
-    video.addEventListener("ended", () => {
-      video.currentTime = start;
-      if (!video.paused) video.play().catch(()=>{});
-    });
-  }
-}
+  const attachAndPrepare = () => new Promise((resolve) => {
+    if (attached) return resolve();
 
-async function run(){
-  const { useHlsJs } = await whenHlsReady();
-  document.querySelectorAll("video.project-video").forEach(v => initOne(v, useHlsJs));
-}
-if (document.readyState !== "loading") run();
-else document.addEventListener("DOMContentLoaded", run);
-document.addEventListener("astro:page-load", run);
-document.addEventListener("astro:after-swap", run);
+    if (!useHlsJs && video.canPlayType("application/vnd.apple.mpegurl")){
+      // Safari native HLS: set src now, wait metadata for seeking
+      video.src = url;
+      const onMeta = () => {
+        if (Number.isFinite(start)) {
+          try { video.currentTime = start; } catch {}
+        }
+        resolve();
+      };
+      if (video.readyState >= 1) onMeta(); else video.addEventListener("loadedmetadata", onMeta, { once:true });
+      attached = true;
+    } else if (useHls
