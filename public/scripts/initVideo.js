@@ -242,29 +242,32 @@ async function initOne(wrapper){
   if (!video) return;
 
   ensurePaused(video);
-  // Keep poster visually until first frame paints (prevents Safari white flash)
-  try {
-    const p = video.getAttribute('poster');
-    if (p) {
-      wrapper.style.backgroundImage = `url(${p})`;
-      wrapper.style.backgroundSize = 'cover';
-      wrapper.style.backgroundPosition = 'center';
-      wrapper.style.backgroundRepeat = 'no-repeat';
-    }
-    const clearBg = () => {
-      wrapper.style.backgroundImage = 'none';
-      wrapper.style.cursor = 'auto';
-    };
-    video.addEventListener('playing', clearBg, { once: true });
-    video.addEventListener('canplay', () => { if (!video.paused) clearBg(); }, { once: true });
-  } catch {}
+  // Stable poster overlay: show until the first frame is ready, then keep video visible
+  let offscreenTimer = null;
+  const posterUrl = video.getAttribute('poster') || '';
+  const showBg = () => {
+    if (!posterUrl) return;
+    if (wrapper.dataset.bg === '1') return;
+    wrapper.style.backgroundImage = `url(${posterUrl})`;
+    wrapper.style.backgroundSize = 'cover';
+    wrapper.style.backgroundPosition = 'center';
+    wrapper.style.backgroundRepeat = 'no-repeat';
+    wrapper.dataset.bg = '1';
+  };
+  const hideBg = () => {
+    if (wrapper.dataset.bg !== '1') return;
+    wrapper.style.backgroundImage = 'none';
+    wrapper.dataset.bg = '0';
+  };
+  try { showBg(); } catch {}
+  // As soon as we can paint a frame, remove the bg so the video frame stays visible
+  video.addEventListener('canplay', () => { try { if (video.readyState >= 2) hideBg(); } catch {} }, { once: true });
   primePoster(video);
   const hlsEnv = await whenHlsReady();
   const api = attachLazy(video, hlsEnv);
 
   // Eager: attach HLS when in view; start network when mostly visible
   try {
-    const posterUrl = video.getAttribute('poster') || '';
     const eagerIO = new IntersectionObserver((entries) => {
       const e = entries[0];
       if (!e) return;
@@ -275,6 +278,8 @@ async function initOne(wrapper){
           if (Number.isFinite(r)) {
             try { video.currentTime = r; } catch {}
           }
+          // If frame is available, keep video visible
+          try { if (video.readyState >= 2) hideBg(); } catch {}
         });
         // Safari (native HLS) hint
         try { if (!hlsEnv.useHlsJs) { video.preload = 'metadata'; video.load(); } } catch {}
@@ -285,18 +290,15 @@ async function initOne(wrapper){
       }
       // Only when completely off-screen, switch the wrapper back to the poster
       if (e.intersectionRatio === 0) {
-        // Save resume time and show poster as background
-        try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
-        try {
-          if (posterUrl) {
-            wrapper.style.backgroundImage = `url(${posterUrl})`;
-            wrapper.style.backgroundSize = 'cover';
-            wrapper.style.backgroundPosition = 'center';
-            wrapper.style.backgroundRepeat = 'no-repeat';
-          }
-        } catch {}
-        // Pause to conserve resources
-        try { if (!video.paused) video.pause(); } catch {}
+        // Debounce to avoid flicker during bounce/elastic scrolling
+        clearTimeout(offscreenTimer);
+        offscreenTimer = setTimeout(() => {
+          try { video.dataset.resumeTime = String(video.currentTime || 0); } catch {}
+          try { showBg(); } catch {}
+          try { if (!video.paused) video.pause(); } catch {}
+        }, 200);
+      } else {
+        clearTimeout(offscreenTimer);
       }
     }, { threshold: [0, 0.1, 0.25, 0.6, 1], rootMargin: '10% 0px' });
     eagerIO.observe(wrapper);
