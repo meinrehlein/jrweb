@@ -22,7 +22,7 @@ content:
       - name: name
         label: Name
         type: string
-        required: true
+        required: false
         default: {slug}
 
       - name: title
