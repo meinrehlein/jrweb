@@ -55,7 +55,7 @@ body {
   padding: 0 0rem;
   color: var(--color-text);
   background-color: var(--color-bg);
-  /* line-height: 1; *
+  /* line-height: 1; */
   font-family: 'PT Sans';
   font-variant-ligatures: none;
   -webkit-font-smoothing: antialiased;
