@@ -5,17 +5,21 @@ const title = "Jannis Reinelt - Contact";
 <BaseLayout title={title}>
   <main class="contact-page">
     <div class="word">
-       <p>
-    <span class="lang-de">klick:</span>
-    <span class="lang-en">click:</span>
-  </p>
+      <!-- Labels above the email in DE/EN -->
+      <p>
+        <span class="lang-de">klick:</span>
+        <span class="lang-en">click:</span>
+      </p>
 
-  <a id="mail">hi@jannisreinelt.com</a>
+      <!-- Plain text email (click copies to clipboard; no mailto) -->
+      <a id="mail" class="email-text">hi@jannisreinelt.com</a>
 
-  <p class="spacer">
-    <span class="lang-de">oder:</span>
-    <span class="lang-en">or:</span>
-  </p>
+      <!-- Spacer + 'or' in DE/EN -->
+      <p class="spacer">
+        <span class="lang-de">oder:</span>
+        <span class="lang-en">or:</span>
+      </p>
+
       <!-- Netlify form -->
       <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact" />
@@ -47,30 +51,61 @@ const title = "Jannis Reinelt - Contact";
         </button>
       </form>
 
-      <!-- Copy-to-clipboard JS -->
+      <!-- Copy-to-clipboard (on the plain text email) -->
       <script is:inline>
-        document.addEventListener('DOMContentLoaded', function () {
-          const textToCopy = document.getElementById('mail');
-          textToCopy?.addEventListener('click', function () {
-            copyText(this);
-          });
-        });
-
-        function copyText(element) {
-          const text = element.textContent || '';
-          if (navigator.clipboard) {
-            navigator.clipboard
-              .writeText(text)
-              .then(() => {
-                alert(`Copied to clipboard: "${text}"`);
-              })
-              .catch((err) => {
-                console.error('Failed to copy text:', err);
-              });
-          } else {
-            alert('Clipboard API not supported in your browser.');
+        function copyTextToClipboard(text) {
+          if (navigator.clipboard?.writeText) {
+            return navigator.clipboard.writeText(text);
           }
+          // Fallback
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'absolute';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          return Promise.resolve();
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const emailNode = document.getElementById('mail');
+          if (emailNode) {
+            emailNode.addEventListener('click', async () => {
+              const email = emailNode.textContent.trim();
+              try {
+                await copyTextToClipboard(email);
+                emailNode.classList.add('copied');
+                const original = email;
+                emailNode.textContent = 'Copied!';
+                setTimeout(() => {
+                  emailNode.textContent = original;
+                  emailNode.classList.remove('copied');
+                }, 1200);
+              } catch (e) {
+                console.error('Copy failed', e);
+              }
+            });
+          }
+        });
+      </script>
+
+      <!-- Auto-resize textarea (grow + shrink) -->
+      <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          const textarea = document.getElementById("message");
+          if (!textarea) return;
+
+          const resize = () => {
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+          };
+
+          textarea.addEventListener("input", resize);
+          resize(); // initialize on load
+        });
       </script>
     </div>
   </main>
@@ -79,25 +114,36 @@ const title = "Jannis Reinelt - Contact";
 <style>
   .contact-page {
     display: flex;
-    align-items: top;
+    align-items: flex-start; /* 'top' isn't valid; use flex-start */
     justify-content: center;
     margin-top: 5rem;
-    height: 87vh;
+    min-height: 60vh;
     font-size: var(--font-size-m);
-    /* text-decoration-line: underline; */
-    text-decoration-skip-ink: auto;   /* nicer over descenders */
-    text-underline-offset: 0.08em;    /* small gap from text */
+    text-decoration-skip-ink: auto;
+    text-underline-offset: 0.08em;
     text-decoration-thickness: from-font;
-    
   }
-.spacer {
-  margin-top: 1.5rem; /* extra space before "or:" */
-}
+
   .word {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     width: min(90vw, 40rem);
+  }
+
+  .spacer {
+    margin-top: 1.5rem; /* extra space before "or:" */
+  }
+
+  .email-text {
+    cursor: pointer; /* indicates it's interactive to copy */
+    user-select: all;
+    padding: 0.15rem 0;
+    /* border-bottom: 1px dashed var(--border-color); */
+    width: fit-content;
+  }
+  .email-text.copied {
+   /* border-bottom-style: ; */
   }
 
   .word label {
@@ -124,13 +170,22 @@ const title = "Jannis Reinelt - Contact";
     background: var(--color-bg);
     border: 1px solid var(--border-color);
     padding: 0.5rem;
-    resize: vertical;
+    resize: none;          /* JS handles growth */
+    overflow: hidden;      /* hide scrollbar */
+    transition: height 0.2s ease;
   }
 
   .word button[type="submit"] {
     align-self: flex-start;
     border: 1px solid var(--border-color);
     padding: 0.4rem 0.8rem;
+    margin: 2rem 0rem 3rem 0rem;
     text-decoration: none;
+    
+  }
+
+  .sr-only {
+    position: absolute;
+    left: -9999px;
   }
 </style>
