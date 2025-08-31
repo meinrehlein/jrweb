@@ -10,7 +10,7 @@
 }
 
 :root {
-font-size: 13px;
+font-size: 14px;
 margin: 0rem 10vw 0rem; 
   --color-text: #000000;
   --color-text-alt: #6a6a6a;
@@ -20,7 +20,7 @@ margin: 0rem 10vw 0rem;
   --color-link: #000;
   --color-link-hover: #ee2a2a;
   --color-placeholder: #f8f8f8;
-  --font-size-s: 1rem;
+  --font-size-s: 0.9rem;
   --font-size-l: clamp(1.25rem, 3vw, 1.75rem);
   --font-size-xl: clamp(1.5rem, 5vw, 2.75rem);
   --rect-aspect: 1 / 1.417;  
