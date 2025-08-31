@@ -5,9 +5,17 @@ const title = "Jannis Reinelt - Contact";
 <BaseLayout title={title}>
   <main class="contact-page">
     <div class="word">
-      <!-- Click email to copy to clipboard -->
-      <a id="mail">hi@jannisreinelt.com</a>
+       <p>
+    <span class="lang-de">klick:</span>
+    <span class="lang-en">click:</span>
+  </p>
 
+  <a id="mail">hi@jannisreinelt.com</a>
+
+  <p class="spacer">
+    <span class="lang-de">oder:</span>
+    <span class="lang-en">or:</span>
+  </p>
       <!-- Netlify form -->
       <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact" />
@@ -75,13 +83,15 @@ const title = "Jannis Reinelt - Contact";
     justify-content: center;
     height: 87vh;
     font-size: var(--font-size-m);
-    text-decoration-line: underline;
+    /* text-decoration-line: underline; */
     text-decoration-skip-ink: auto;   /* nicer over descenders */
     text-underline-offset: 0.08em;    /* small gap from text */
     text-decoration-thickness: from-font;
     
   }
-
+.spacer {
+  margin-top: 1.5rem; /* extra space before "or:" */
+}
   .word {
     display: flex;
     flex-direction: column;
