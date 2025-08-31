@@ -4,45 +4,67 @@ const title = "Jannis Reinelt - Contact";
 ---
 <BaseLayout title={title}>
   <main class="contact-page">
-    </a> 
     <div class="word">
-        <!-- The element we're copying from -->
-    <a id="mail">jannisreinelt@posteo.com</a>
+      <!-- Click email to copy to clipboard -->
+      <a id="mail">hi@jannisreinelt.com</a>
 
-    <!-- Add your JavaScript below -->
-    <script>
-      // Ensuring the script runs after the DOM content is loaded
-      document.addEventListener('DOMContentLoaded', function () {
-        // Get the element by its ID
-        const textToCopy = document.getElementById('mail');
-        
-        // Attach the click event listener to the element
-        textToCopy?.addEventListener('click', function() {
-          copyText(this);
+      <!-- Netlify form -->
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="sr-only">
+          <label>Don’t fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <label for="name">
+          <span class="lang-de">Name</span>
+          <span class="lang-en">Name</span>
+        </label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+
+        <label for="email">
+          <span class="lang-de">E-Mail</span>
+          <span class="lang-en">Email</span>
+        </label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+
+        <label for="message">
+          <span class="lang-de">Nachricht</span>
+          <span class="lang-en">Message</span>
+        </label>
+        <textarea id="message" name="message" rows="6" placeholder="..." required></textarea>
+
+        <button type="submit">
+          <span class="lang-de">Senden</span>
+          <span class="lang-en">Send</span>
+        </button>
+      </form>
+
+      <!-- Copy-to-clipboard JS -->
+      <script is:inline>
+        document.addEventListener('DOMContentLoaded', function () {
+          const textToCopy = document.getElementById('mail');
+          textToCopy?.addEventListener('click', function () {
+            copyText(this);
+          });
         });
-      })
 
-      // Modern method using Clipboard API with explicit type in TypeScript
-      function copyText(element: HTMLElement): void {
-        const text = element.textContent || ""; // Ensure text is not null
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(text)
-            .then(() => {
-              alert(`Copied to clipboard: "${text}"`);
-            })
-            .catch((err) => {
-              console.error('Failed to copy text:', err);
-            });
-        } else {
-          alert("Clipboard API not supported in your browser.");
+        function copyText(element) {
+          const text = element.textContent || '';
+          if (navigator.clipboard) {
+            navigator.clipboard
+              .writeText(text)
+              .then(() => {
+                alert(`Copied to clipboard: "${text}"`);
+              })
+              .catch((err) => {
+                console.error('Failed to copy text:', err);
+              });
+          } else {
+            alert('Clipboard API not supported in your browser.');
+          }
         }
-      }
-    </script>
-     </div>
-       
-      </div>
-
-      </div>
+      </script>
+    </div>
   </main>
 </BaseLayout>
 
@@ -58,5 +80,46 @@ const title = "Jannis Reinelt - Contact";
     text-underline-offset: 0.08em;    /* small gap from text */
     text-decoration-thickness: from-font;
     
+  }
+
+  .word {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(90vw, 40rem);
+  }
+
+  .word label {
+    font-size: var(--font-size-s);
+    color: var(--color-text-alt);
+    text-decoration: none;
+  }
+
+  .word input[type="text"],
+  .word input[type="email"] {
+    width: 100%;
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+  }
+
+  .word textarea {
+    width: 100%;
+    min-height: 10rem;
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    resize: vertical;
+  }
+
+  .word button[type="submit"] {
+    align-self: flex-start;
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
   }
 </style>
