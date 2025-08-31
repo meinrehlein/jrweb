@@ -10,9 +10,9 @@ order_about: "0"
 order_video: 0
 body: ""
 body_en: ""
-order_secondary: 6
-aspectRatio: 1 / 0.55
+order_secondary: 3
+aspectRatio: 1 / 1.417
 created: Tuesday, 19/08/25, 01:17
-updated: Friday, 29/08/25, 00:23
+updated: Sunday, 31/08/25, 21:33
 order_projects: "130"
 ---

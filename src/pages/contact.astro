@@ -31,11 +31,11 @@ const title = "Jannis Reinelt - Contact";
           <span class="lang-de">Name</span>
           <span class="lang-en">Name</span>
         </label>
-        <input id="name" name="name" type="text" autocomplete="name" required />
+        <input id="name" name="name" type="text" autocomplete="name" />
 
         <label for="email">
-          <span class="lang-de">E-Mail</span>
-          <span class="lang-en">Email</span>
+          <span class="lang-de">E-Mail*</span>
+          <span class="lang-en">Email*</span>
         </label>
         <input id="email" name="email" type="email" autocomplete="email" required />
 
@@ -51,49 +51,7 @@ const title = "Jannis Reinelt - Contact";
         </button>
       </form>
 
-      <!-- Copy-to-clipboard (on the plain text email) -->
-      <script is:inline>
-        function copyTextToClipboard(text) {
-          if (navigator.clipboard?.writeText) {
-            return navigator.clipboard.writeText(text);
-          }
-          // Fallback
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          ta.setAttribute('readonly', '');
-          ta.style.position = 'absolute';
-          ta.style.left = '-9999px';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          return Promise.resolve();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-          const emailNode = document.getElementById('mail');
-          if (emailNode) {
-            emailNode.addEventListener('click', async () => {
-              const email = emailNode.textContent.trim();
-              try {
-                await copyTextToClipboard(email);
-                emailNode.classList.add('copied');
-                const original = email;
-                emailNode.textContent = 'Copied!';
-                setTimeout(() => {
-                  emailNode.textContent = original;
-                  emailNode.classList.remove('copied');
-                }, 1200);
-              } catch (e) {
-                console.error('Copy failed', e);
-              }
-            });
-          }
-        });
-      </script>
-
-      <!-- Auto-resize textarea (grow + shrink) -->
-      <script is:inline>
+       <script is:inline>
         document.addEventListener("DOMContentLoaded", () => {
           const textarea = document.getElementById("message");
           if (!textarea) return;
@@ -136,7 +94,6 @@ const title = "Jannis Reinelt - Contact";
   }
 
   .email-text {
-    cursor: pointer; /* indicates it's interactive to copy */
     user-select: all;
     padding: 0.15rem 0;
     /* border-bottom: 1px dashed var(--border-color); */
