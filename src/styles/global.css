@@ -312,6 +312,21 @@ dd {
   line-height: 1.2;
   height: 100%;
   }
+  .rectangle-content-contact {
+    /* flex: 1; */
+    /* display: flex;  */
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    word-break: normal;
+    flex-direction: column;
+    padding: 0 2rem 2rem;
+    /* padding-top: calc(2rem + 10%); */
+    box-sizing: border-box;
+    font-size: var(--font-size-s);
+    line-height: 1.2;
+    height: 100%;
+    }
 
  .project {
     position: relative;
@@ -332,7 +347,25 @@ dd {
     -webkit-hyphens: auto;
    
   }
-  
+  .contact-card {
+    position: relative;
+    background-image: var(--image);
+    background-size: cover;
+    background-position: center;
+    aspect-ratio: var(--rect-aspect, 1 / 1.417);
+    /* height: 36.9837rem; */
+    border: 1px solid var(--border-color);
+    /* display: flex; */
+    box-shadow: 0 4px 16px rgba(61,61,61,.2);
+    overflow: hidden;
+    /* flex-direction: column; */
+    width: var(--rect-width, 26.1rem);
+    font-size: var(--font-size-s);
+    overflow-wrap: break-word;    
+    hyphens: auto;
+    -webkit-hyphens: auto;
+   
+  }
 
   @media screen and (max-width: 50em) {
     /* .project { min-height: 1vh; } */

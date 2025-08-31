@@ -4,76 +4,63 @@ const title = "Jannis Reinelt - Contact";
 ---
 <BaseLayout title={title}>
   <main class="contact-page">
-    <div class="word">
-      <!-- Labels above the email in DE/EN -->
-      <p>
-        <span class="lang-de">klick:</span>
-        <span class="lang-en">click:</span>
-      </p>
+    <section class="project-grid" id="grid" data-grid="projects">
+      <!-- Card 1 -->
+      <div class="project">
+        <div class="rectangle-content">
+          <p><span class="lang-de">klick:</span> <span class="lang-en">click:</span></p>
+          <a id="mail" class="email-text">hi@jannisreinelt.com</a>
+        </div>
+      </div>
 
-      <!-- Plain text email (click copies to clipboard; no mailto) -->
-      <a id="mail" class="email-text">hi@jannisreinelt.com</a>
+      <!-- Card 2 (form card) -->
+      <div class="contact-card">
+        <div class="word">
+          <p class="spacer"><span class="lang-de">oder:</span> <span class="lang-en">or:</span></p>
 
-      <!-- Spacer + 'or' in DE/EN -->
-      <p class="spacer">
-        <span class="lang-de">oder:</span>
-        <span class="lang-en">or:</span>
-      </p>
+          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <p class="sr-only">
+              <label>Don’t fill this out: <input name="bot-field" /></label>
+            </p>
 
-      <!-- Netlify form -->
-      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact" />
-        <p class="sr-only">
-          <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
+            <label for="name"><span class="lang-de">Name</span><span class="lang-en">Name</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" />
 
-        <label for="name">
-          <span class="lang-de">Name</span>
-          <span class="lang-en">Name</span>
-        </label>
-        <input id="name" name="name" type="text" autocomplete="name" />
+            <label for="email"><span class="lang-de">E-Mail*</span><span class="lang-en">Email*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
 
-        <label for="email">
-          <span class="lang-de">E-Mail*</span>
-          <span class="lang-en">Email*</span>
-        </label>
-        <input id="email" name="email" type="email" autocomplete="email" required />
+            <label for="message"><span class="lang-de">Nachricht</span><span class="lang-en">Message</span></label>
+            <textarea id="message" name="message" rows="6" placeholder="..." required></textarea>
 
-        <label for="message">
-          <span class="lang-de">Nachricht</span>
-          <span class="lang-en">Message</span>
-        </label>
-        <textarea id="message" name="message" rows="6" placeholder="..." required></textarea>
+            <button type="submit"><span class="lang-de">Senden</span><span class="lang-en">Send</span></button>
+          </form>
+        </div>
+      </div>
+    </section>
 
-        <button type="submit">
-          <span class="lang-de">Senden</span>
-          <span class="lang-en">Send</span>
-        </button>
-      </form>
-
-       <script is:inline>
-        document.addEventListener("DOMContentLoaded", () => {
-          const textarea = document.getElementById("message");
-          if (!textarea) return;
-
-          const resize = () => {
-            textarea.style.height = "auto";
-            textarea.style.height = textarea.scrollHeight + "px";
-          };
-
-          textarea.addEventListener("input", resize);
-          resize(); // initialize on load
-        });
-      </script>
-    </div>
+    <!-- Auto-resize textarea (grow + shrink) -->
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        const ta = document.getElementById("message");
+        if (!ta) return;
+        const resize = () => {
+          ta.style.height = "auto";
+          ta.style.height = ta.scrollHeight + "px";
+        };
+        ta.addEventListener("input", resize);
+        resize();
+      });
+    </script>
   </main>
 </BaseLayout>
 
 <style>
+  /* Layout around the grid */
   .contact-page {
     display: flex;
-    align-items: flex-start; /* 'top' isn't valid; use flex-start */
     justify-content: center;
+    align-items: flex-start;
     margin-top: 5rem;
     min-height: 60vh;
     font-size: var(--font-size-m);
@@ -82,67 +69,88 @@ const title = "Jannis Reinelt - Contact";
     text-decoration-thickness: from-font;
   }
 
+  /* --- Grid --- */
+  .project-grid {
+    position: relative;
+    overflow: visible;
+    display: grid;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    --rect-width: 26.1rem;
+    grid-template-columns: repeat(auto-fill, var(--rect-width));
+    grid-auto-rows: auto;       /* <-- ensure rows grow with content */
+    align-items: start;         /* no stretching that could mask growth */
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+    min-height: 70vh;
+  }
+
+  @media (max-width: 50em) {
+    .project-grid {
+      --rect-width: 100%;
+      margin-top: 2rem;
+      grid-template-columns: 1fr;
+      width: 96vw;
+    }
+  }
+
+  /* Cards */
+  .contact-card {
+    border: 1px solid var(--border-color, #e5e5e5);
+    background: var(--color-bg, #fff);
+    display: grid;
+    grid-template-rows: auto 1fr; /* title then content that grows */
+    height: auto;                 /* <-- allow card to grow */
+    overflow: visible;            /* <-- let inner growth show */
+    align-self: start;            /* <-- avoid grid stretching tricks */
+  }
+
+  .titlebox { padding: .75rem; border-bottom: 1px solid var(--border-color, #e5e5e5); }
+  .titlebox p { margin: 0; font-weight: 600; }
+
   .word {
-    display: flex;
-    flex-direction: column;
+    display: grid;         /* use grid so inner fields stack nicely */
     gap: 0.75rem;
-    width: min(90vw, 40rem);
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
   }
 
-  .spacer {
-    margin-top: 1.5rem; /* extra space before "or:" */
-  }
+  .spacer { margin-top: 0.5rem; }
 
-  .email-text {
-    user-select: all;
-    padding: 0.15rem 0;
-    /* border-bottom: 1px dashed var(--border-color); */
-    width: fit-content;
-  }
-  .email-text.copied {
-   /* border-bottom-style: ; */
-  }
+  .email-text { user-select: all; width: fit-content; padding: 0.15rem 0; }
 
-  .word label {
-    font-size: var(--font-size-s);
-    color: var(--color-text-alt);
-    text-decoration: none;
-  }
-
-  .word input[type="text"],
-  .word input[type="email"] {
+  /* Inputs */
+  label { font-size: var(--font-size-s); color: var(--color-text-alt); }
+  input[type="text"], input[type="email"], textarea {
     width: 100%;
     font: inherit;
     color: var(--color-text);
     background: var(--color-bg);
     border: 1px solid var(--border-color);
     padding: 0.5rem;
+    box-sizing: border-box;
   }
 
-  .word textarea {
-    width: 100%;
-    min-height: 10rem;
-    font: inherit;
-    color: var(--color-text);
-    background: var(--color-bg);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem;
-    resize: none;          /* JS handles growth */
-    overflow: hidden;      /* hide scrollbar */
+  /* Textarea auto-resize visuals */
+  textarea {
+    min-height: 20rem;
+    resize: none;          /* JS handles growth/shrink */
+    overflow: hidden;      /* no scrollbar */
     transition: height 0.2s ease;
   }
 
-  .word button[type="submit"] {
-    align-self: flex-start;
+  button[type="submit"] {
+    justify-self: start;
     border: 1px solid var(--border-color);
     padding: 0.4rem 0.8rem;
-    margin: 2rem 0rem 3rem 0rem;
-    text-decoration: none;
-    
+    margin: 0.5rem 0 0;
+    background: transparent;
+    cursor: pointer;
   }
 
-  .sr-only {
-    position: absolute;
-    left: -9999px;
-  }
+  .sr-only { position: absolute; left: -9999px; }
 </style>
