@@ -51,20 +51,34 @@ const title = "Jannis Reinelt - Contact";
         </button>
       </form>
 
-       <script is:inline>
-        document.addEventListener("DOMContentLoaded", () => {
-          const textarea = document.getElementById("message");
-          if (!textarea) return;
+      <script is:inline>
+  function initTextareaResize() {
+    const textarea = document.getElementById("message");
+    if (!textarea) return;
 
-          const resize = () => {
-            textarea.style.height = "auto";
-            textarea.style.height = textarea.scrollHeight + "px";
-          };
+    const resize = () => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    };
 
-          textarea.addEventListener("input", resize);
-          resize(); // initialize on load
-        });
-      </script>
+    // Remove old listener if any
+    textarea.removeEventListener("input", resize);
+    textarea.addEventListener("input", resize);
+
+    // Initialize
+    resize();
+  }
+
+  // Run once on full page load
+  document.addEventListener("DOMContentLoaded", initTextareaResize);
+
+  // Run again after Astro swaps the page
+  document.addEventListener("astro:page-load", initTextareaResize);
+
+  // Also catch history nav (back/forward)
+  window.addEventListener("pageshow", initTextareaResize);
+</script>
+
     </div>
   </main>
 

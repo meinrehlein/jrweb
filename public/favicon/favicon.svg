@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="256"><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .ring { fill: #000000ff   ; stroke: #000000ff; stroke-width: 12; }
+      .txt { fill: #000000; font: 700 132px 'PT Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    </style>
+  </defs>
+  <circle class="ring" cx="128" cy="128" r="96"></circle>
+  <text class="txt" x="50%" y="57%" text-anchor="middle" dominant-baseline="middle">JR</text>
+  <!-- Simple, replace this file with your own SVG/PNG as desired -->
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
