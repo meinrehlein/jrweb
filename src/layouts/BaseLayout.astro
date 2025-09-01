@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 
 import "../styles/global.css";
+
 import { SEO } from "astro-seo";
 
 import SmoothScroll from "../components/SmoothScroll.astro";
@@ -26,41 +27,88 @@ const currentPage =
 <!doctype html>
 <html lang="en" data-page={currentPage}>
   <head>
-    <meta charset="UTF-8" />
-
     <SEO
       title={title}
       description={description}
-    />
+      charset="UTF-8"
+      <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link rel="shortcut icon" href="/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="MyWebSite" />
+<link rel="manifest" href="/favicon/site.webmanifest" />
+     <!--  openGraph={{
+        basic: {
+          title: title,
+          type: "image/jpeg",
+          image: "/jannisreinelt-og.jpg",
+        },
+      }}
+    
+      extend={{
+        // extending the default link tags
+        link: [
+          {
+            rel: "icon",
+            type: "image/svg+xml",
+            href: "/favicon.svg",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "16x16",
+            href: "/favicon/favicon-16x16.png",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "32x32",
+            href: "/favicon/favicon-32x32.png",
+          },
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/favicon/apple-touch-icon.png",
+          },
+          { rel: "manifest", href: "/favicon/site.webmanifest" },
+          { rel: "sitemap", href: "/sitemap-index.xml" },
+          {
+            rel: "preload",
+            href: openSansWoff2,
+            as: "font",
+            type: "font/woff2",
+            crossorigin: "anonymous",
+          },
+        ], 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-
-    <!-- Preload font -->
-    <link
-      rel="preload"
-      href={openSansWoff2}
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+        
+        // extending the default meta tags
+        meta: [
+          { name: "twitter:image", content: "/jannisreinelt-og.jpg" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: description },
+          { name: "viewport", content: "width=device-width" },
+          { name: "msapplication-TileColor", content: "#000000" },
+          { name: "theme-color", content: "#ffffff" },
+          { name: "generator", content: Astro.generator },
+        ],
+      }} 
+    /> -->
+    <ClientRouter />
   </head>
   <body>
     <SmoothScroll />
     <Header />
+    <slot />
+<!-- BaseLayout.astro — just before </body> -->
+<script src={`/scripts/initVideo.js?v=${Date.now()}`} type="module" is:inline></script>
+<script id="hlsjs" src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js" defer></script>
+<script src="/scripts/themeToggle.js" type="module" is:inline></script>
+<script src="/scripts/langToggle.js" type="module" is:inline></script>
+<script src="/scripts/videoAutoPlay.js" type="module" is:inline></script>
+<script src="/scripts/mailcopy.js" type="module" is:inline></script>
 
-    <main>
-      <ClientRouter>
-        <slot />
-      </ClientRouter>
-    </main>
-
-    <Footer />
+ <Footer/>
   </body>
+ 
 </html>
