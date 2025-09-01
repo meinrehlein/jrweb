@@ -1,26 +1,6 @@
-Yep — a few things are off:
-
-1. You’re mixing raw <link> tags inside the <SEO /> component props. The SEO component only takes props; you shouldn’t place elements between its opening and closing tags.
-
-
-2. <ClientRouter /> is in the <head>. It belongs in the body and should wrap your content.
-
-
-3. Your Open Graph type is set to "image/jpeg" (that’s a MIME type). It should be something like "website" or "article".
-
-
-4. You’re defining favicon links twice (once manually and again via extend.link). Pick one.
-
-
-5. Using is:inline together with a src attribute is unnecessary; keep src and drop is:inline (or inline the code and keep is:inline).
-
-
-
-Here’s a cleaned, working layout:
-
 ---
-// BaseLayout.astro
 import { ClientRouter } from "astro:transitions";
+
 import "../styles/global.css";
 import { SEO } from "astro-seo";
 
@@ -31,7 +11,11 @@ import Footer from "../components/Footer.astro";
 import "@fontsource/open-sans/400.css";
 import openSansWoff2 from "@fontsource/open-sans/files/open-sans-latin-400-normal.woff2";
 
-type Props = { title: string; description?: string };
+type Props = {
+  title: string;
+  description?: string;
+};
+
 const { title, description = "Jannis Reinelt" } = Astro.props;
 
 // Current page value (/home, /about, /404 ...)
@@ -42,81 +26,41 @@ const currentPage =
 <!doctype html>
 <html lang="en" data-page={currentPage}>
   <head>
+    <meta charset="UTF-8" />
+
     <SEO
       title={title}
       description={description}
-      charset="UTF-8"
-      openGraph={{
-        basic: {
-          title,
-          type: "website", // not a MIME type
-          image: "/jannisreinelt-og.jpg",
-        },
-      }}
-      extend={{
-        link: [
-          // Choose ONE set of favicon links; these cover common cases:
-          { rel: "icon", type: "image/svg+xml", href: "/favicon/favicon.svg" },
-          { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon/favicon-32x32.png" },
-          { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon/favicon-16x16.png" },
-          { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon/apple-touch-icon.png" },
-          { rel: "manifest", href: "/favicon/site.webmanifest" },
-          { rel: "sitemap", href: "/sitemap-index.xml" },
+    />
 
-          // Preload your font (note: keep "crossorigin" lowercased)
-          {
-            rel: "preload",
-            href: openSansWoff2,
-            as: "font",
-            type: "font/woff2",
-            crossorigin: "anonymous",
-          },
-        ],
-        meta: [
-          { name: "twitter:image", content: "/jannisreinelt-og.jpg" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: description },
-          { name: "viewport", content: "width=device-width,initial-scale=1" },
-          { name: "msapplication-TileColor", content: "#000000" },
-          { name: "theme-color", content: "#ffffff" },
-          { name: "generator", content: Astro.generator },
-          // Optional: app title for iOS PWA icon
-          { name: "apple-mobile-web-app-title", content: "MyWebSite" },
-        ],
-      }}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+
+    <!-- Preload font -->
+    <link
+      rel="preload"
+      href={openSansWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
   </head>
-
   <body>
-    <ClientRouter>
-      <SmoothScroll />
-      <Header />
-      <slot />
-      <Footer />
-    </ClientRouter>
+    <SmoothScroll />
+    <Header />
 
-    <!-- Keep scripts external OR inline; don't combine src + is:inline -->
-    <script src={`/scripts/initVideo.js?v=${Date.now()}`} type="module"></script>
-    <script id="hlsjs" src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js" defer></script>
-    <script src="/scripts/themeToggle.js" type="module"></script>
-    <script src="/scripts/langToggle.js" type="module"></script>
-    <script src="/scripts/videoAutoPlay.js" type="module"></script>
-    <script src="/scripts/mailcopy.js" type="module"></script>
+    <main>
+      <ClientRouter>
+        <slot />
+      </ClientRouter>
+    </main>
+
+    <Footer />
   </body>
 </html>
-
-Why this fixes it:
-
-<SEO ... /> is now self-closing with only props; no stray <link> tags inside.
-
-Client routing wraps your visible UI in the body, not the head.
-
-OG config uses a valid type.
-
-Favicon/meta are defined exactly once via extend.
-
-Scripts are consistent (either external with src or inline with is:inline).
-
-
-If you want Apple’s “Add to Home Screen” niceties (standalone display, status bar style, etc.), we can extend with a few PWA meta tags + a minimal manifest.json.
-
