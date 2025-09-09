@@ -1,6 +1,6 @@
 ---
 name: Infotext
-online: true
+online: false
 title: ""
 images:
   - src: ""
@@ -14,7 +14,7 @@ order_video: 0
 body: ""
 body_en: ""
 created: Thursday, 21/08/25, 01:15
-updated: Friday, 29/08/25, 13:45
+updated: Tuesday, 09/09/25, 22:38
 order_secondary: 0
 order_projects: "100"
 aspectRatio: 1 / 1.417

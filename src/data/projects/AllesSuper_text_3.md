@@ -8,6 +8,7 @@ order_secondary: 5
 kind: text
 aspectRatio: 1 / 1.417
 name: AllesSuper_text_3
+category: B
 ---
 
 Eine Autowäsche dauert je nach Programm 5 - 10 Minuten.

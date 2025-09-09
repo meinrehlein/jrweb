@@ -8,6 +8,7 @@ order_secondary: 0
 kind: text
 aspectRatio: 1 / 1.417
 name: AllesSuper_text_1
+category: B
 ---
 
 2026
