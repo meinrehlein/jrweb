@@ -13,8 +13,8 @@ order_about: "10"
 order_video: 0
 body: ""
 body_en: "<p>Jannis Reinelt</p>   
-<p>Video­künstler / Filmemacher / Video­techniker</p>  
-<p>Studierte an der HFBK Hamburg in der Klasse von Omer Fast</p>"
+<p>Video­artist / Filmmaker / Video­technician</p>  
+<p>Studied at HFBK Hamburg in the class of Omer Fast</p>"
 created: Thursday, 21/08/25, 01:15
 updated: Tuesday, 09/09/25, 22:46
 order_secondary: 0
