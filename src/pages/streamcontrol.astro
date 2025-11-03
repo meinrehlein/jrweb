@@ -1,0 +1,109 @@
+---
+/**
+ * WebSocket control page for jannis.reinelt.com/streamcontrol
+ * Sends simple text messages to your WebSocket server.
+ *
+ * To configure the socket endpoint, set it via:
+ *   1) .env -> PUBLIC_WS_URL=ws://your-server:port
+ *   or
+ *   2) directly edit the default below
+ */
+const defaultWS = "ws://localhost:8080"; // change if needed
+const wsURL = import.meta.env.PUBLIC_WS_URL || defaultWS;
+---
+
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stream Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        color: white;
+        font-family: system-ui, sans-serif;
+        display: flex;
+        flex-direction: column;
+      }
+      button {
+        flex: 1;
+        width: 100%;
+        font-size: 2.2rem;
+        font-weight: 600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: white;
+        transition: background 0.2s, transform 0.1s, opacity 0.2s;
+      }
+      button:active {
+        transform: scale(0.98);
+      }
+      button:nth-child(1) { background: #2ecc71; }  /* Erledigt */
+      button:nth-child(2) { background: #e74c3c; }  /* Abgebrochen */
+      button:nth-child(3) { background: #3498db; }  /* Öffnen */
+      button:nth-child(4) { background: #9b59b6; }  /* Schließen */
+      button:nth-child(5) { background: #f1c40f; color: #222; } /* Inventar */
+      .status {
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 0.4em 0.8em;
+        font-size: 0.9em;
+        background: rgba(0,0,0,0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="status" id="status">Verbinde...</div>
+    <button data-message="erledigt">Erledigt</button>
+    <button data-message="abgebrochen">Abgebrochen</button>
+    <button data-message="öffnen">Öffnen</button>
+    <button data-message="schließen">Schließen</button>
+    <button data-message="inventar">Inventar</button>
+
+    <script>
+      const url = "{{wsURL}}";
+      const statusEl = document.getElementById("status");
+      let socket;
+
+      function connect() {
+        socket = new WebSocket(url);
+        socket.addEventListener("open", () => {
+          console.log("✅ WebSocket verbunden:", url);
+          statusEl.textContent = "✅ verbunden";
+          statusEl.style.background = "rgba(46,204,113,0.5)";
+        });
+
+        socket.addEventListener("close", () => {
+          console.warn("⚠️ Verbindung geschlossen");
+          statusEl.textContent = "❌ getrennt (neu in 3s)";
+          statusEl.style.background = "rgba(231,76,60,0.5)";
+          setTimeout(connect, 3000);
+        });
+
+        socket.addEventListener("error", (e) => {
+          console.error("WebSocket Fehler:", e);
+        });
+      }
+      connect();
+
+      document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const msg = btn.dataset.message;
+          if (socket.readyState === WebSocket.OPEN) {
+            socket.send(msg);
+            console.log("📤 gesendet:", msg);
+            btn.style.opacity = "0.7";
+            setTimeout(() => (btn.style.opacity = "1"), 200);
+          } else {
+            console.warn("❌ WebSocket nicht verbunden");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
