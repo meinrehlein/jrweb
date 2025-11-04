@@ -39,11 +39,18 @@ const MQTT_TOPIC = "streamcontrol/actions";
     <button data-msg="inventar">Inventar</button>
 
     <script type="module">
-      import mqtt from "mqtt";
+      // load the browser build of mqtt via CDN (top-level await is OK in module scripts)
+      const { default: mqtt } = await import('https://unpkg.com/mqtt/dist/mqtt.min.mjs');
 
-      const client = mqtt.connect("${MQTT_URL}", {
-        username: "${MQTT_USERNAME}",
-        password: "${MQTT_PASSWORD}",
+      // inject frontmatter values (Astro will replace the braces with real values)
+      const MQTT_URL = "{MQTT_URL}";
+      const MQTT_USERNAME = "{MQTT_USERNAME}";
+      const MQTT_PASSWORD = "{MQTT_PASSWORD}";
+      const MQTT_TOPIC = "{MQTT_TOPIC}";
+
+      const client = mqtt.connect(MQTT_URL, {
+        username: MQTT_USERNAME,
+        password: MQTT_PASSWORD,
         clean: true,
         connectTimeout: 4000,
         reconnectPeriod: 2000,
@@ -58,7 +65,7 @@ const MQTT_TOPIC = "streamcontrol/actions";
       document.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => {
           const msg = btn.dataset.msg;
-          client.publish("${MQTT_TOPIC}", msg);
+          client.publish(MQTT_TOPIC, msg);
           console.log("📤 Sent:", msg);
         });
       });
