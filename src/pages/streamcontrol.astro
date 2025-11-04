@@ -40,6 +40,12 @@ const MQTT_TOPIC = "streamcontrol/actions";
     <script id="mqtt-umd" src="/vendor/mqtt.min.js"></script>
 
     <script type="module">
+      // inject frontmatter values (Astro renders these into the page)
+      const MQTT_URL = {JSON.stringify(MQTT_URL)};
+      const MQTT_USERNAME = {JSON.stringify(MQTT_USERNAME)};
+      const MQTT_PASSWORD = {JSON.stringify(MQTT_PASSWORD)};
+      const MQTT_TOPIC = {JSON.stringify(MQTT_TOPIC)};
+
       // wait for UMD to load and then use window.mqtt
       const mqtt = await new Promise(resolve => {
         if (window.mqtt) return resolve(window.mqtt);
@@ -55,9 +61,9 @@ const MQTT_TOPIC = "streamcontrol/actions";
         throw new Error("mqtt missing");
       }
 
-      const client = mqtt.connect("{MQTT_URL}", {
-        username: "{MQTT_USERNAME}",
-        password: "{MQTT_PASSWORD}",
+      const client = mqtt.connect(MQTT_URL, {
+        username: MQTT_USERNAME,
+        password: MQTT_PASSWORD,
         clean: true,
         connectTimeout: 4000,
         reconnectPeriod: 2000,
@@ -69,7 +75,7 @@ const MQTT_TOPIC = "streamcontrol/actions";
       document.querySelectorAll("button").forEach(btn =>
         btn.addEventListener("click", () => {
           const msg = btn.dataset.msg;
-          client.publish("{MQTT_TOPIC}", msg);
+          client.publish(MQTT_TOPIC, msg);
           console.log("📤 Sent:", msg);
         })
       );
