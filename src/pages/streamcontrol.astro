@@ -36,11 +36,15 @@ const MQTT_TOPIC = "streamcontrol/actions";
     <button data-msg="schließen">Schließen</button>
     <button data-msg="inventar">Inventar</button>
 
-    <script type="module">
-      // use jsDelivr ESM build (serves correct MIME/CORS)
-      const { default: mqtt } = await import('https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.mjs');
+    <!-- UMD build served as normal script to avoid ESM/CORS issues -->
+    <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
 
-      // frontmatter values (Astro will interpolate these if needed)
+    <script type="module">
+      const mqtt = window.mqtt;
+      if (!mqtt) {
+        console.error("mqtt not available on window");
+      }
+
       const MQTT_URL = "{MQTT_URL}";
       const MQTT_USERNAME = "{MQTT_USERNAME}";
       const MQTT_PASSWORD = "{MQTT_PASSWORD}";
