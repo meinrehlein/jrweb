@@ -36,13 +36,23 @@ const MQTT_TOPIC = "streamcontrol/actions";
     <button data-msg="schließen">Schließen</button>
     <button data-msg="inventar">Inventar</button>
 
-    <!-- UMD build served as normal script to avoid ESM/CORS issues -->
-    <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
+    <!-- load local UMD build to avoid CORS/MIME issues -->
+    <script id="mqtt-umd" src="/vendor/mqtt.min.js"></script>
 
     <script type="module">
-      const mqtt = window.mqtt;
+      // wait for the UMD script to load (or fail)
+      const mqtt = await new Promise(resolve => {
+        if (window.mqtt) return resolve(window.mqtt);
+        const s = document.getElementById('mqtt-umd');
+        if (!s) return resolve(null);
+        s.addEventListener('load', () => resolve(window.mqtt));
+        s.addEventListener('error', () => resolve(null));
+      });
+
       if (!mqtt) {
-        console.error("mqtt not available on window");
+        console.error("mqtt not available on window — check /vendor/mqtt.min.js exists and loads");
+        document.querySelectorAll("button").forEach(b => b.disabled = true);
+        throw new Error("mqtt missing");
       }
 
       const MQTT_URL = "{MQTT_URL}";
