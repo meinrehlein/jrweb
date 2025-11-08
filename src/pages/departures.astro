@@ -1,0 +1,64 @@
+---
+import cheerio from 'cheerio';
+
+// Deine personalisierte HVV-URL:
+const hvvUrl = 'https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/abfahrten-auf-ihrem-monitor/abfahrten-anzeige?show=e1fe617526ea41bd953f88d277d69427';
+
+// Seite abrufen (Server Side Rendering):
+const res = await fetch(hvvUrl);
+const html = await res.text();
+
+// HTML in DOM-Parser (Cheerio) laden:
+const $ = cheerio.load(html);
+
+// Tabelle finden:
+const rows = $('table tbody tr');
+
+// Ergebnisse speichern:
+const departures = [];
+
+rows.each((i, el) => {
+  const tds = $(el).find('td');
+  if (tds.length >= 4) {
+    const halte = $(tds[0]).text().trim();
+    const linie = $(tds[1]).text().trim();
+    const richtung = $(tds[2]).text().trim();
+    const abfahrt = $(tds[3]).text().trim();
+    if (linie) departures.push({ halte, linie, richtung, abfahrt });
+  }
+});
+---
+
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Abfahrten HVV (Grevenweg & Burgstraße)</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: #000;
+        color: #0f0;
+        padding: 1rem;
+        font-size: 1.4rem;
+      }
+      li { margin-bottom: 0.5rem; }
+      .linie { font-weight: bold; }
+      .delay { color: red; margin-left: 0.4rem; }
+    </style>
+  </head>
+  <body>
+    <h1>🚏 HVV Abfahrten (Grevenweg & Burgstraße)</h1>
+    <ul>
+      {departures.length > 0 ? (
+        departures.map(dep => (
+          <li>
+            <span class="linie">{dep.linie}</span> → {dep.richtung}<br/>
+            🕓 {dep.abfahrt}
+          </li>
+        ))
+      ) : (
+        <p>Keine Daten verfügbar oder HVV blockiert den direkten Zugriff.</p>
+      )}
+    </ul>
+  </body>
+</html>

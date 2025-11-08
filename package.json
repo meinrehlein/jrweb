@@ -15,6 +15,7 @@
     "@mux/mux-player": "^3.5.1",
     "astro": "^5.3.0",
     "astro-seo": "^0.8.4",
+    "cheerio": "^1.1.2",
     "decap-cms-app": "^3.8.2",
     "gsap": "^3.12.5",
     "imagesloaded": "^5.0.0",
