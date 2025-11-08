@@ -1,30 +1,59 @@
-import { load } from 'cheerio';
+import { load } from 'cheerio'; // keep if you ever need HTML parsing (not used here)
 
 export async function GET() {
-  const hvvUrl =
-    'https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/abfahrten-auf-ihrem-monitor/abfahrten-anzeige?show=e1fe617526ea41bd953f88d277d69427';
+  const urls = [
+    // Grevenweg
+    'https://www.hvv.de/linking-service/abfahrten/show/e1fe617526ea41bd953f88d277d69427?numberOfResult=20&blackList=',
+    // Burgstraße – insert your real “show=” ID here once you find it
+    // 'https://www.hvv.de/linking-service/abfahrten/show/<BURGSTRASSE_ID>?numberOfResult=20&blackList='
+  ];
 
-  const res = await fetch(hvvUrl, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AstroFetcher/1.0)' },
-  });
-  const html = await res.text();
+  const headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+    'Accept': 'application/json, text/javascript, */*; q=0.01',
+    'Referer': 'https://www.hvv.de/',
+    'X-Requested-With': 'XMLHttpRequest',
+  };
 
-  const $ = load(html);
-  const rows = $('table tbody tr');
-  const data = [];
+  let all = [];
 
-  rows.each((i, el) => {
-    const tds = $(el).find('td');
-    if (tds.length >= 4) {
-      const halte = $(tds[0]).text().trim();
-      const linie = $(tds[1]).text().trim();
-      const richtung = $(tds[2]).text().trim();
-      const abfahrt = $(tds[3]).text().trim();
-      if (linie && abfahrt) data.push({ halte, linie, richtung, abfahrt });
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { headers });
+      if (!res.ok) {
+        console.error('HVV responded', res.status, 'for', url);
+        continue;
+      }
+
+      const json = await res.json();
+
+      if (json && Array.isArray(json.monitors)) {
+        json.monitors.forEach((m) => {
+          (m.lines || []).forEach((line) => {
+            (line.departures || []).forEach((dep) => {
+              all.push({
+                halte: m.name,
+                linie: line.name,
+                richtung: line.towards,
+                abfahrt: dep.time, // ISO time string
+                delay: dep.delayInMinutes || 0,
+              });
+            });
+          });
+        });
+      } else {
+        console.warn('HVV: no monitors for', url);
+      }
+    } catch (err) {
+      console.error('Fetch error', err);
     }
-  });
+  }
 
-  return new Response(JSON.stringify({ data }), {
+  // sort by time, newest first
+  all.sort((a, b) => new Date(a.abfahrt) - new Date(b.abfahrt));
+
+  return new Response(JSON.stringify({ data: all }), {
     headers: { 'Content-Type': 'application/json' },
   });
 }
+

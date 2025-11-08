@@ -1,10 +1,5 @@
 ---
-const base = import.meta.env.SITE || 'http://localhost:4321';
-const res = await fetch(`${base}/api/hvv`);
-const json = await res.json();
-const departures = json.data || [];
 ---
-
 <html lang="de">
   <head>
     <meta charset="utf-8" />
@@ -17,29 +12,39 @@ const departures = json.data || [];
         padding: 1rem;
         font-size: 1.4rem;
       }
+      ul { list-style: none; padding: 0; }
       li { margin-bottom: 0.5rem; }
       .linie { font-weight: bold; }
       .delay { color: red; margin-left: 0.4rem; }
     </style>
+    <script type="module">
+      async function loadDepartures() {
+        const ul = document.querySelector('ul');
+        ul.innerHTML = '<li>Lade Daten...</li>';
+        try {
+          const res = await fetch('/api/hvv');
+          const json = await res.json();
+          const data = json.data || [];
+          if (data.length === 0) {
+            ul.innerHTML = '<li>Keine Daten verfügbar.</li>';
+            return;
+          }
+          ul.innerHTML = data.map(dep =>
+            `<li><span class="linie">${dep.linie}</span> → ${dep.richtung}<br/>🕓 ${dep.abfahrt}</li>`
+          ).join('');
+        } catch (err) {
+          ul.innerHTML = '<li>Fehler beim Laden der Daten.</li>';
+          console.error(err);
+        }
+      }
+
+      loadDepartures();
+      setInterval(loadDepartures, 30000); // refresh every 30s
+    </script>
   </head>
+
   <body>
     <h1>🚏 HVV Abfahrten (Grevenweg & Burgstraße)</h1>
-    <ul>
-      {departures.length > 0 ? (
-        departures.map(dep => (
-          <li>
-            <span class="linie">{dep.linie}</span> → {dep.richtung}<br/>
-            🕓 {dep.abfahrt}
-          </li>
-        ))
-      ) : (
-        <p>Keine Daten verfügbar oder HVV blockiert den direkten Zugriff.</p>
-      )}
-    </ul>
-
-    <!-- Reload alle 30 Sekunden -->
-    <script>
-      setTimeout(() => location.reload(), 30000);
-    </script>
+    <ul><li>Lade Daten...</li></ul>
   </body>
 </html>
