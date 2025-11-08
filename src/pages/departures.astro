@@ -1,27 +1,9 @@
 ---
-import { load } from 'cheerio';
-
-const hvvUrl = 'https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/abfahrten-auf-ihrem-monitor/abfahrten-anzeige?show=e1fe617526ea41bd953f88d277d69427';
-
-const res = await fetch(hvvUrl);
-const html = await res.text();
-const $ = load(html);
-
-const rows = $('table tbody tr');
-const departures = [];
-
-rows.each((i, el) => {
-  const tds = $(el).find('td');
-  if (tds.length >= 4) {
-    const halte = $(tds[0]).text().trim();
-    const linie = $(tds[1]).text().trim();
-    const richtung = $(tds[2]).text().trim();
-    const abfahrt = $(tds[3]).text().trim();
-    if (linie) departures.push({ halte, linie, richtung, abfahrt });
-  }
-});
+const base = import.meta.env.SITE || 'http://localhost:4321';
+const res = await fetch(`${base}/api/hvv`);
+const json = await res.json();
+const departures = json.data || [];
 ---
-
 
 <html lang="de">
   <head>
@@ -54,5 +36,10 @@ rows.each((i, el) => {
         <p>Keine Daten verfügbar oder HVV blockiert den direkten Zugriff.</p>
       )}
     </ul>
+
+    <!-- Reload alle 30 Sekunden -->
+    <script>
+      setTimeout(() => location.reload(), 30000);
+    </script>
   </body>
 </html>
