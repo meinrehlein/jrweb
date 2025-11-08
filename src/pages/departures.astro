@@ -1,20 +1,13 @@
 ---
-import cheerio from 'cheerio';
+import { load } from 'cheerio';
 
-// Deine personalisierte HVV-URL:
 const hvvUrl = 'https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/abfahrten-auf-ihrem-monitor/abfahrten-anzeige?show=e1fe617526ea41bd953f88d277d69427';
 
-// Seite abrufen (Server Side Rendering):
 const res = await fetch(hvvUrl);
 const html = await res.text();
+const $ = load(html);
 
-// HTML in DOM-Parser (Cheerio) laden:
-const $ = cheerio.load(html);
-
-// Tabelle finden:
 const rows = $('table tbody tr');
-
-// Ergebnisse speichern:
 const departures = [];
 
 rows.each((i, el) => {
@@ -28,6 +21,7 @@ rows.each((i, el) => {
   }
 });
 ---
+
 
 <html lang="de">
   <head>
