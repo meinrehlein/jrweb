@@ -1,50 +1,30 @@
 ---
+const res = await fetch('/api/hvv');
+const { data } = await res.json();
 ---
-<html lang="de">
+
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Abfahrten HVV (Grevenweg & Burgstraße)</title>
+    <title>HVV Abfahrten</title>
     <style>
-      body {
-        font-family: system-ui, sans-serif;
-        background: #000;
-        color: #0f0;
-        padding: 1rem;
-        font-size: 1.4rem;
-      }
-      ul { list-style: none; padding: 0; }
-      li { margin-bottom: 0.5rem; }
-      .linie { font-weight: bold; }
-      .delay { color: red; margin-left: 0.4rem; }
+      body { background:#000; color:#0f0; font-family:monospace; padding:1rem; }
+      .delay { color:red; }
     </style>
-    <script type="module">
-      async function loadDepartures() {
-        const ul = document.querySelector('ul');
-        ul.innerHTML = '<li>Lade Daten...</li>';
-        try {
-          const res = await fetch('/api/hvv');
-          const json = await res.json();
-          const data = json.data || [];
-          if (data.length === 0) {
-            ul.innerHTML = '<li>Keine Daten verfügbar.</li>';
-            return;
-          }
-          ul.innerHTML = data.map(dep =>
-            `<li><span class="linie">${dep.linie}</span> → ${dep.richtung}<br/>🕓 ${dep.abfahrt}</li>`
-          ).join('');
-        } catch (err) {
-          ul.innerHTML = '<li>Fehler beim Laden der Daten.</li>';
-          console.error(err);
-        }
-      }
-
-      loadDepartures();
-      setInterval(loadDepartures, 30000); // refresh every 30s
-    </script>
   </head>
-
   <body>
-    <h1>🚏 HVV Abfahrten (Grevenweg & Burgstraße)</h1>
-    <ul><li>Lade Daten...</li></ul>
+    <h1>🚏 Abfahrten</h1>
+
+    <ul>
+      {data.map(d => (
+        <li>
+          <b>{d.linie}</b> → {d.richtung}
+          ({d.halte})<br>
+
+          🕒 {new Date(d.abfahrt).toLocaleTimeString("de-DE", {hour:"2-digit", minute:"2-digit"})}
+          {d.delay > 0 && <span class="delay"> +{d.delay}</span>}
+        </li>
+      ))}
+    </ul>
   </body>
 </html>

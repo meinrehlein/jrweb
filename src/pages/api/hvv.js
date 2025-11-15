@@ -1,59 +1,71 @@
-import { load } from 'cheerio'; // keep if you ever need HTML parsing (not used here)
+import crypto from "crypto";
 
-export async function GET() {
-  const urls = [
-    // Grevenweg
-    'https://www.hvv.de/linking-service/abfahrten/show/e1fe617526ea41bd953f88d277d69427?numberOfResult=20&blackList=',
-    // Burgstraße – insert your real “show=” ID here once you find it
-    // 'https://www.hvv.de/linking-service/abfahrten/show/<BURGSTRASSE_ID>?numberOfResult=20&blackList='
-  ];
+const USER = "JannisReinelt";
+const PASS = import.meta.env.HOCHBAHN_PASS; // ← in Netlify als Secret setzen
+
+async function callDepartureMonitor(stationId) {
+  const timestamp = Math.floor(Date.now() / 1000); // Sekunden
+  const signature = crypto
+    .createHash("sha1")
+    .update(USER + timestamp + PASS)
+    .digest("hex");
 
   const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-    'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Referer': 'https://www.hvv.de/',
-    'X-Requested-With': 'XMLHttpRequest',
+    "GV-Authentication": USER,
+    "GV-Request-Timestamp": timestamp.toString(),
+    "GV-Request-Signature": signature,
+    "Content-Type": "application/json"
   };
 
-  let all = [];
+  const body = JSON.stringify({
+    station: { id: stationId },
+    timeOffset: 0,
+    maxList: 20
+  });
 
-  for (const url of urls) {
+  const res = await fetch("https://gti.geofox.de/gti/public/departureMonitor", {
+    method: "POST",
+    headers,
+    body
+  });
+
+  if (!res.ok) {
+    throw new Error("Geofox error: " + res.status);
+  }
+
+  return res.json();
+}
+
+export async function GET() {
+  const stations = [
+    { name: "Grevenweg", id: "Master:10090" },
+    { name: "Burgstraße", id: "Master:10908" }
+  ];
+
+  const result = [];
+
+  for (const s of stations) {
     try {
-      const res = await fetch(url, { headers });
-      if (!res.ok) {
-        console.error('HVV responded', res.status, 'for', url);
-        continue;
-      }
+      const json = await callDepartureMonitor(s.id);
 
-      const json = await res.json();
-
-      if (json && Array.isArray(json.monitors)) {
-        json.monitors.forEach((m) => {
-          (m.lines || []).forEach((line) => {
-            (line.departures || []).forEach((dep) => {
-              all.push({
-                halte: m.name,
-                linie: line.name,
-                richtung: line.towards,
-                abfahrt: dep.time, // ISO time string
-                delay: dep.delayInMinutes || 0,
-              });
-            });
-          });
+      (json.departures || []).forEach((dep) => {
+        result.push({
+          halte: s.name,
+          linie: dep.line.name,
+          richtung: dep.line.direction,
+          abfahrt: dep.time,
+          delay: dep.delay || 0
         });
-      } else {
-        console.warn('HVV: no monitors for', url);
-      }
+      });
     } catch (err) {
-      console.error('Fetch error', err);
+      console.error("Error for " + s.name, err);
     }
   }
 
-  // sort by time, newest first
-  all.sort((a, b) => new Date(a.abfahrt) - new Date(b.abfahrt));
+  // sort by time
+  result.sort((a, b) => new Date(a.abfahrt) - new Date(b.abfahrt));
 
-  return new Response(JSON.stringify({ data: all }), {
-    headers: { 'Content-Type': 'application/json' },
+  return new Response(JSON.stringify({ data: result }), {
+    headers: { "Content-Type": "application/json" }
   });
 }
-
